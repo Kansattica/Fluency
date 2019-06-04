@@ -5,7 +5,7 @@ using System;
 namespace Tests
 {
     [TestClass]
-    public class RegexTest
+    public class FunctionParserTests
     {
         [TestMethod]
         [DataRow(@"Cool()", "Cool", 0)]
@@ -16,12 +16,17 @@ namespace Tests
         [DataRow(@"Fun(1,2,3,""four"")", "Fun", 4)]
         [DataRow(@"Fun(""a string"")", "Fun", 1)]
         [DataRow(@"Fun(""a string"", 3, ""another string"", true, false)", "Fun", 5)]
-        public void FunctionRegexWorks(string teststr, string name, int argCount)
+        public void FunctionParsingWorks(string teststr, string name, int argCount)
         {
             FunctionToken f = new FunctionToken(teststr);
 
             Assert.AreEqual(name, f.Name);
             Assert.AreEqual(argCount, f.Arguments.Length);
+        }
+
+        public void GroupUntilWorks()
+        {
+
         }
     }
 }

@@ -9,65 +9,49 @@ public static class ParseExtensions
     public static string Stringify(this IEnumerable<char> source)
     {
         var sb = new StringBuilder();
-        foreach(char c in source)
+        foreach (char c in source)
             sb.Append(c);
         return sb.ToString();
     }
 
-    public static IEnumerable<IGrouping<TKey, TSource>> GroupAdjacent<TSource, TKey>(
-            this IEnumerable<TSource> source,
-            Func<TSource, TKey> keySelector)
+    public static IEnumerable<IEnumerable<TSource>> GroupUntil<TSource>(this IEnumerable<TSource> source,
+        Func<TSource, bool> predicate)
     {
-        TKey last = default(TKey);
-        bool haveLast = false;
-        List<TSource> list = new List<TSource>();
+        List<TSource> currentChunk = new List<TSource>();
         foreach (TSource s in source)
         {
-            TKey k = keySelector(s);
-            if (haveLast)
+            bool newGroup = predicate(s);
+
+            if (newGroup)
             {
-                if (!k.Equals(last))
-                {
-                    yield return new GroupOfAdjacent<TSource, TKey>(list, last);
-                    list = new List<TSource>();
-                    list.Add(s);
-                    last = k;
-                }
-                else
-                {
-                    list.Add(s);
-                    last = k;
-                }
+                yield return new UntilGroup<TSource>(currentChunk);
+                currentChunk = new List<TSource>() { s };
             }
             else
             {
-                list.Add(s);
-                last = k;
-                haveLast = true;
+                currentChunk.Add(s);
             }
         }
-        if (haveLast)
-            yield return new GroupOfAdjacent<TSource, TKey>(list, last);
+        yield return new UntilGroup<TSource>(currentChunk);
     }
-}
 
-//from https://blogs.msdn.microsoft.com/ericwhite/2008/04/20/the-groupadjacent-extension-method/
-public class GroupOfAdjacent<TSource, TKey> : IEnumerable<TSource>, IGrouping<TKey, TSource>
-{
-    public TKey Key { get; set; }
-    private List<TSource> GroupList { get; set; }
-    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+
+    public class UntilGroup<TSource> : IEnumerable<TSource>
     {
-        return ((System.Collections.Generic.IEnumerable<TSource>)this).GetEnumerator();
+        private List<TSource> GroupList { get; set; }
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return ((System.Collections.Generic.IEnumerable<TSource>)this).GetEnumerator();
+        }
+        System.Collections.Generic.IEnumerator<TSource> System.Collections.Generic.IEnumerable<TSource>.GetEnumerator()
+        {
+            foreach (var s in GroupList)
+                yield return s;
+        }
+        public UntilGroup(List<TSource> source)
+        {
+            GroupList = source;
+        }
     }
-    System.Collections.Generic.IEnumerator<TSource> System.Collections.Generic.IEnumerable<TSource>.GetEnumerator()
-    {
-        foreach (var s in GroupList)
-            yield return s;
-    }
-    public GroupOfAdjacent(List<TSource> source, TKey key)
-    {
-        GroupList = source;
-        Key = key;
-    }
+
 }

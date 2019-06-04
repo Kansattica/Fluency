@@ -18,15 +18,16 @@ namespace Fluency.Interpreter
 
         public void Parse(IEnumerable<string> lines) 
         {   
-            lines.GroupAdjacent(IsBlank) //group blank and nonblank lines
-            .Where(x => !x.Key) //yeet blank lines
+            lines.Where(x => !IsBlank(x)) //yeet blank lines
+            .GroupUntil(x => x.StartsWith("Def(")) //group blank and nonblank lines
             .Select(Tokenize).ToList();
         }
 
-        private IEnumerable<FunctionToken> Tokenize(IEnumerable<string> lines)
+        private IEnumerable<FunctionToken> Tokenize(IEnumerable<string> lines, int nthfunc)
         {
             if (verbose)
             {
+                Console.WriteLine("Function #" + nthfunc);
                 foreach (string line in lines)
                     Console.WriteLine(line);
                 Console.WriteLine();
@@ -36,16 +37,16 @@ namespace Fluency.Interpreter
            return lines.SelectMany(TokenizeLine);
         }
 
-        private IEnumerable<FunctionToken> TokenizeLine(string line, int count)
+        private IEnumerable<FunctionToken> TokenizeLine(string line, int lineCount)
         {
             return line.Split('.').Select(TokenizeFunction);
         }
 
-        private FunctionToken TokenizeFunction(string func, int line)
+        private FunctionToken TokenizeFunction(string func, int nthfunc)
         {
-            CheckMatchingParens(func, line);
+            CheckMatchingParens(func, nthfunc);
 
-            return new FunctionToken(func) {Line = line};
+            return new FunctionToken(func);
         }
 
         private bool CheckMatchingParens(string str, int line)
