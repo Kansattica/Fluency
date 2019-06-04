@@ -1,0 +1,49 @@
+using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace Fluency.Interpreter
+{
+    public class FunctionToken
+    {
+        //public static Regex ExtractNameAndArgs = new Regex(@"(?<name>[a-zA-Z]+)\(((?<arguments>[0-9]+|true|false|[""].?[""]),? *)*\)", RegexOptions.ExplicitCapture);
+        public string Name;
+        public string[] Arguments = new string[0];
+        public int Line;
+        public Range range;
+
+        public FunctionToken(string toparse)
+        {
+            ParseNameAndArgs(toparse);
+        }
+
+        private char[] _leftp = new []{ '(' }; //gotta give split arguments as arrays
+        public void ParseNameAndArgs(string func)
+        {
+            var s = func.Split(_leftp, 2);
+            Name = s[0];
+            string args = s[1].TrimEnd(')');
+            if (!string.IsNullOrWhiteSpace(args))
+            {
+                Arguments = args.Split(',');
+            }
+            
+        }
+    }
+
+    public class Range
+    {
+        public int Min {get; set;} = -1;
+        public int Max {get; set;} = -1;
+
+        public Range(int min, int max)
+        {
+            Min = min;
+            Max = max;
+        }
+
+        public bool Contains(int n)
+        {
+            return n >= Min && n <= Max;
+        }
+    }
+}

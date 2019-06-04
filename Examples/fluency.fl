@@ -1,0 +1,48 @@
+Def(IsPrime, n).Dup().First().Sqrt().Floor().Range().MergeBottom().DivBy().Drain().MergeBottom()
+			\.Com("n has to go over here")./	     \.Equals*(0).Or&()./
+
+//functions, by default, work on the first args thing in the pipeline
+//putting a * between the name and the parenthesis maps the function over everything in the pipeline
+//(take enough things to fill the args, put the return on the end of the pipe, repeat until you're done)
+//functions with an ... arg can't do this, they always take the whole pipeline
+//argument names are just for the humans and debugger
+//Or logical ors two bools. Putting the & in there makes it act like a reduce
+//Drain() empties the pipeline
+
+//div all other numbers in the pipeline by n and get the remainder
+//pipeline is [everything else, n]
+Def(DivBy, ..., n).First().Com("everything").Count().Com().Join(false).Com("n pairs of [pipeline element, n]").Div*()
+		    \.Switch(false)		\.MergeTop().DupN()./						\.Com("remainders")
+				\.Comment("just n")./
+
+//maybe turn this pattern into a function because it seems useful
+//Apply or something
+
+//join is the inverse of Split. join(false) takes the first from the bottom.
+//count lets everything through, then puts a count on the bottom
+//div* takes pairs of arguments and divides a by b until it runs out. remainders on bottom if you need 'em
+
+//all numbers from a to 0
+//use Range().Take(n) to get a to n and drop rest
+Def(Range, a).Dup().First(true).Sub(1).Com("n-1").Dup().Equals(0).Switch().Com(":)").MergeTop()
+			\.Com("n").Switch(false)		   \.Range().MergeBottom()./
+				      \.Comment("get n over here and put it first")./ 
+
+// make n copies of todup
+// pipeline contains [todup, n], with n being first
+// probably have a haskell-y .Flip for flipping arg order?
+Def(DupN, todup, n).Split().Sub(1).Dup().Equals(0).MergeTop().Com("todup todup n-1 [true|false]").Switch().Com("Return, we're done now")
+			 \.Dup().Com("todup todup")./	     					   \.Split().DupN().Id().MergeTop()./
+													\.Com("save a todup)./
+
+
+//Split alternates between the pipelines. first one goes straight, second goes off, and so on. if false, first one goes off.
+//Dup(n) puts another copy of n on the back of the pipeline
+//MergeTop merges a branch in with all the uppermost values going first, then the ones from the bottom second.
+// Compare MergeBottom (opposite) and MergeOn (takes a function)
+//Com[ment](some nonsense here) is a comment. it passes everything in the pipeline through and ignores its arguments
+//Switch reads a true or false from the first element and puts everything forward if true and everything in the branch off if false
+//Drop(n) simply discards the first n things on the pipeline. in this case, the argument n on front
+//operators like .Sub[tract](1) work on the whole pipeline and it's an error to use them on the wrong type(?)
+//functions return implicitly when the top pipeline ends. values in lower pipelines that end are branches
+ 
