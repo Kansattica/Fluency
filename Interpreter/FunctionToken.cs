@@ -16,7 +16,7 @@ namespace Fluency.Interpreter
             ParseNameAndArgs(toparse);
         }
 
-        private char[] _leftp = new []{ '(' }; //gotta give split arguments as arrays
+        private static readonly char[] _leftp = new []{ '(' }; //gotta give split arguments as arrays
         public void ParseNameAndArgs(string func)
         {
             var s = func.Split(_leftp, 2);
