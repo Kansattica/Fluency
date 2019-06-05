@@ -18,28 +18,28 @@ namespace Fluency.Interpreter
 
         public void Parse(IEnumerable<string> lines) 
         {   
-            lines.Where(x => !IsBlank(x)) //yeet blank lines
-            .GroupUntil(x => x.StartsWith("Def(")) //group blank and nonblank lines
+            lines.Select(Line.Create)
+            .Where(x => !IsBlank(x.Contents)) //yeet blank lines
+            .GroupUntil(x => x.Contents.StartsWith("Def(")) //group blank and nonblank lines
             .Select(Tokenize).ToList();
         }
 
-        private IEnumerable<FunctionToken> Tokenize(IEnumerable<string> lines, int nthfunc)
+        private IEnumerable<FunctionToken> Tokenize(IEnumerable<Line> lines, int nthfunc)
         {
             if (verbose)
             {
                 Console.WriteLine("Function #" + nthfunc);
-                foreach (string line in lines)
-                    Console.WriteLine(line);
+                foreach (Line line in lines)
+                    Console.WriteLine(line.ToString());
                 Console.WriteLine();
             }
-
 
            return lines.SelectMany(TokenizeLine);
         }
 
-        private IEnumerable<FunctionToken> TokenizeLine(string line, int lineCount)
+        private IEnumerable<FunctionToken> TokenizeLine(Line line, int inFunc)
         {
-            return line.Split('.').Select(TokenizeFunction);
+            return line.Contents.Split('.').Select(TokenizeFunction);
         }
 
         private FunctionToken TokenizeFunction(string func, int nthfunc)
@@ -99,11 +99,10 @@ namespace Fluency.Interpreter
                 char c = line[i];
                 
                 if (i < line.Length-1 && c == '/' && line[i+1] == '/')
-                        return true;
+                    return true;
 
                 if (!char.IsWhiteSpace(c))
                     return false;
-
             }
 
             return true;
