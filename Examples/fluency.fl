@@ -1,6 +1,24 @@
 Def(IsPrime, n).Dup().First().Sqrt().Floor().Range().MergeBottom().DivBy().Drain().MergeBottom()
 			\.Com("n has to go over here")./	     \.Equals*(0).Or&()./
 
+//This isn't totally correct any more
+//Instead, each function call is a step in a pipeline
+//Functions only compute the next value when asked to by the next step
+//Non-primitive functions are expanded on the first value request
+//When you hit the basis case of a recursive call, simply don't ask it for any values 
+// (Likely with a Switch())
+// A lot of these can be simplified now.
+// All functions now have the "map" behavior by default
+// Specifying arguments in source is like having an infinite source of that value when needed
+// No variables, so only literals (ints, true, false, strings, functions)
+// No need for DupN, pipe the thing you want to duplicate into .Infinite (or maybe .Const, since .Const(3) gives you an infinite stream of 3s)
+// Probably fewer pipeline split/merge functions? Functions can input or output multiple pipelines (maybe limit to two?), but should each function choose a calling convention that works for it?
+// Should stuff like Add() read everything from the top and then start reading from the bottom or what? Or alternate? 
+// "Add() always works on the top and you can merge as you like" is simple to implement and makes sense to me.
+// Meanwhile, some functions may decide that using both pipelines makes sense. 
+// Imagine a function that reads a number from the top pipeline and takes from the bottom until the sum of those is at least the first number.
+
+
 //functions, by default, work on the first args thing in the pipeline
 //putting a * between the name and the parenthesis maps the function over everything in the pipeline
 //(take enough things to fill the args, put the return on the end of the pipe, repeat until you're done)
@@ -12,7 +30,7 @@ Def(IsPrime, n).Dup().First().Sqrt().Floor().Range().MergeBottom().DivBy().Drain
 //div all other numbers in the pipeline by n and get the remainder
 //pipeline is [everything else, n]
 Def(DivBy, ..., n).First().Com("everything").Count().Com().Join(false).Com("n pairs of [pipeline element, n]").Div*()
-		    \.Switch(false)		\.MergeTop().DupN()./						\.Com("remainders")
+		    \.Switch(false)		\.MergeTop().DupN()./															\.Com("remainders")
 				\.Comment("just n")./
 
 //maybe turn this pattern into a function because it seems useful
