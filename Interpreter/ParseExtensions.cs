@@ -22,7 +22,7 @@ public static class ParseExtensions
         {
             bool newGroup = predicate(s);
 
-            if (newGroup)
+            if (newGroup && currentChunk.Count > 0)
             {
                 yield return new UntilGroup<TSource>(currentChunk);
                 currentChunk = new List<TSource>() { s };
