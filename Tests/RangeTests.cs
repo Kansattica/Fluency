@@ -36,7 +36,8 @@ namespace Fluency.Tests
             return new Range(min, max);
         }
 
-        private const int numberoftrials = 90000000;
+        private const int numberoftrials = 9000000; //make bigger for more thorough tests
+
         [TestMethod]
         public void Equality()
         {
@@ -50,6 +51,22 @@ namespace Fluency.Tests
                 Assert.IsFalse(a != b);
                 Assert.AreNotSame(a, b);
             });
+        }
+
+        [TestMethod]
+        public void NullEquality()
+        {
+            Range a = RandomRange();
+            Range b = null;
+
+            Assert.AreNotEqual(a, b);
+            Assert.IsFalse(a == b);
+            Assert.IsFalse(a == null);
+            Assert.IsTrue(b == null);
+            Assert.IsFalse(a.Equals(b));
+            Assert.IsTrue(a != b);
+            Assert.IsTrue(a != null);
+            Assert.IsFalse(b != null);
         }
 
         public int Midpoint(long a, long b)
