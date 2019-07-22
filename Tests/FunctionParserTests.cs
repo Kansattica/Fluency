@@ -32,13 +32,13 @@ namespace Fluency.Tests
         private readonly Dictionary<string, IEnumerable<(int min, int max)>> expectedGroups = new Dictionary<string, IEnumerable<(int min, int max)>>()
         {
             {"./Examples/doubledef.fl", new []{(0,1),(2,4)}},
-            {"./Examples/fluency.fl", new []{(0, 30), (31,43), (44, 50), (51, 64)}}
+            {"./Examples/fluency.fl", new []{(0, 1), (2, 32), (33,45), (46, 52), (53, 66)}}
 
         };
 
         [TestMethod]
         [DataRow("./Examples/doubledef.fl", 2)]
-        [DataRow("./Examples/fluency.fl", 4)]
+        [DataRow("./Examples/fluency.fl", 5)]
         public void GroupUntilWorks(string path, int groupCount)
         {
             var lines = File.ReadAllLines(Path.Join("../../../../", path));
@@ -52,6 +52,30 @@ namespace Fluency.Tests
                 Assert.AreEqual(pair.expected.min, pair.actual.Min);
                 Assert.AreEqual(pair.expected.max, pair.actual.Max);
             }
+        }
+
+        [TestMethod]
+        public void GroupUntilInclusive()
+        {
+            var grouped = Enumerable.Range(0, 100).GroupUntil(x => x == 50, inclusive: true);
+
+            Assert.AreEqual(2, grouped.Count());
+            Assert.AreEqual(0, grouped.First().First());
+            Assert.AreEqual(50, grouped.First().Last());
+            Assert.AreEqual(51, grouped.Last().First());
+            Assert.AreEqual(99, grouped.Last().Last());
+            Assert.IsTrue(Enumerable.Range(0, 100).SequenceEqual(grouped.SelectMany(x => x)));
+        }
+
+        [TestMethod]
+        public void GroupUntilInclusiveNoEmptyGroups()
+        {
+            var grouped = Enumerable.Range(0, 100).GroupUntil(x => x == 99, inclusive: true);
+
+            Assert.AreEqual(1, grouped.Count());
+            Assert.AreEqual(0, grouped.First().First());
+            Assert.AreEqual(99, grouped.First().Last());
+            Assert.IsTrue(Enumerable.Range(0, 100).SequenceEqual(grouped.SelectMany(x => x)));
         }
     }
 }

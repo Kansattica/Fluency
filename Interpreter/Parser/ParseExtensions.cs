@@ -18,7 +18,7 @@ namespace Fluency.Interpreter.Parser
         }
 
         public static IEnumerable<UntilGroup<TSource>> GroupUntil<TSource>(this IEnumerable<TSource> source,
-            Func<TSource, bool> predicate)
+            Func<TSource, bool> predicate, bool inclusive = false)
         {
             List<TSource> currentChunk = new List<TSource>();
             int startIndex = 0, thisIndex = 0;
@@ -28,9 +28,19 @@ namespace Fluency.Interpreter.Parser
 
                 if (newGroup && currentChunk.Count > 0)
                 {
+                    if (inclusive)
+                    {
+                        currentChunk.Add(s);
+                        thisIndex++;
+                    }
+
                     yield return new UntilGroup<TSource>(currentChunk, startIndex, thisIndex - 1);
                     startIndex = thisIndex;
-                    currentChunk = new List<TSource>() { s };
+
+                    if (inclusive)
+                        currentChunk = new List<TSource>();
+                    else
+                        currentChunk = new List<TSource>() { s };
                 }
                 else
                 {
@@ -38,7 +48,9 @@ namespace Fluency.Interpreter.Parser
                 }
                 thisIndex++;
             }
-            yield return new UntilGroup<TSource>(currentChunk, startIndex, thisIndex - 1);
+
+            if (currentChunk.Any())
+                yield return new UntilGroup<TSource>(currentChunk, startIndex, thisIndex - 1);
         }
 
     }
