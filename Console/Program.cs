@@ -20,7 +20,9 @@ namespace Fluency.CLI
             }
 
             var fileLines = a.Leftover.SelectMany(x => File.ReadAllLines(x));
-            p.Parse(fileLines);
+            var parsed = p.Parse(fileLines);
+
+            Console.Write(string.Join(Environment.NewLine, parsed.SelectMany(x => x).Select(x => x.ToString())));
         }
     }
 }

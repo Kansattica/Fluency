@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Fluency.Interpreter.Parser.Entities;
 using Fluency.Interpreter.Parser.Exceptions;
+using System.Runtime.CompilerServices;
 
 namespace Fluency.Interpreter.Parser
 {
@@ -20,12 +21,12 @@ namespace Fluency.Interpreter.Parser
             _spaces = Enumerable.Range(0, tabWidth).Select(_ => ' ').Stringify(); //ahh, fluent
         }
 
-        public void Parse(IEnumerable<string> lines)
+        public IEnumerable<IEnumerable<FunctionToken>> Parse(IEnumerable<string> lines)
         {
-            lines.Select(Line.Create)
+            return lines.Select(Line.Create)
             .Where(x => !IsBlank(x.Contents)) //yeet blank lines
             .GroupUntil(x => x.Contents.StartsWith("Def(")) //group blank and nonblank lines
-            .Select(Tokenize).ToList();
+            .Select(Tokenize);
         }
 
         private string ExpandTabs(string toExpand) => toExpand.Replace("\t", _spaces);
@@ -43,67 +44,60 @@ namespace Fluency.Interpreter.Parser
             return lines.SelectMany(TokenizeLine);
         }
 
+
         private IEnumerable<FunctionToken> TokenizeLine(Line line)
         {
             try
             {
-                return line.Contents.GroupUntil(x => x == '.').Select(TokenizeFunction);
+                return line.Contents.GroupUntil(x => x == ')', inclusive: true).Select(TokenizeFunction);
             }
             catch (ParseException ex)
             {
-                ex.LineNumber = line.Number;
-                throw;
+                ex.LineNumber = line.Number; throw;
             }
         }
 
         private FunctionToken TokenizeFunction(UntilGroup<char> parsedfunc, int line)
         {
             string func = parsedfunc.Stringify();
-            CheckMatchingParens(func);
+
+            try
+            {
+                CheckMatchingParens(func);
+            }
+            catch (ParseException ex)
+            {
+                ex.Range = parsedfunc.Indexes; throw;
+            }
 
             return new FunctionToken(func, parsedfunc.Indexes.Min, parsedfunc.Indexes.Max, line);
         }
 
         private bool CheckMatchingParens(string str)
         {
-            //exactly one set of matching parens
-            bool left, right; left = right = false;
+            var justparens = str.Select((c, idx) => (c, idx)).Where(x => x.c == '(' || x.c == ')');
+            string parens = justparens.Select(x => x.c).Stringify();
 
-            int idx = 0;
-            foreach (char c in str)
-            {
-                if (c == '(')
-                {
-                    if (left)
-                        throw new ParseException("Too many left parenthesis in string {0}") { LineNumber = idx, Snippet = str };
-                    else
-                        left = true;
+            if (parens == "()")
+                return true;
 
-                }
+            var lefts = justparens.Where(x => x.c == '(');
+            if (lefts.Count() > 1)
+                throw new ParseException("Too many left parenthesis.") { Snippet = str, Position = lefts.Last().idx };
 
-                if (c == ')')
-                {
-                    if (left)
-                    {
-                        throw new ParseException("Right parenthesis before left in string {0}") { LineNumber = idx, Snippet = str };
-                    }
+            if (lefts.Count() == 0)
+                throw new ParseException("Missing left parenthesis.") { Snippet = str };
 
-                    if (right)
-                    {
-                        throw new ParseException("Too many right parens in string {0}") { LineNumber = idx, Snippet = str };
-                    }
+            var rights = justparens.Where(x => x.c == ')');
+            if (rights.Count() > 1)
+                throw new ParseException("Too many left parenthesis.") { Snippet = str, Position = rights.Last().idx };
 
-                    right = true;
-                }
+            if (rights.Count() == 0)
+                throw new ParseException("Missing left parenthesis.") { Snippet = str };
 
-                if (left && right)
-                    return true;
-
-                idx++;
-            }
-
-            throw new ParseException("Mismatched left and right parens in string {0}") { LineNumber = idx, Snippet = str };
+            throw new ParseException("Mismatched left and right parenthesis.") { Snippet = str };
         }
+
 
         private bool IsBlank(string line)
         {
