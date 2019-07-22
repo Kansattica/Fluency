@@ -10,11 +10,12 @@ namespace Fluency.Interpreter.Entities
         public string Name;
         public string[] Arguments = new string[0];
         public int Line;
-        public Range range;
+        public Range Range;
 
-        public FunctionToken(string toparse)
+        public FunctionToken(string toparse, int start, int end)
         {
             ParseNameAndArgs(toparse);
+            Range = new Range(start, end);
         }
 
         private static readonly char[] _leftp = new[] { '(' }; //gotta give split arguments as arrays

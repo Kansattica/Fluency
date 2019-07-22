@@ -40,17 +40,26 @@ namespace Fluency.Interpreter
 
         private IEnumerable<FunctionToken> TokenizeLine(Line line, int inFunc)
         {
-            return line.Contents.Split('.').Select(TokenizeFunction);
+            try
+            {
+                return line.Contents.GroupUntil(x => x == '.').Select(TokenizeFunction);
+            }
+            catch (ParseException ex)
+            {
+                ex.LineNumber = line.Number;
+                throw;
+            }
         }
 
-        private FunctionToken TokenizeFunction(string func, int nthfunc)
+        private FunctionToken TokenizeFunction(UntilGroup<char> parsedfunc)
         {
-            CheckMatchingParens(func, nthfunc);
+            string func = parsedfunc.Stringify();
+            CheckMatchingParens(func);
 
-            return new FunctionToken(func);
+            return new FunctionToken(func, parsedfunc.Indexes.Min, parsedfunc.Indexes.Max);
         }
 
-        private bool CheckMatchingParens(string str, int line)
+        private bool CheckMatchingParens(string str)
         {
             //exactly one set of matching parens
             bool left, right; left = right = false;
@@ -61,7 +70,7 @@ namespace Fluency.Interpreter
                 if (c == '(')
                 {
                     if (left)
-                        throw new ParseException("Too many left parenthesis in string {0}", line, idx, str);
+                        throw new ParseException("Too many left parenthesis in string {0}") { LineNumber = idx, Snippet = str };
                     else
                         left = true;
 
@@ -71,12 +80,12 @@ namespace Fluency.Interpreter
                 {
                     if (left)
                     {
-                        throw new ParseException("Right parenthesis before left in string {0}", line, idx, str);
+                        throw new ParseException("Right parenthesis before left in string {0}") { LineNumber = idx, Snippet = str };
                     }
 
                     if (right)
                     {
-                        throw new ParseException("Too many right parens in string {0}", line, idx, str);
+                        throw new ParseException("Too many right parens in string {0}") { LineNumber = idx, Snippet = str };
                     }
 
                     right = true;
@@ -88,7 +97,7 @@ namespace Fluency.Interpreter
                 idx++;
             }
 
-            throw new ParseException("Mismatched left and right parens in string {0}", line, idx, str);
+            throw new ParseException("Mismatched left and right parens in string {0}") { LineNumber = idx, Snippet = str };
         }
 
         private bool IsBlank(string line)

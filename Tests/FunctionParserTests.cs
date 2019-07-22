@@ -6,7 +6,7 @@ using System.Linq;
 using Fluency.Interpreter.Entities;
 using System.Collections.Generic;
 
-namespace Tests
+namespace Fluency.Tests
 {
     [TestClass]
     public class FunctionParserTests
@@ -23,7 +23,7 @@ namespace Tests
         [DataRow(@"Fun(""a string"", 3, ""another string"", true, false)", "Fun", 5)]
         public void FunctionParsingWorks(string teststr, string name, int argCount)
         {
-            FunctionToken f = new FunctionToken(teststr);
+            FunctionToken f = new FunctionToken(teststr, 0, teststr.Length);
 
             Assert.AreEqual(name, f.Name);
             Assert.AreEqual(argCount, f.Arguments.Length);
@@ -47,7 +47,7 @@ namespace Tests
 
             Assert.AreEqual(groupCount, groups.Count());
 
-            foreach (var pair in groups.Select(x => x.Between).Zip(expectedGroups[path], (actual, expected) => (actual, expected)))
+            foreach (var pair in groups.Select(x => x.Indexes).Zip(expectedGroups[path], (actual, expected) => (actual, expected)))
             {
                 Assert.AreEqual(pair.expected.min, pair.actual.Min);
                 Assert.AreEqual(pair.expected.max, pair.actual.Max);

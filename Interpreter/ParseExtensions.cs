@@ -39,27 +39,25 @@ public static class ParseExtensions
         yield return new UntilGroup<TSource>(currentChunk, startIndex, thisIndex - 1);
     }
 
+}
 
-    public class UntilGroup<TSource> : IEnumerable<TSource>
+public class UntilGroup<TSource> : IEnumerable<TSource>
+{
+    public Range Indexes { get; set; } = null;
+    private List<TSource> GroupList { get; set; }
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
     {
-        public Range Between { get; set; } = null;
-        private List<TSource> GroupList { get; set; }
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return ((System.Collections.Generic.IEnumerable<TSource>)this).GetEnumerator();
-        }
-        System.Collections.Generic.IEnumerator<TSource> System.Collections.Generic.IEnumerable<TSource>.GetEnumerator()
-        {
-            foreach (var s in GroupList)
-                yield return s;
-        }
-        public UntilGroup(List<TSource> source, int startIndex, int endIndex)
-        {
-            GroupList = source;
-            Between = new Range(startIndex, endIndex);
-        }
+        return ((System.Collections.Generic.IEnumerable<TSource>)this).GetEnumerator();
     }
-
-
+    System.Collections.Generic.IEnumerator<TSource> System.Collections.Generic.IEnumerable<TSource>.GetEnumerator()
+    {
+        foreach (var s in GroupList)
+            yield return s;
+    }
+    public UntilGroup(List<TSource> source, int startIndex, int endIndex)
+    {
+        GroupList = source;
+        Indexes = new Range(startIndex, endIndex);
+    }
 
 }
