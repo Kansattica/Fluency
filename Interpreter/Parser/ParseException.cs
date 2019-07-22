@@ -1,4 +1,5 @@
 using System;
+using Fluency.Interpreter.Parser.Entities;
 
 namespace Fluency.Interpreter.Parser.Exceptions
 {
@@ -6,6 +7,7 @@ namespace Fluency.Interpreter.Parser.Exceptions
     {
         public int LineNumber { get; set; }
         public int? Position { get; set; }
+        public Range Range { get; set; }
         public string Snippet { get; set; }
 
         public ParseException(string message) : base(message) { }
@@ -14,16 +16,20 @@ namespace Fluency.Interpreter.Parser.Exceptions
         { }
         public ParseException(string message, Exception inner) : base(message, inner) { }
 
+        private string PrintableMetadata()
+        {
+            return $"Parse error at line number {LineNumber}." +
+                            (Position == null ? string.Empty : $"\nAt position {Position}") +
+                            (Range == null ? string.Empty : $"\n At positions {Range}") +
+                            (string.IsNullOrWhiteSpace(Snippet) ? string.Empty : $"\n Code: {Snippet}");
+        }
+
         public override string Message
         {
-            get
-            {
-                return $"Parse error at line number {LineNumber}." +
-                (Position == null ? string.Empty : $"\nAt position {Position}") +
-                (Snippet == null ? string.Empty : $"\n Code: {Snippet}") +
-                "\n\n" + base.Message;
-            }
+            get { return PrintableMetadata() + "\n\n" + base.Message; }
         }
+
+        public override string ToString() => PrintableMetadata() + "\n\n" + base.ToString();
     }
 
 }
