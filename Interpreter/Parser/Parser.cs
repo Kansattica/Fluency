@@ -10,11 +10,14 @@ namespace Fluency.Interpreter.Parser
 {
     public class Parser
     {
-        private bool verbose = false;
+        private bool _verbose = false;
 
-        public Parser(bool verbose = false)
+        private readonly string _spaces;
+
+        public Parser(bool verbose = false, int tabWidth = 4)
         {
-            this.verbose = verbose;
+            _verbose = verbose;
+            _spaces = Enumerable.Range(0, tabWidth).Select(_ => ' ').Stringify(); //ahh, fluent
         }
 
         public void Parse(IEnumerable<string> lines)
@@ -25,9 +28,11 @@ namespace Fluency.Interpreter.Parser
             .Select(Tokenize).ToList();
         }
 
+        private string ExpandTabs(string toExpand) => toExpand.Replace("\t", _spaces);
+
         private IEnumerable<FunctionToken> Tokenize(IEnumerable<Line> lines, int nthfunc)
         {
-            if (verbose)
+            if (_verbose)
             {
                 Console.WriteLine("Function #" + nthfunc);
                 foreach (Line line in lines)
