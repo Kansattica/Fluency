@@ -1,4 +1,4 @@
-namespace Fluency.Interpreter.Entities
+namespace Fluency.Interpreter.Parser.Entities
 {
     public class Line
     {

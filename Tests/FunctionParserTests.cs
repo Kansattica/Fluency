@@ -1,10 +1,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Fluency.Interpreter;
+using Fluency.Interpreter.Parser;
 using System;
 using System.IO;
 using System.Linq;
-using Fluency.Interpreter.Entities;
 using System.Collections.Generic;
+using Fluency.Interpreter.Parser.Entities;
 
 namespace Fluency.Tests
 {
@@ -23,7 +23,7 @@ namespace Fluency.Tests
         [DataRow(@"Fun(""a string"", 3, ""another string"", true, false)", "Fun", 5)]
         public void FunctionParsingWorks(string teststr, string name, int argCount)
         {
-            FunctionToken f = new FunctionToken(teststr, 0, teststr.Length);
+            FunctionToken f = new FunctionToken(teststr, 0, teststr.Length, 0);
 
             Assert.AreEqual(name, f.Name);
             Assert.AreEqual(argCount, f.Arguments.Length);

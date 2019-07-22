@@ -1,9 +1,9 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Fluency.Interpreter.Entities;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Numerics;
+using Fluency.Interpreter.Parser.Entities;
 
 namespace Fluency.Tests
 {

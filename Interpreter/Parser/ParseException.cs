@@ -1,6 +1,6 @@
 using System;
 
-namespace Fluency.Interpreter.Exceptions
+namespace Fluency.Interpreter.Parser.Exceptions
 {
     class ParseException : Exception
     {
@@ -24,9 +24,6 @@ namespace Fluency.Interpreter.Exceptions
                 "\n\n" + base.Message;
             }
         }
-
-
-
     }
 
 }

@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using Fluency.Interpreter.Exceptions;
 using System.Text.RegularExpressions;
-using Fluency.Interpreter.Entities;
+using Fluency.Interpreter.Parser.Entities;
+using Fluency.Interpreter.Parser.Exceptions;
 
-namespace Fluency.Interpreter
+namespace Fluency.Interpreter.Parser
 {
     public class Parser
     {
@@ -38,7 +38,7 @@ namespace Fluency.Interpreter
             return lines.SelectMany(TokenizeLine);
         }
 
-        private IEnumerable<FunctionToken> TokenizeLine(Line line, int inFunc)
+        private IEnumerable<FunctionToken> TokenizeLine(Line line)
         {
             try
             {
@@ -51,12 +51,12 @@ namespace Fluency.Interpreter
             }
         }
 
-        private FunctionToken TokenizeFunction(UntilGroup<char> parsedfunc)
+        private FunctionToken TokenizeFunction(UntilGroup<char> parsedfunc, int line)
         {
             string func = parsedfunc.Stringify();
             CheckMatchingParens(func);
 
-            return new FunctionToken(func, parsedfunc.Indexes.Min, parsedfunc.Indexes.Max);
+            return new FunctionToken(func, parsedfunc.Indexes.Min, parsedfunc.Indexes.Max, line);
         }
 
         private bool CheckMatchingParens(string str)

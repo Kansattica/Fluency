@@ -1,6 +1,6 @@
 using System;
 
-namespace Fluency.Interpreter.Entities
+namespace Fluency.Interpreter.Parser.Entities
 {
     public class Range : IEquatable<Range>
     {

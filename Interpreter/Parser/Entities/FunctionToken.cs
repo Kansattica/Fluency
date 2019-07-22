@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Fluency.Interpreter.Entities
+namespace Fluency.Interpreter.Parser.Entities
 {
     public class FunctionToken
     {
@@ -12,7 +12,7 @@ namespace Fluency.Interpreter.Entities
         public int Line;
         public Range Range;
 
-        public FunctionToken(string toparse, int start, int end)
+        public FunctionToken(string toparse, int start, int end, int line)
         {
             ParseNameAndArgs(toparse);
             Range = new Range(start, end);
