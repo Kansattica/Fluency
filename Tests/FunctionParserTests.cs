@@ -3,6 +3,8 @@ using Fluency.Interpreter;
 using System;
 using System.IO;
 using System.Linq;
+using Fluency.Interpreter.Entities;
+using System.Collections.Generic;
 
 namespace Tests
 {
@@ -27,6 +29,13 @@ namespace Tests
             Assert.AreEqual(argCount, f.Arguments.Length);
         }
 
+        private readonly Dictionary<string, IEnumerable<(int min, int max)>> expectedGroups = new Dictionary<string, IEnumerable<(int min, int max)>>()
+        {
+            {"./Examples/doubledef.fl", new []{(0,1),(2,4)}},
+            {"./Examples/fluency.fl", new []{(0, 30), (31,43), (44, 50), (51, 64)}}
+
+        };
+
         [TestMethod]
         [DataRow("./Examples/doubledef.fl", 2)]
         [DataRow("./Examples/fluency.fl", 4)]
@@ -37,6 +46,12 @@ namespace Tests
             var groups = lines.GroupUntil(x => x.StartsWith("Def("));
 
             Assert.AreEqual(groupCount, groups.Count());
+
+            foreach (var pair in groups.Select(x => x.Between).Zip(expectedGroups[path], (actual, expected) => (actual, expected)))
+            {
+                Assert.AreEqual(pair.expected.min, pair.actual.Min);
+                Assert.AreEqual(pair.expected.max, pair.actual.Max);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Fluency.Interpreter.Entities;
 
 public static class ParseExtensions
 {
@@ -14,30 +15,34 @@ public static class ParseExtensions
         return sb.ToString();
     }
 
-    public static IEnumerable<IEnumerable<TSource>> GroupUntil<TSource>(this IEnumerable<TSource> source,
+    public static IEnumerable<UntilGroup<TSource>> GroupUntil<TSource>(this IEnumerable<TSource> source,
         Func<TSource, bool> predicate)
     {
         List<TSource> currentChunk = new List<TSource>();
+        int startIndex = 0, thisIndex = 0;
         foreach (TSource s in source)
         {
             bool newGroup = predicate(s);
 
             if (newGroup && currentChunk.Count > 0)
             {
-                yield return new UntilGroup<TSource>(currentChunk);
+                yield return new UntilGroup<TSource>(currentChunk, startIndex, thisIndex - 1);
+                startIndex = thisIndex;
                 currentChunk = new List<TSource>() { s };
             }
             else
             {
                 currentChunk.Add(s);
             }
+            thisIndex++;
         }
-        yield return new UntilGroup<TSource>(currentChunk);
+        yield return new UntilGroup<TSource>(currentChunk, startIndex, thisIndex - 1);
     }
 
 
     public class UntilGroup<TSource> : IEnumerable<TSource>
     {
+        public Range Between { get; set; } = null;
         private List<TSource> GroupList { get; set; }
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
@@ -48,10 +53,13 @@ public static class ParseExtensions
             foreach (var s in GroupList)
                 yield return s;
         }
-        public UntilGroup(List<TSource> source)
+        public UntilGroup(List<TSource> source, int startIndex, int endIndex)
         {
             GroupList = source;
+            Between = new Range(startIndex, endIndex);
         }
     }
+
+
 
 }

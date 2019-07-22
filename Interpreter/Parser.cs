@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Fluency.Interpreter.Exceptions;
 using System.Text.RegularExpressions;
+using Fluency.Interpreter.Entities;
 
 namespace Fluency.Interpreter
 {
@@ -16,8 +17,8 @@ namespace Fluency.Interpreter
             this.verbose = verbose;
         }
 
-        public void Parse(IEnumerable<string> lines) 
-        {   
+        public void Parse(IEnumerable<string> lines)
+        {
             lines.Select(Line.Create)
             .Where(x => !IsBlank(x.Contents)) //yeet blank lines
             .GroupUntil(x => x.Contents.StartsWith("Def(")) //group blank and nonblank lines
@@ -34,7 +35,7 @@ namespace Fluency.Interpreter
                 Console.WriteLine();
             }
 
-           return lines.SelectMany(TokenizeLine);
+            return lines.SelectMany(TokenizeLine);
         }
 
         private IEnumerable<FunctionToken> TokenizeLine(Line line, int inFunc)
@@ -97,8 +98,8 @@ namespace Fluency.Interpreter
             for (int i = 0; i < line.Length; i++)
             {
                 char c = line[i];
-                
-                if (i < line.Length-1 && c == '/' && line[i+1] == '/')
+
+                if (i < line.Length - 1 && c == '/' && line[i + 1] == '/')
                     return true;
 
                 if (!char.IsWhiteSpace(c))

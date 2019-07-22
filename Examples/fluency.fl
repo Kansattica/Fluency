@@ -63,4 +63,3 @@ Def(DupN, todup, n).Split().Sub(1).Dup().Equals(0).MergeTop().Com("todup todup n
 //Drop(n) simply discards the first n things on the pipeline. in this case, the argument n on front
 //operators like .Sub[tract](1) work on the whole pipeline and it's an error to use them on the wrong type(?)
 //functions return implicitly when the top pipeline ends. values in lower pipelines that end are branches
- 
