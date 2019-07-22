@@ -1,7 +1,8 @@
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Fluency.Interpreter
+namespace Fluency.Interpreter.Entities
 {
     public class FunctionToken
     {
@@ -16,7 +17,7 @@ namespace Fluency.Interpreter
             ParseNameAndArgs(toparse);
         }
 
-        private static readonly char[] _leftp = new []{ '(' }; //gotta give split arguments as arrays
+        private static readonly char[] _leftp = new[] { '(' }; //gotta give split arguments as arrays
         public void ParseNameAndArgs(string func)
         {
             var s = func.Split(_leftp, 2);
@@ -26,24 +27,7 @@ namespace Fluency.Interpreter
             {
                 Arguments = args.Split(',');
             }
-            
-        }
-    }
 
-    public class Range
-    {
-        public int Min {get; set;} = -1;
-        public int Max {get; set;} = -1;
-
-        public Range(int min, int max)
-        {
-            Min = min;
-            Max = max;
-        }
-
-        public bool Contains(int n)
-        {
-            return n >= Min && n <= Max;
         }
     }
 }
