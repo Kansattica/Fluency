@@ -17,6 +17,32 @@ namespace Fluency.Interpreter.Parser
             return sb.ToString();
         }
 
+        public static IEnumerable<TSource> MergeLastTwoIf<TSource>(this IEnumerable<TSource> source,
+            Func<TSource, bool> predicate,
+            Func<TSource, TSource, TSource> merge)
+        {
+            if (!source.Any())
+                yield break;
+
+            TSource curr = default(TSource), prev = default(TSource);
+            bool first = true;
+            foreach (TSource s in source)
+            {
+                prev = curr;
+                curr = s;
+                if (!first)
+                    yield return prev;
+                else
+                    first = false;
+            }
+
+            if (!first && predicate(curr))
+                yield return merge(prev, curr);
+            else
+                yield return curr;
+
+        }
+
         public static IEnumerable<UntilGroup<TSource>> GroupUntil<TSource>(this IEnumerable<TSource> source,
             Func<TSource, bool> predicate, bool inclusive = false)
         {
