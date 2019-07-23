@@ -71,6 +71,10 @@ public class GraphWriter
             AddNode(head);
             _seen.Add(head.Id);
         }
+        else
+        {
+            return;
+        }
 
         if (head.TopOut != null)
         {
