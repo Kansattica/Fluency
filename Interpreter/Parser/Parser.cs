@@ -44,12 +44,19 @@ namespace Fluency.Interpreter.Parser
             return lines.SelectMany(TokenizeLine);
         }
 
-
         private IEnumerable<FunctionToken> TokenizeLine(Line line)
         {
             try
             {
-                return line.Contents.GroupUntil(x => x == ')', inclusive: true).Select(TokenizeFunction);
+                int numberOfQuotes = 0;
+                return line.Contents.GroupUntil(x =>
+                { //don't count close parens inside string literals
+                    numberOfQuotes += x == '"' ? 1 : 0;
+                    return numberOfQuotes % 2 == 0 ? x == ')' : false;
+                }, inclusive: true)
+                .MergeLastTwoIf(x => x.Stringify().StartsWith("./"),
+                    (previous, current) => new UntilGroup<char>(previous.Concat(current).ToList(), previous.Indexes.Min, current.Indexes.Max))
+                .Select(TokenizeFunction).ToList(); //if you don't evaluate a little, that catch block never gets called
             }
             catch (ParseException ex)
             {
@@ -57,13 +64,15 @@ namespace Fluency.Interpreter.Parser
             }
         }
 
+
+
         private FunctionToken TokenizeFunction(UntilGroup<char> parsedfunc, int line)
         {
             string func = parsedfunc.Stringify();
 
             try
             {
-                CheckMatchingParens(func);
+                //CheckMatchingParens(func);
             }
             catch (ParseException ex)
             {
