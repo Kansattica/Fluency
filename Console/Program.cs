@@ -16,9 +16,9 @@ namespace Fluency.CLI
                 foreach (string toInspect in a.Inspect)
                 {
                     Console.WriteLine(string.Join("\n", toInspect.Select((c, idx) => idx + ": " + c)));
-                    Console.Write(string.Join("\n", toInspect.GroupUntil(x => x == '.').Select(x => x.Stringify() + " " + x.Indexes)));
+                    Console.WriteLine(string.Join(", ", toInspect.GroupUntil(x => x == '.').Select(x => $"\"{x.Stringify()}\"")));
+                    Console.WriteLine(string.Join(", ", toInspect.GroupUntil(x => x == '.').Select(x => x.Indexes.ToString())));
                 }
-
                 return;
             }
 
@@ -39,6 +39,7 @@ namespace Fluency.CLI
                 var writer = new GraphWriter();
                 writer.WalkFunctionGraph(graph.Head);
                 writer.Serialize("../Graphs/" + graph.Name + ".dgml");
+                Console.WriteLine("Wrote graph for " + graph.Name);
             }
 
             // Console.Write(string.Join(Environment.NewLine, parsed.SelectMany(x => x).Select(x => x.ToString())));
