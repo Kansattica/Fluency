@@ -17,6 +17,28 @@ namespace Fluency.Interpreter.Parser
             return sb.ToString();
         }
 
+        public static IEnumerable<TSource> SkipBetween<TSource>(this IEnumerable<TSource> source,
+        Func<TSource, bool> startPredicate,
+        Func<TSource, bool> endPredicate)
+        {
+            bool skipping = false;
+            foreach (TSource s in source)
+            {
+                if (skipping)
+                    skipping = !endPredicate(s);
+                else
+                {
+                    skipping = startPredicate(s);
+                    yield return s;
+                    continue;
+                }
+
+                if (!skipping)
+                    yield return s;
+            }
+
+        }
+
         public static IEnumerable<TSource> MergeLastIf<TSource>(this IEnumerable<TSource> source,
             Func<TSource, bool> predicate,
             Func<TSource, TSource, TSource> merge)

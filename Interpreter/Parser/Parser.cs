@@ -24,6 +24,7 @@ namespace Fluency.Interpreter.Parser
         public IEnumerable<IEnumerable<FunctionToken>> Parse(IEnumerable<string> lines)
         {
             return lines.Select(x => x.TrimEnd())
+            .Select(ExpandTabs)
             .Select(Line.Create)
             .Where(x => !IsBlank(x.Contents)) //yeet blank lines
             .GroupUntil(x => x.Contents.StartsWith("Def(")) //group blank and nonblank lines
@@ -75,7 +76,7 @@ namespace Fluency.Interpreter.Parser
 
             try
             {
-                //CheckMatchingParens(func);
+                CheckMatchingParens(func);
                 return new FunctionToken(func, parsedfunc.Indexes.Min, parsedfunc.Indexes.Max);
             }
             catch (Exception e)
@@ -90,7 +91,8 @@ namespace Fluency.Interpreter.Parser
 
         private bool CheckMatchingParens(string str)
         {
-            var justparens = str.Select((c, idx) => (c, idx)).Where(x => x.c == '(' || x.c == ')');
+            var justparens = str.Select((c, idx) => (c, idx)).SkipBetween(x => x.c == '"', x => x.c == '"')
+                .Where(x => x.c == '(' || x.c == ')');
             string parens = justparens.Select(x => x.c).Stringify();
 
             if (parens == "()")

@@ -82,7 +82,7 @@ namespace Fluency.Tests
         }
 
         [TestMethod]
-        public void TestMergeIf()
+        public void MergeIf()
         {
             var arr = new[] { 1, 2, 3, 4, 5 };
 
@@ -93,7 +93,7 @@ namespace Fluency.Tests
         }
 
         [TestMethod]
-        public void TestMergeIfPredicateFalse()
+        public void MergeIfPredicateFalse()
         {
             var arr = new[] { 1, 2, 3, 4, 5 };
 
@@ -104,7 +104,7 @@ namespace Fluency.Tests
         }
 
         [TestMethod]
-        public void TestMergeIfMultiple()
+        public void MergeIfMultiple()
         {
             var arr = new[] { 1, 2, 1, 3, 4, 1, 5 };
 
@@ -155,6 +155,16 @@ namespace Fluency.Tests
             Assert.AreEqual(2, result.Count());
             Assert.AreEqual(100, result.First());
             Assert.AreEqual(5, result.Last());
+        }
+
+        [TestMethod]
+        public void SkipBetween()
+        {
+            var arr = "Hey there (buddy), what's up";
+
+            var result = arr.SkipBetween(x => x == '(', x => x == ')').Stringify();
+
+            Assert.AreEqual("Hey there (), what's up", result);
         }
     }
 }
