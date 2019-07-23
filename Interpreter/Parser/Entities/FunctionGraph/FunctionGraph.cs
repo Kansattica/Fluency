@@ -42,14 +42,16 @@ namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
                 {
                     if (newNode.Name == "Def") { continue; } //don't double add the definition
                     lastAdded.TopOut = newNode;
-                    lastAdded = newNode;
                 }
                 else
                 {
+                    if (lastAdded == Head) { lastAdded = null; }
                     if (token.ConnectsUpBefore)
                     {
                         //Find the one this connects to
-                        var connected = prevLine.First(x => x.Range.Contains(token.Range.Min));
+                        var connected = prevLine.FirstOrDefault(x => x.Range.Contains(token.Range.Min));
+                        if (connected == null)
+                            throw new ParseException("Could not connect to an input function above.") { FunctionToken = token };
                         connected.Node.BottomOut = newNode;
                         newNode.TopIn = connected.Node;
                     }
@@ -57,11 +59,23 @@ namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
                     if (token.ConnectsUpAfter)
                     {
                         //Find the one this connects to
-                        var connected = prevLine.First(x => x.Range.Contains(token.Range.Max));
+                        var connected = prevLine.FirstOrDefault(x => x.Range.Contains(token.Range.Max));
+                        if (connected == null)
+                            throw new ParseException("Could not connect to an output function above.") { FunctionToken = token };
                         connected.Node.BottomIn = newNode;
                         newNode.TopOut = connected.Node;
                     }
+
+                    if (token.ConnectsBefore)
+                    {
+                        if (lastAdded == null)
+                            throw new ParseException(@"No function before this on the same level to call. Did you mean \.?") { FunctionToken = token };
+
+                        lastAdded.TopOut = newNode;
+                        newNode.TopIn = lastAdded;
+                    }
                 }
+                lastAdded = newNode;
             }
 
             return processed;
@@ -79,11 +93,11 @@ namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
         {
             if (def.Name != "Def")
                 throw new ParseException("Function definitions must start with a call named Def, like this: " + example)
-                { LineNumber = def.Line, Snippet = def.Original, Range = def.Range };
+                { FunctionToken = def };
 
             if (def.Arguments.Length == 0)
                 throw new ParseException("Function definitions must have at leat one argument- the name: " + example)
-                { LineNumber = def.Line, Snippet = def.Original, Range = def.Range };
+                { FunctionToken = def };
 
         }
 

@@ -1,7 +1,7 @@
 //Note that this won't make much sense if tabs aren't four spaces wide in your editor
 
 Def(IsPrime, n).Dup().First().Sqrt().Floor().Range().MergeBottom().DivBy().Drain().MergeBottom()
-				\.Com("n has to go over here")./	            \.Equals*(0).Or&()./
+				\.Com("n has to go all the way over here")./	       \.Equals(0).Or()./
 
 //This isn't totally correct any more
 //Instead, each function call is a step in a pipeline
