@@ -12,21 +12,21 @@ namespace Fluency.Interpreter.Parser.Entities
         public int Line;
         public Range Range;
 
-        public FunctionToken(string toparse, int start, int end, int line)
+        public FunctionToken(string toparse, int start, int end)
         {
-            ParseNameAndArgs(toparse);
             Range = new Range(start, end);
+            ParseNameAndArgs(toparse);
         }
 
         private static readonly char[] _leftp = new[] { '(' }; //gotta give split arguments as arrays
         public void ParseNameAndArgs(string func)
         {
-            var s = func.Split(_leftp, 2);
-            Name = s[0];
-            string args = s[1].TrimEnd(')');
+            var s = func.Trim().Split(_leftp, 2);
+            Name = s[0].TrimStart('.', '\\');
+            string args = s[1].TrimEnd(')', '.', '/');
             if (!string.IsNullOrWhiteSpace(args))
             {
-                Arguments = args.Split(',');
+                Arguments = args.Split(',').Select(x => x.Trim()).ToArray();
             }
         }
 
