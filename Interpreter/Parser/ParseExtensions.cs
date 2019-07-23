@@ -24,22 +24,31 @@ namespace Fluency.Interpreter.Parser
             if (!source.Any())
                 yield break;
 
-            TSource curr = default(TSource), prev = default(TSource);
-            bool first = true;
+            TSource current, previous, twoAgo;
+            current = previous = twoAgo = default(TSource);
+
+            int idx = 0;
             foreach (TSource s in source)
             {
-                prev = curr;
-                curr = s;
-                if (!first)
-                    yield return prev;
-                else
-                    first = false;
+                twoAgo = previous;
+                previous = current;
+                current = s;
+
+                // if idx == 0, current has a value
+                // if idx == 1, prev and current have values
+                // if idx >= 2, prev, current, and twoago have values
+                if (idx >= 2)
+                    yield return twoAgo;
+                idx++;
             }
 
-            if (!first && predicate(curr))
-                yield return merge(prev, curr);
+            if ((idx >= 2) && predicate(current))
+                yield return merge(previous, current);
             else
-                yield return curr;
+            {
+                yield return previous;
+                yield return current;
+            }
 
         }
 

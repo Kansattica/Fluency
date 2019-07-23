@@ -80,5 +80,27 @@ namespace Fluency.Tests
             Assert.AreEqual(99, grouped.First().Last());
             Assert.IsTrue(Enumerable.Range(0, 100).SequenceEqual(grouped.SelectMany(x => x)));
         }
+
+        [TestMethod]
+        public void TestMergeIf()
+        {
+            var arr = new[] { 1, 2, 3, 4, 5 };
+
+            var result = arr.MergeLastTwoIf(x => x == 5, (prev, curr) => prev + curr);
+
+            Assert.AreEqual(4, result.Count());
+            Assert.IsTrue(result.SequenceEqual(new[] { 1, 2, 3, 9 }));
+        }
+
+        [TestMethod]
+        public void TestMergeIfPredicateFalse()
+        {
+            var arr = new[] { 1, 2, 3, 4, 5 };
+
+            var result = arr.MergeLastTwoIf(x => x == 6, (prev, curr) => prev + curr);
+
+            Assert.AreEqual(5, result.Count());
+            Assert.IsTrue(result.SequenceEqual(new[] { 1, 2, 3, 4, 5 }));
+        }
     }
 }
