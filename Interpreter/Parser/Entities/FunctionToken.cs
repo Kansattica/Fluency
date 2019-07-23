@@ -28,7 +28,11 @@ namespace Fluency.Interpreter.Parser.Entities
             {
                 Arguments = args.Split(',');
             }
+        }
 
+        public override string ToString()
+        {
+            return $"Name: {Name}, Args: {string.Join(", ", Arguments)}, LineNumber: {Line}, Range: {Range}";
         }
     }
 }
