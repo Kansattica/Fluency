@@ -53,7 +53,7 @@ Def(Range, a).Dup().First(true).Sub(1).Com("n-1").Dup().Equals(0).Switch().Com("
 // probably have a haskell-y .Flip for flipping arg order?
 Def(DupN, todup, n).Split().Sub(1).Dup().Equals(0).MergeTop().Com("todup todup n-1 [true|false]").Switch().Com("Return, we're done now")
 			 \.Dup().Com("todup todup")./	     					   \.Split().DupN().Id().MergeTop()./
-													\.Com("save a todup)./
+													\.Com("save a todup")./
 
 
 //Split alternates between the pipelines. first one goes straight, second goes off, and so on. if false, first one goes off.
