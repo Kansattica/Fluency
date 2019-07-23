@@ -52,11 +52,13 @@ namespace Fluency.Interpreter.Parser
                 return line.Contents.GroupUntil(x =>
                 { //don't count close parens inside string literals
                     numberOfQuotes += x == '"' ? 1 : 0;
-                    return numberOfQuotes % 2 == 0 ? x == ')' : false;
+                    return numberOfQuotes % 2 == 0 ? x == ')' || x == '/' : false;
                 }, inclusive: true)
-                .MergeLastTwoIf(x => x.Stringify().StartsWith("./"),
+                .MergeLastIf(x => x.Stringify().StartsWith("./"),
                     (previous, current) => new UntilGroup<char>(previous.Concat(current).ToList(), previous.Indexes.Min, current.Indexes.Max))
-                .Select(TokenizeFunction).ToList(); //if you don't evaluate a little, that catch block never gets called
+                .Select(TokenizeFunction)
+                .Select(x => { x.Line = line.Number; return x; })
+                .ToList(); //if you don't evaluate a little, that catch block never gets called
             }
             catch (ParseException ex)
             {
@@ -66,20 +68,23 @@ namespace Fluency.Interpreter.Parser
 
 
 
-        private FunctionToken TokenizeFunction(UntilGroup<char> parsedfunc, int line)
+        private FunctionToken TokenizeFunction(UntilGroup<char> parsedfunc, int nthfunc)
         {
             string func = parsedfunc.Stringify();
 
             try
             {
                 //CheckMatchingParens(func);
+                return new FunctionToken(func, parsedfunc.Indexes.Min, parsedfunc.Indexes.Max);
             }
-            catch (ParseException ex)
+            catch (Exception e)
             {
-                ex.Range = parsedfunc.Indexes; throw;
+                ParseException ex = new ParseException("Error occurred while parsing a function.", e);
+                ex.Snippet = func;
+                ex.Range = parsedfunc.Indexes;
+                throw ex;
             }
 
-            return new FunctionToken(func, parsedfunc.Indexes.Min, parsedfunc.Indexes.Max, line);
         }
 
         private bool CheckMatchingParens(string str)
