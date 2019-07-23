@@ -23,7 +23,8 @@ namespace Fluency.Interpreter.Parser
 
         public IEnumerable<IEnumerable<FunctionToken>> Parse(IEnumerable<string> lines)
         {
-            return lines.Select(Line.Create)
+            return lines.Select(x => x.TrimEnd())
+            .Select(Line.Create)
             .Where(x => !IsBlank(x.Contents)) //yeet blank lines
             .GroupUntil(x => x.Contents.StartsWith("Def(")) //group blank and nonblank lines
             .Select(Tokenize);
