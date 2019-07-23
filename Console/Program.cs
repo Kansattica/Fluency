@@ -11,6 +11,17 @@ namespace Fluency.CLI
         {
             ArgumentParser a = new ArgumentParser(args);
 
+            if (a.Inspect != null)
+            {
+                foreach (string toInspect in a.Inspect)
+                {
+                    Console.WriteLine(string.Join("\n", toInspect.Select((c, idx) => idx + ": " + c)));
+                    Console.Write(string.Join("\n", toInspect.GroupUntil(x => x == '.').Select(x => x.Stringify())));
+                }
+
+                return;
+            }
+
             Console.WriteLine("Welcome to Fluency!");
             var p = new Parser(a.Verbose);
 
