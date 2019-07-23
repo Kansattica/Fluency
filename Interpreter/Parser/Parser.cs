@@ -52,17 +52,29 @@ namespace Fluency.Interpreter.Parser
         {
             try
             {
-                int numberOfQuotes = 0;
-                return line.Contents.GroupUntil(x =>
-                { //don't count close parens inside string literals
-                    numberOfQuotes += x == '"' ? 1 : 0;
-                    return numberOfQuotes % 2 == 0 ? x == ')' || x == '/' : false;
-                }, inclusive: true)
+                int doublequotes = 0;
+                return line.Contents.GroupWhile((c, infunc) =>
+                {
+                    doublequotes += (c == '"' ? 1 : 0);
+                    if (infunc)
+                    {
+                        if ((c == ')' || c == '/') && (doublequotes % 2 == 0))
+                            return GroupWhileAction.LeaveInclude;
+                        return GroupWhileAction.In;
+                    }
+                    else
+                    {
+                        //Special case for Def, the only function call that doesn't start with . or \.
+                        if (c == 'D') { return GroupWhileAction.In; }
+                        if (c == '\\' || c == '.') { return GroupWhileAction.In; }
+                        return GroupWhileAction.StillOut;
+                    }
+                })
                 .MergeLastIf(x => x.Stringify().StartsWith("./"),
-                    (previous, current) => new UntilGroup<char>(previous.Concat(current).ToList(), previous.Indexes.Min, current.Indexes.Max))
+                    (previous, current) => new Grouped<char>(previous.Concat(current).ToList(), previous.Indexes.Min, current.Indexes.Max))
                 .Select(TokenizeFunction)
-                .Select(x => { x.Line = line.Number; return x; })
-                .ToList(); //if you don't evaluate a little, that catch block never gets called
+                .Select(x => { x.Line = line.Number; return x; });
+                // .ToList(); //if you don't evaluate a little, that catch block never gets called?
             }
             catch (ParseException ex)
             {
@@ -70,9 +82,7 @@ namespace Fluency.Interpreter.Parser
             }
         }
 
-
-
-        private FunctionToken TokenizeFunction(UntilGroup<char> parsedfunc, int nthfunc)
+        private FunctionToken TokenizeFunction(Grouped<char> parsedfunc, int nthfunc)
         {
             string func = parsedfunc.Stringify();
 

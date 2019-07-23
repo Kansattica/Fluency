@@ -10,6 +10,8 @@ namespace Fluency.Interpreter.Parser.Exceptions
         public Range Range { get; set; }
         public string Snippet { get; set; }
 
+        public FunctionToken FunctionToken { set { Range = value.Range; Snippet = value.Original; LineNumber = value.Line ?? LineNumber; } }
+
         public ParseException(string message) : base(message) { }
         public ParseException(string message, params object[] args) :
             base(String.Format(message, args))

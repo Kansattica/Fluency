@@ -36,7 +36,6 @@ namespace Fluency.Interpreter.Parser
                 if (!skipping)
                     yield return s;
             }
-
         }
 
         public static IEnumerable<TSource> MergeLastIf<TSource>(this IEnumerable<TSource> source,
@@ -84,7 +83,46 @@ namespace Fluency.Interpreter.Parser
                 yield return current;
         }
 
-        public static IEnumerable<UntilGroup<TSource>> GroupUntil<TSource>(this IEnumerable<TSource> source,
+        public static IEnumerable<Grouped<TSource>> GroupWhile<TSource>(this IEnumerable<TSource> source,
+            Func<TSource, bool, GroupWhileAction> predicate)
+        {
+            List<TSource> currentChunk = new List<TSource>();
+            int startIndex = 0, thisIndex = -1;
+            bool inGroup = false;
+            foreach (TSource s in source)
+            {
+                thisIndex++;
+                GroupWhileAction nextAction = predicate(s, inGroup);
+
+                switch (nextAction)
+                {
+                    case GroupWhileAction.In:
+                        if (!inGroup) startIndex = thisIndex;
+                        currentChunk.Add(s);
+                        inGroup = true;
+                        break;
+                    case GroupWhileAction.LeaveInclude:
+                        currentChunk.Add(s);
+                        goto case GroupWhileAction.LeaveExclude;
+                    case GroupWhileAction.LeaveExclude:
+                        yield return new Grouped<TSource>(currentChunk, startIndex, thisIndex);
+                        currentChunk = (nextAction == GroupWhileAction.LeaveInclude ? new List<TSource>() : new List<TSource> { s });
+                        inGroup = false;
+                        break;
+                    case GroupWhileAction.StillOut:
+                        inGroup = false;
+                        break;
+                }
+
+            }
+
+            if (currentChunk.Any())
+                yield return new Grouped<TSource>(currentChunk, startIndex, thisIndex - 1);
+        }
+
+
+
+        public static IEnumerable<Grouped<TSource>> GroupUntil<TSource>(this IEnumerable<TSource> source,
             Func<TSource, bool> predicate, bool inclusive = false)
         {
             List<TSource> currentChunk = new List<TSource>();
@@ -101,7 +139,7 @@ namespace Fluency.Interpreter.Parser
                         thisIndex++;
                     }
 
-                    yield return new UntilGroup<TSource>(currentChunk, startIndex, thisIndex - 1);
+                    yield return new Grouped<TSource>(currentChunk, startIndex, thisIndex - 1);
                     startIndex = thisIndex;
 
                     if (inclusive)
@@ -117,12 +155,12 @@ namespace Fluency.Interpreter.Parser
             }
 
             if (currentChunk.Any())
-                yield return new UntilGroup<TSource>(currentChunk, startIndex, thisIndex - 1);
+                yield return new Grouped<TSource>(currentChunk, startIndex, thisIndex - 1);
         }
 
     }
 
-    public class UntilGroup<TSource> : IEnumerable<TSource>
+    public class Grouped<TSource> : IEnumerable<TSource>
     {
         public Range Indexes { get; set; } = null;
         private List<TSource> GroupList { get; set; }
@@ -135,11 +173,11 @@ namespace Fluency.Interpreter.Parser
             foreach (var s in GroupList)
                 yield return s;
         }
-        public UntilGroup(List<TSource> source, int startIndex, int endIndex)
+        public Grouped(List<TSource> source, int startIndex, int endIndex)
         {
             GroupList = source;
             Indexes = new Range(startIndex, endIndex);
         }
-
     }
+    public enum GroupWhileAction { In, StillOut, LeaveInclude, LeaveExclude }
 }

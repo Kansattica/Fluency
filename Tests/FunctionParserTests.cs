@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using Fluency.Interpreter.Parser.Entities;
+using System.Text;
 
 namespace Fluency.Tests
 {
@@ -67,7 +68,7 @@ namespace Fluency.Tests
             Assert.AreEqual(50, grouped.First().Last());
             Assert.AreEqual(51, grouped.Last().First());
             Assert.AreEqual(99, grouped.Last().Last());
-            Assert.IsTrue(Enumerable.Range(0, 100).SequenceEqual(grouped.SelectMany(x => x)));
+            EqualEnumerables(Enumerable.Range(0, 100), grouped.SelectMany(x => x));
         }
 
         [TestMethod]
@@ -78,7 +79,7 @@ namespace Fluency.Tests
             Assert.AreEqual(1, grouped.Count());
             Assert.AreEqual(0, grouped.First().First());
             Assert.AreEqual(99, grouped.First().Last());
-            Assert.IsTrue(Enumerable.Range(0, 100).SequenceEqual(grouped.SelectMany(x => x)));
+            EqualEnumerables(Enumerable.Range(0, 100), grouped.SelectMany(x => x));
         }
 
         [TestMethod]
@@ -88,8 +89,7 @@ namespace Fluency.Tests
 
             var result = arr.MergeLastIf(x => x == 5, (prev, curr) => prev + curr);
 
-            Assert.AreEqual(4, result.Count());
-            Assert.IsTrue(result.SequenceEqual(new[] { 1, 2, 3, 9 }));
+            EqualEnumerables(new[] { 1, 2, 3, 9 }, result);
         }
 
         [TestMethod]
@@ -99,8 +99,7 @@ namespace Fluency.Tests
 
             var result = arr.MergeLastIf(x => x == 6, (prev, curr) => prev + curr);
 
-            Assert.AreEqual(5, result.Count());
-            Assert.IsTrue(result.SequenceEqual(new[] { 1, 2, 3, 4, 5 }));
+            EqualEnumerables(new[] { 1, 2, 3, 4, 5 }, result);
         }
 
         [TestMethod]
@@ -110,7 +109,7 @@ namespace Fluency.Tests
 
             var result = arr.MergeLastIf(x => x == 1, (prev, curr) => prev + curr);
 
-            Assert.IsTrue(result.SequenceEqual(new[] { 1, 3, 3, 5, 5 }));
+            EqualEnumerables(new[] { 1, 3, 3, 5, 5 }, result);
         }
 
         [TestMethod]
@@ -167,5 +166,104 @@ namespace Fluency.Tests
             Assert.AreEqual("Hey there (), what's up", result);
         }
 
+        [TestMethod]
+        public void GroupWhile()
+        {
+            var arr = @"    \.FunctionCall().AnotherFunctionCall(with, ""argum)(ents"")./    \.ThirdCall()./ ";
+
+            int doublequotes = 0;
+            var result = arr.GroupWhile((x, infunc) => FunctionParse(x, infunc, ref doublequotes));
+
+            EqualEnumerables(new Range[] { (4, 19), (20, 60), (61, 62), (67, 79), (80, 81) },
+                result.Select(x => x.Indexes));
+            EqualEnumerables(new[] { @"\.FunctionCall()", ".AnotherFunctionCall(with, \"argum)(ents\")", "./", @"\.ThirdCall()", "./" },
+             result.Select(x => x.Stringify()));
+        }
+
+        [TestMethod]
+        public void GroupWhileStart()
+        {
+            var arr = "Def(IsPrime, n).Dup().First().Sqrt().Floor().Range().MergeBottom().DivBy().Drain().MergeBottom()";
+
+            int doublequotes = 0;
+            var result = arr.GroupWhile((x, infunc) => FunctionParse(x, infunc, ref doublequotes));
+
+            EqualEnumerables(new Range[] { (0, 14), (15, 20), (21, 28), (29, 35), (36, 43), (44, 51), (52, 65), (66, 73), (74, 81), (82, 95) },
+                result.Select(x => x.Indexes));
+            EqualEnumerables(new[] { "Def(IsPrime, n)", ".Dup()", ".First()", ".Sqrt()", ".Floor()", ".Range()", ".MergeBottom()", ".DivBy()", ".Drain()", ".MergeBottom()" },
+             result.Select(x => x.Stringify()));
+        }
+
+        [TestMethod]
+        public void GroupWhileStartSpaces()
+        {
+            var arr = "     Def(IsPrime, n).Dup().First().Sqrt().Floor().Range().MergeBottom().DivBy().Drain().MergeBottom()";
+
+            int doublequotes = 0;
+            var result = arr.GroupWhile((x, infunc) => FunctionParse(x, infunc, ref doublequotes));
+
+            EqualEnumerables(new Range[] { (5, 19), (20, 25), (26, 33), (34, 40), (41, 48), (49, 56), (57, 70), (71, 78), (79, 86), (87, 100) },
+                result.Select(x => x.Indexes));
+            EqualEnumerables(new[] { "Def(IsPrime, n)", ".Dup()", ".First()", ".Sqrt()", ".Floor()", ".Range()", ".MergeBottom()", ".DivBy()", ".Drain()", ".MergeBottom()" },
+             result.Select(x => x.Stringify()));
+        }
+
+        private static GroupWhileAction FunctionParse(char c, bool infunc, ref int doublequotes)
+        {
+            doublequotes += (c == '"' ? 1 : 0);
+            if (infunc)
+            {
+                if ((c == ')' || c == '/') && (doublequotes % 2 == 0))
+                    return GroupWhileAction.LeaveInclude;
+                return GroupWhileAction.In;
+            }
+            else
+            {
+                //Special case for Def, the only function call that doesn't start with . or \.
+                if (c == 'D') { return GroupWhileAction.In; }
+                if (c == '\\' || c == '.') { return GroupWhileAction.In; }
+                return GroupWhileAction.StillOut;
+            }
+        }
+
+
+        private void EqualEnumerables<T>(IEnumerable<IEnumerable<T>> expected, IEnumerable<IEnumerable<T>> actual)
+        {
+            Assert.AreEqual(expected.Count(), actual.Count());
+            foreach (var pair in expected.Zip(actual, (ex, act) => (ex, act)))
+            {
+                EqualEnumerables(pair.ex, pair.act);
+            }
+        }
+        private void EqualEnumerables<T>(IEnumerable<T> expected, IEnumerable<T> actual)
+        {
+            if (!expected.SequenceEqual(actual))
+            {
+                Assert.Fail("(Expected subarray: {0} Got: {1})", Stringify(expected), Stringify(actual));
+            }
+        }
+
+        private string Stringify<T>(IEnumerable<IEnumerable<T>> toPrint)
+        {
+            StringBuilder sb = new StringBuilder("{");
+            bool first = true;
+            foreach (var subenum in toPrint)
+            {
+                if (!first)
+                    sb.Append(", ");
+                else
+                    first = false;
+
+                sb.Append(Stringify(subenum));
+            }
+            sb.Append("}");
+            return sb.ToString();
+        }
+
+        private string Stringify<T>(IEnumerable<T> en)
+        {
+            return "{" + string.Join(", ", en) + "}";
+        }
     }
+
 }
