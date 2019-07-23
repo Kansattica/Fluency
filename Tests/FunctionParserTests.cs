@@ -21,12 +21,15 @@ namespace Fluency.Tests
         [DataRow(@"Fun(1,2,3,""four"")", "Fun", 4)]
         [DataRow(@"Fun(""a string"")", "Fun", 1)]
         [DataRow(@"Fun(""a string"", 3, ""another string"", true, false)", "Fun", 5)]
-        public void FunctionParsingWorks(string teststr, string name, int argCount)
+        public void FunctionParsingWorks(string test, string name, int argCount)
         {
-            FunctionToken f = new FunctionToken(teststr, 0, teststr.Length, 0);
+            foreach (string teststr in new[] { test, @"\." + test, test + "./", @"\." + test + "./" })
+            {
+                FunctionToken f = new FunctionToken(teststr, 0, teststr.Length);
 
-            Assert.AreEqual(name, f.Name);
-            Assert.AreEqual(argCount, f.Arguments.Length);
+                Assert.AreEqual(name, f.Name);
+                Assert.AreEqual(argCount, f.Arguments.Length);
+            }
         }
 
         private readonly Dictionary<string, IEnumerable<(int min, int max)>> expectedGroups = new Dictionary<string, IEnumerable<(int min, int max)>>()
