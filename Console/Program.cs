@@ -16,7 +16,7 @@ namespace Fluency.CLI
                 foreach (string toInspect in a.Inspect)
                 {
                     Console.WriteLine(string.Join("\n", toInspect.Select((c, idx) => idx + ": " + c)));
-                    Console.Write(string.Join("\n", toInspect.GroupUntil(x => x == '.').Select(x => x.Stringify())));
+                    Console.Write(string.Join("\n", toInspect.GroupUntil(x => x == '.').Select(x => x.Stringify() + " " + x.Indexes)));
                 }
 
                 return;
