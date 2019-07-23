@@ -166,5 +166,6 @@ namespace Fluency.Tests
 
             Assert.AreEqual("Hey there (), what's up", result);
         }
+
     }
 }

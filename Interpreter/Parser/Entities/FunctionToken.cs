@@ -11,6 +11,7 @@ namespace Fluency.Interpreter.Parser.Entities
         public string[] Arguments { get; private set; } = new string[0];
         public int Line { get; set; } //this has to be set from outside
         public Range Range { get; private set; }
+        public string Original { get; private set; }
         public bool ConnectsUpBefore { get; private set; }
         public bool ConnectsUpAfter { get; private set; }
 
@@ -23,6 +24,7 @@ namespace Fluency.Interpreter.Parser.Entities
         private static readonly char[] _leftp = new[] { '(' }; //gotta give split arguments as arrays
         public void ParseNameAndArgs(string func)
         {
+            Original = func;
             var s = func.Trim().Split(_leftp, 2);
             ConnectsUpBefore = s[0].StartsWith(@"\.");
             ConnectsUpAfter = s[1].EndsWith("./");

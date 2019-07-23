@@ -22,7 +22,15 @@ namespace Fluency.CLI
             var fileLines = a.Leftover.SelectMany(x => File.ReadAllLines(x));
             var parsed = p.Parse(fileLines);
 
-            Console.Write(string.Join(Environment.NewLine, parsed.SelectMany(x => x).Select(x => x.ToString())));
+            if (!Directory.Exists("../Graphs")) { Directory.CreateDirectory("../Graphs"); }
+            foreach (var graph in parsed)
+            {
+                var writer = new GraphWriter();
+                writer.WalkFunctionGraph(graph.Head);
+                writer.Serialize("../Graphs/" + graph.Name + ".dgml");
+            }
+
+            // Console.Write(string.Join(Environment.NewLine, parsed.SelectMany(x => x).Select(x => x.ToString())));
         }
     }
 }

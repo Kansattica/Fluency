@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Fluency.Interpreter.Parser.Entities;
 using Fluency.Interpreter.Parser.Exceptions;
 using System.Runtime.CompilerServices;
+using Fluency.Interpreter.Parser.Entities.FunctionGraph;
 
 namespace Fluency.Interpreter.Parser
 {
@@ -21,19 +22,20 @@ namespace Fluency.Interpreter.Parser
             _spaces = Enumerable.Range(0, tabWidth).Select(_ => ' ').Stringify(); //ahh, fluent
         }
 
-        public IEnumerable<IEnumerable<FunctionToken>> Parse(IEnumerable<string> lines)
+        public IEnumerable<FunctionGraph> Parse(IEnumerable<string> lines)
         {
             return lines.Select(x => x.TrimEnd())
             .Select(ExpandTabs)
             .Select(Line.Create)
             .Where(x => !IsBlank(x.Contents)) //yeet blank lines
             .GroupUntil(x => x.Contents.StartsWith("Def(")) //group blank and nonblank lines
-            .Select(Tokenize);
+            .Select(Tokenize)
+            .Select(x => new FunctionGraph(x));
         }
 
         private string ExpandTabs(string toExpand) => toExpand.Replace("\t", _spaces);
 
-        private IEnumerable<FunctionToken> Tokenize(IEnumerable<Line> lines, int nthfunc)
+        private IEnumerable<IEnumerable<FunctionToken>> Tokenize(IEnumerable<Line> lines, int nthfunc)
         {
             if (_verbose)
             {
@@ -43,7 +45,7 @@ namespace Fluency.Interpreter.Parser
                 Console.WriteLine();
             }
 
-            return lines.SelectMany(TokenizeLine);
+            return lines.Select(TokenizeLine);
         }
 
         private IEnumerable<FunctionToken> TokenizeLine(Line line)
