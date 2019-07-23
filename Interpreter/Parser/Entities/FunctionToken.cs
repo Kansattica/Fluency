@@ -7,10 +7,12 @@ namespace Fluency.Interpreter.Parser.Entities
     public class FunctionToken
     {
         //public static Regex ExtractNameAndArgs = new Regex(@"(?<name>[a-zA-Z]+)\(((?<arguments>[0-9]+|true|false|[""].?[""]),? *)*\)", RegexOptions.ExplicitCapture);
-        public string Name;
-        public string[] Arguments = new string[0];
-        public int Line;
-        public Range Range;
+        public string Name { get; private set; }
+        public string[] Arguments { get; private set; } = new string[0];
+        public int Line { get; set; } //this has to be set from outside
+        public Range Range { get; private set; }
+        public bool ConnectsUpBefore { get; private set; }
+        public bool ConnectsUpAfter { get; private set; }
 
         public FunctionToken(string toparse, int start, int end)
         {
@@ -22,6 +24,8 @@ namespace Fluency.Interpreter.Parser.Entities
         public void ParseNameAndArgs(string func)
         {
             var s = func.Trim().Split(_leftp, 2);
+            ConnectsUpBefore = s[0].StartsWith(@"\.");
+            ConnectsUpAfter = s[1].EndsWith("./");
             Name = s[0].TrimStart('.', '\\');
             string args = s[1].TrimEnd(')', '.', '/');
             if (!string.IsNullOrWhiteSpace(args))
@@ -32,7 +36,7 @@ namespace Fluency.Interpreter.Parser.Entities
 
         public override string ToString()
         {
-            return $"Name: {Name}, Args: {string.Join(", ", Arguments)}, LineNumber: {Line}, Range: {Range}";
+            return $"Name: {Name}, Args: {string.Join(", ", Arguments)}, LineNumber: {Line}, Range: {Range}, Connects Before: {ConnectsUpBefore} After: {ConnectsUpAfter}";
         }
     }
 }
