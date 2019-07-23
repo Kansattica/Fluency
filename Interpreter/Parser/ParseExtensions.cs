@@ -17,7 +17,7 @@ namespace Fluency.Interpreter.Parser
             return sb.ToString();
         }
 
-        public static IEnumerable<TSource> MergeLastTwoIf<TSource>(this IEnumerable<TSource> source,
+        public static IEnumerable<TSource> MergeLastIf<TSource>(this IEnumerable<TSource> source,
             Func<TSource, bool> predicate,
             Func<TSource, TSource, TSource> merge)
         {
@@ -27,29 +27,39 @@ namespace Fluency.Interpreter.Parser
             TSource current, previous, twoAgo;
             current = previous = twoAgo = default(TSource);
 
-            int idx = 0;
+            int inPipeline = 0;
             foreach (TSource s in source)
             {
                 twoAgo = previous;
                 previous = current;
                 current = s;
+                inPipeline++;
 
-                // if idx == 0, current has a value
-                // if idx == 1, prev and current have values
-                // if idx >= 2, prev, current, and twoago have values
-                if (idx >= 2)
+                // if inPipeline == 1, current has a value
+                // if inPipeline == 2, current and previous have a value
+                // if inPipeline == 3, current, previous, and twoAgo all have values
+
+                if ((inPipeline >= 2) && predicate(current))
+                {
+                    if (inPipeline >= 3)
+                        yield return twoAgo;
+                    yield return merge(previous, current);
+                    inPipeline = 0; //flush the pipeline
+
+                }
+
+                if (inPipeline == 3)
+                {
                     yield return twoAgo;
-                idx++;
+                    inPipeline--;
+                }
             }
 
-            if ((idx >= 2) && predicate(current))
-                yield return merge(previous, current);
-            else
-            {
+            if (inPipeline >= 2)
                 yield return previous;
-                yield return current;
-            }
 
+            if (inPipeline >= 1)
+                yield return current;
         }
 
         public static IEnumerable<UntilGroup<TSource>> GroupUntil<TSource>(this IEnumerable<TSource> source,

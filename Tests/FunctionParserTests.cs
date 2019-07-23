@@ -86,7 +86,7 @@ namespace Fluency.Tests
         {
             var arr = new[] { 1, 2, 3, 4, 5 };
 
-            var result = arr.MergeLastTwoIf(x => x == 5, (prev, curr) => prev + curr);
+            var result = arr.MergeLastIf(x => x == 5, (prev, curr) => prev + curr);
 
             Assert.AreEqual(4, result.Count());
             Assert.IsTrue(result.SequenceEqual(new[] { 1, 2, 3, 9 }));
@@ -97,10 +97,64 @@ namespace Fluency.Tests
         {
             var arr = new[] { 1, 2, 3, 4, 5 };
 
-            var result = arr.MergeLastTwoIf(x => x == 6, (prev, curr) => prev + curr);
+            var result = arr.MergeLastIf(x => x == 6, (prev, curr) => prev + curr);
 
             Assert.AreEqual(5, result.Count());
             Assert.IsTrue(result.SequenceEqual(new[] { 1, 2, 3, 4, 5 }));
+        }
+
+        [TestMethod]
+        public void TestMergeIfMultiple()
+        {
+            var arr = new[] { 1, 2, 1, 3, 4, 1, 5 };
+
+            var result = arr.MergeLastIf(x => x == 1, (prev, curr) => prev + curr);
+
+            Assert.IsTrue(result.SequenceEqual(new[] { 1, 3, 3, 5, 5 }));
+        }
+
+        [TestMethod]
+        public void MergeIfEmpty()
+        {
+            var arr = new int[] { };
+
+            var result = arr.MergeLastIf(x => x == 1, (prev, curr) => prev + curr);
+
+            Assert.AreEqual(0, result.Count());
+        }
+
+        [TestMethod]
+        public void MergeIfOne()
+        {
+            var arr = new[] { 100 };
+
+            var result = arr.MergeLastIf(x => x == 1, (prev, curr) => prev + curr);
+
+            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(100, result.Single());
+        }
+
+        [TestMethod]
+        public void MergeIfTwo()
+        {
+            var arr = new[] { 100, 5 };
+
+            var result = arr.MergeLastIf(x => x == 5, (prev, curr) => prev - curr);
+
+            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(95, result.Single());
+        }
+
+        [TestMethod]
+        public void MergeIfTwoPredicateFalse()
+        {
+            var arr = new[] { 100, 5 };
+
+            var result = arr.MergeLastIf(x => x == 6, (prev, curr) => prev - curr);
+
+            Assert.AreEqual(2, result.Count());
+            Assert.AreEqual(100, result.First());
+            Assert.AreEqual(5, result.Last());
         }
     }
 }
