@@ -23,7 +23,7 @@ namespace Fluency.CLI
             }
 
             Console.WriteLine("Welcome to Fluency!");
-            var p = new Parser(a.Verbose);
+            var p = new Parser(a.Verbose, a.TabWarn);
 
             if (a.Verbose)
             {

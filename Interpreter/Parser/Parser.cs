@@ -12,16 +12,17 @@ namespace Fluency.Interpreter.Parser
 {
     public class Parser
     {
-        private bool _verbose = false;
-
+        private readonly bool _verbose = false;
+        private readonly bool _tabWarn;
         private readonly string _spaces;
 
-        public Parser(bool verbose = false, int tabWidth = 4)
+        public Parser(bool verbose = false, bool tabWarn = true, int tabWidth = 4)
         {
             _verbose = verbose;
             _spaces = Enumerable.Range(0, tabWidth).Select(_ => ' ').Stringify(); //ahh, fluent
             if (_spaces.Length != tabWidth)
                 throw new ArgumentException("Go yell at the programmer for expanding tabs wrong.");
+            _tabWarn = tabWarn;
         }
 
         public IEnumerable<FunctionGraph> Parse(IEnumerable<string> lines)
@@ -40,7 +41,7 @@ namespace Fluency.Interpreter.Parser
 
         private string ProblematicTabWarn(string line, int number)
         {
-            if (line.TrimStart().Contains('\t'))
+            if (_tabWarn && line.TrimStart().Contains('\t'))
                 Console.WriteLine("NOTE: Line {0} contains tabs after text. Many text editors use \"soft tabs\" that don't look four spaces wide all the time. Consider setting your editor to display hard tabs or using spaces to align code. Note that tabs at the beginning of a line, before any text, are fine.", number + 1);
             return line;
         }
