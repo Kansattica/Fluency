@@ -116,8 +116,8 @@ namespace Fluency.Interpreter.Parser
 
             }
 
-            if (currentChunk.Any())
-                yield return new Grouped<TSource>(currentChunk, startIndex, thisIndex - 1);
+            if (inGroup && currentChunk.Any())
+                yield return new Grouped<TSource>(currentChunk, startIndex, thisIndex);
         }
 
 
