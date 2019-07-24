@@ -28,7 +28,7 @@ namespace Fluency.Interpreter.Parser
         public Parser(bool verbose = false, bool tabWarn = true, int tabWidth = 4)
         {
             _verbose = verbose;
-            _spaces = Enumerable.Range(0, tabWidth).Select(_ => ' ').Stringify(); //ahh, fluent
+            _spaces = new string(' ', tabWidth);
             if (_spaces.Length != tabWidth)
                 throw new ArgumentException("Go yell at the programmer for expanding tabs wrong.");
             _tabWarn = tabWarn;
