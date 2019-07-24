@@ -1,7 +1,7 @@
 //Note that this won't make much sense if tabs aren't four spaces wide in your editor
 
 Def(IsPrime, n).Dup().First().Sqrt().Floor().Range().MergeBottom().DivBy().Drain().MergeBottom()
-				\.Com("n has to go all the way over here")./	       \.Equals(0).Or()./
+				\.Com("n has to go all the way over here")./           \.Equals(0).Or()./
 
 //This isn't totally correct any more
 //Instead, each function call is a step in a pipeline
@@ -32,7 +32,7 @@ Def(IsPrime, n).Dup().First().Sqrt().Floor().Range().MergeBottom().DivBy().Drain
 //div all other numbers in the pipeline by n and get the remainder
 //pipeline is [everything else, n]
 Def(DivBy, ..., n).First().Com("everything").Count().Com().Join(false).Com("n pairs of [pipeline element, n]").Div*()
-		    \.Switch(false)		\.MergeTop().DupN()./															\.Com("remainders")
+		    \.Switch(false)        \.MergeTop().DupN()./                                                            \.Com("remainders")
 				\.Comment("just n")./
 
 //maybe turn this pattern into a function because it seems useful
@@ -45,15 +45,8 @@ Def(DivBy, ..., n).First().Com("everything").Count().Com().Join(false).Com("n pa
 //all numbers from a to 0
 //use Range().Take(n) to get a to n and drop rest
 Def(Range, a).Dup().First(true).Sub(1).Com("n-1").Dup().Equals(0).Switch().Com(":)").MergeTop()
-			\.Com("n").Switch(false)		   \.Range().MergeBottom()./
+			\.Com("n").Switch(false)           \.Range().MergeBottom()./
 				      \.Comment("get n over here and put it first")./ 
-
-// make n copies of todup
-// pipeline contains [todup, n], with n being first
-// probably have a haskell-y .Flip for flipping arg order?
-Def(DupN, todup, n).Split().Sub(1).Dup().Equals(0).MergeTop().Com("todup todup n-1 [true|false]").Switch().Com("Return, we're done now")
-			 \.Dup().Com("todup todup")./	     					   \.Split().DupN().Id().MergeTop()./
-													\.Com("save a todup")./
 
 
 //Split alternates between the pipelines. first one goes straight, second goes off, and so on. if false, first one goes off.
