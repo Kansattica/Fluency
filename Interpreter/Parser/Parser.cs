@@ -20,11 +20,14 @@ namespace Fluency.Interpreter.Parser
         {
             _verbose = verbose;
             _spaces = Enumerable.Range(0, tabWidth).Select(_ => ' ').Stringify(); //ahh, fluent
+            if (_spaces.Length != tabWidth)
+                throw new ArgumentException("Go yell at the programmer for expanding tabs wrong.");
         }
 
         public IEnumerable<FunctionGraph> Parse(IEnumerable<string> lines)
         {
             return lines.Select(x => x.TrimEnd())
+            .Select(ProblematicTabWarn)
             .Select(ExpandTabs)
             .Select(Line.Create)
             .Where(x => !IsBlank(x.Contents)) //yeet blank lines
@@ -34,6 +37,13 @@ namespace Fluency.Interpreter.Parser
         }
 
         private string ExpandTabs(string toExpand) => toExpand.Replace("\t", _spaces);
+
+        private string ProblematicTabWarn(string line, int number)
+        {
+            if (line.TrimStart().Contains('\t'))
+                Console.WriteLine("NOTE: Line {0} contains tabs after text. Many text editors use \"soft tabs\" that don't look four spaces wide all the time. Consider setting your editor to display hard tabs or using spaces to align code. Note that tabs at the beginning of a line, before any text, are fine.", number + 1);
+            return line;
+        }
 
         private IEnumerable<IEnumerable<FunctionToken>> Tokenize(IEnumerable<Line> lines, int nthfunc)
         {
