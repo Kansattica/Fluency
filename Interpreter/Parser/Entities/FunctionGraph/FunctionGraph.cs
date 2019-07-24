@@ -12,69 +12,83 @@ namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
 
         public FunctionGraph(IEnumerable<IEnumerable<FunctionToken>> tokens)
         {
-            var definition = tokens.First().First();
-
-            CheckDefinition(definition);
-
-            Head = new FunctionNode(definition);
 
             // for each line, we want to go through each function
             // for each function, we want to store it in the graph and remember where it is, because 
             // things on the line below might want to connect to it.
 
-            IEnumerable<ProcessedFunction> prevLine = null;
-            foreach (var line in tokens)
-            {
+            IEnumerable<ProcessedFunction> prevLine = ProcessFirstLine(tokens.First());
+            foreach (var line in tokens.Skip(1))
                 prevLine = ProcessLine(line, prevLine);
+        }
+
+        private IEnumerable<ProcessedFunction> ProcessFirstLine(IEnumerable<FunctionToken> tokens)
+        {
+            FunctionNode lastAdded = null;
+            bool first = true;
+            List<ProcessedFunction> processed = new List<ProcessedFunction>();
+            foreach (var token in tokens)
+            {
+                FunctionNode newNode = new FunctionNode(token);
+                if (first)
+                {
+                    CheckDefinition(token);
+                    Head = newNode;
+                    lastAdded = Head;
+                    first = false;
+                }
+                processed.Add(new ProcessedFunction { Node = newNode, Token = token });
+                lastAdded.TopOut = newNode;
+                lastAdded = newNode;
             }
+            return processed;
         }
 
         private IEnumerable<ProcessedFunction> ProcessLine(IEnumerable<FunctionToken> tokens, IEnumerable<ProcessedFunction> prevLine)
         {
-            var processed = new List<ProcessedFunction>();
-
-            FunctionNode lastAdded = Head;
+            List<ProcessedFunction> processed = new List<ProcessedFunction>();
+            FunctionNode lastAdded = null;
             foreach (var token in tokens)
             {
+                bool atLeastOneConnection = false;
                 FunctionNode newNode = new FunctionNode(token);
                 processed.Add(new ProcessedFunction { Node = newNode, Token = token });
-                if (prevLine == null) //if this is the first row
+
+                if (token.ConnectsUpBefore)
                 {
-                    if (newNode.Name == "Def") { continue; } //don't double add the definition
+                    //Find the one this connects to
+                    var connected = prevLine.FirstOrDefault(x => x.Range.Contains(token.Range.Min));
+                    if (connected == null)
+                        throw new ParseException("Could not connect to an input function above.") { FunctionToken = token };
+                    connected.Node.BottomOut = newNode;
+                    newNode.TopIn = connected.Node;
+                    atLeastOneConnection = true;
+                }
+
+                if (token.ConnectsUpAfter)
+                {
+                    //Find the one this connects to
+                    var connected = prevLine.FirstOrDefault(x => x.Range.Contains(token.Range.Max));
+                    if (connected == null)
+                        throw new ParseException("Could not connect to an output function above.") { FunctionToken = token };
+                    connected.Node.BottomIn = newNode;
+                    newNode.TopOut = connected.Node;
+                    atLeastOneConnection = true;
+                }
+
+                if (token.ConnectsBefore)
+                {
+                    if (lastAdded == null)
+                        throw new ParseException(@"No function before this on the same level to call. Did you mean \.?") { FunctionToken = token };
+
                     lastAdded.TopOut = newNode;
+                    newNode.TopIn = lastAdded;
+                    atLeastOneConnection = true;
                 }
-                else
-                {
-                    if (lastAdded == Head) { lastAdded = null; }
-                    if (token.ConnectsUpBefore)
-                    {
-                        //Find the one this connects to
-                        var connected = prevLine.FirstOrDefault(x => x.Range.Contains(token.Range.Min));
-                        if (connected == null)
-                            throw new ParseException("Could not connect to an input function above.") { FunctionToken = token };
-                        connected.Node.BottomOut = newNode;
-                        newNode.TopIn = connected.Node;
-                    }
 
-                    if (token.ConnectsUpAfter)
-                    {
-                        //Find the one this connects to
-                        var connected = prevLine.FirstOrDefault(x => x.Range.Contains(token.Range.Max));
-                        if (connected == null)
-                            throw new ParseException("Could not connect to an output function above.") { FunctionToken = token };
-                        connected.Node.BottomIn = newNode;
-                        newNode.TopOut = connected.Node;
-                    }
+                if (!atLeastOneConnection)
+                    throw new ParseException(@"It doesn't look like this function connects to anything. Did you mean to connect it to a function above it?") { FunctionToken = token };
 
-                    if (token.ConnectsBefore)
-                    {
-                        if (lastAdded == null)
-                            throw new ParseException(@"No function before this on the same level to call. Did you mean \.?") { FunctionToken = token };
-
-                        lastAdded.TopOut = newNode;
-                        newNode.TopIn = lastAdded;
-                    }
-                }
                 lastAdded = newNode;
             }
 
