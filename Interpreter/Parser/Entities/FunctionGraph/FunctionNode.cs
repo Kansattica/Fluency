@@ -1,4 +1,6 @@
 
+using System.Linq;
+
 namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
 {
     /// <summary>
@@ -14,7 +16,7 @@ namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
         /// <summary>
         /// The function's declared arguments.
         /// </summary>
-        public string[] Arguments;
+        public Argument[] Arguments;
 
         /// <summary>
         /// The function that this reads from on top ("top" can be above or immediately before on the same level).
@@ -57,6 +59,6 @@ namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
         /// Return a string that looks like Name(arguments, like this)
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => $"{Name}({string.Join(", ", Arguments)})";
+        public override string ToString() => $"{Name}({Arguments.Stringify()})";
     }
 }

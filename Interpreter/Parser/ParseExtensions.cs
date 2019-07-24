@@ -20,6 +20,13 @@ namespace Fluency.Interpreter.Parser
         public static string Stringify(this IEnumerable<char> source) => string.Concat(source);
 
         /// <summary>
+        /// Prettyprint an array of Arguments, with a comma and space between each one.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string Stringify(this IEnumerable<Argument> source) => string.Join(", ", source.Select(x => x.ToString()));
+
+        /// <summary>
         /// Return elements from source until startPredicate returns true, then skip them until endPredicate returns true.
         /// Note that the element endPredicate returns true for will be returned.
         /// </summary>
@@ -133,7 +140,7 @@ namespace Fluency.Interpreter.Parser
                         goto case GroupWhileAction.LeaveExclude;
                     case GroupWhileAction.LeaveExclude:
                         yield return new Grouped<TSource>(currentChunk, startIndex, thisIndex);
-                        currentChunk = (nextAction == GroupWhileAction.LeaveInclude ? new List<TSource>() : new List<TSource> { s });
+                        currentChunk = new List<TSource>();
                         inGroup = false;
                         break;
                     case GroupWhileAction.StillOut:

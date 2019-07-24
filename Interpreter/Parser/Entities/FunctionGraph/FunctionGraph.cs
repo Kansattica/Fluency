@@ -19,13 +19,13 @@ namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
         /// Name of the function this graph represents.
         /// </summary>
         /// <value></value>
-        public string Name { get { return Head.Arguments[0]; } }
+        public string Name { get; private set; }
 
         /// <summary>
         /// The arguments this function has declared.
         /// </summary>
         /// <value></value>
-        public string[] Arguments { get { return Head.Arguments; } }
+        public Argument[] Arguments { get; private set; }
 
         /// <summary>
         /// Create a new function graph. This takes an IEnumerable of tokenized lines (which are themselves IEnumerables of tokens).
@@ -122,7 +122,7 @@ namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
             public Range Range { get { return Token.Range; } }
         }
 
-        private const string example = "\"Def(FunctionName)\" or \"Def(FunctionName, some, arguments)\"";
+        private const string example = "\"Def(FunctionName)\" or \"Def(FunctionName, int some, any arguments)\"";
         private void CheckDefinition(FunctionToken def)
         {
             if (def.Name != "Def")
@@ -132,6 +132,7 @@ namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
             if (def.Arguments.Length == 0)
                 throw new ParseException("Function definitions must have at leat one argument- the name: " + example)
                 { FunctionToken = def };
+
 
         }
 

@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Fluency.Interpreter.Parser.Exceptions;
 
 namespace Fluency.Interpreter.Parser.Entities
 {
@@ -19,13 +21,13 @@ namespace Fluency.Interpreter.Parser.Entities
         /// The arguments the function takes.
         /// </summary>
         /// <value></value>
-        public string[] Arguments { get; private set; } = new string[0];
+        public Argument[] Arguments { get; private set; } = new Argument[0];
 
         /// <summary>
         /// The line number this function was on. Not available when constructed, has to be set from the outside for better metadata and error location.
         /// </summary>
         /// <value></value>
-        public int? Line { get; set; } 
+        public int? Line { get; set; }
 
         /// <summary>
         /// The inclusive range of indexes this was in its original line.
@@ -81,8 +83,38 @@ namespace Fluency.Interpreter.Parser.Entities
             string args = s[1].TrimEnd(')', '.', '/');
             if (!string.IsNullOrWhiteSpace(args))
             {
-                Arguments = args.Split(',').Select(x => x.Trim()).ToArray();
+                Arguments = ParseArguments(SplitArgument(args).Select(x => x.Trim())).ToArray();
             }
+        }
+
+        private IEnumerable<Argument> ParseArguments(IEnumerable<string> args)
+        {
+            foreach (string arg in args)
+            {
+                if (!Argument.TryParse(arg, out Argument argument))
+                    throw new ParseException("Could not parse argument {0}", arg) { FunctionToken = this };
+
+                yield return argument;
+            }
+        }
+
+        private IEnumerable<string> SplitArgument(IEnumerable<char> source)
+        {
+            bool indoublequotes = false;
+            return source.GroupWhile((c, inArgument) =>
+            {
+                indoublequotes = (c == '"' ? !indoublequotes : indoublequotes);
+                if (inArgument)
+                {
+                    if (c == ',' && !indoublequotes) { return GroupWhileAction.LeaveExclude; }
+                    return GroupWhileAction.In;
+                }
+                else
+                {
+                    if (char.IsWhiteSpace(c)) { return GroupWhileAction.StillOut; }
+                    return GroupWhileAction.In;
+                }
+            }).Select(x => x.Stringify());
         }
 
         /// <summary>
@@ -91,7 +123,7 @@ namespace Fluency.Interpreter.Parser.Entities
         /// <returns></returns>
         public override string ToString()
         {
-            return $"Name: {Name}, Args: {string.Join(", ", Arguments)}, LineNumber: {Line}, Range: {Range}, Connects Before: {ConnectsUpBefore} After: {ConnectsUpAfter}";
+            return $"Name: {Name}, Args: {Arguments.Stringify()}, LineNumber: {Line}, Range: {Range}, Connects Before: {ConnectsUpBefore} After: {ConnectsUpAfter}";
         }
     }
 }

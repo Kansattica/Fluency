@@ -25,6 +25,12 @@
             The C# type this object is.
             </summary>
         </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.Argument.Name">
+            <summary>
+            Some arguments have names, such as those in declarations.
+            </summary>
+            <value></value>
+        </member>
         <member name="M:Fluency.Interpreter.Parser.Entities.Argument.#ctor">
             <summary>
             Make an empty argument.
@@ -87,45 +93,9 @@
             This argument, when found in Def, indicates that this function works on the whole pipeline at once.
             </summary>
         </member>
-        <member name="T:Fluency.Interpreter.Parser.Entities.ArgumentTypes.AnyArg">
-            <summary>
-            Represents an integer argument to a function.
-            </summary>
-        </member>
-        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.AnyArg.Type">
-            <summary>
-            The Fluency type this object is.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.AnyArg._realtype">
-            <summary>
-            The C# type this object is.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.AnyArg.TryParseArg(System.String)">
-            <summary>
-            If str represents a string (surrounded by quotes), make a AnyArg.  Otherwise, return null.
-            </summary>
-            <param name="str"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.AnyArg.ToString">
-            <summary>
-            Return "..."
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.AnyArg.Value">
-            <summary>
-            Get the value this argument represents.
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:Fluency.Interpreter.Parser.Entities.ArgumentTypes.EllipsisArg">
             <summary>
-            Represents an integer argument to a function.
+            Represents an ellipsis argument in a function declaration.
             </summary>
         </member>
         <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.EllipsisArg.Type">
@@ -197,7 +167,7 @@
         </member>
         <member name="T:Fluency.Interpreter.Parser.Entities.ArgumentTypes.FunctionArg">
             <summary>
-            Represents an integer argument to a function.
+            Represents a function argument to any function or a parameter a declared function takes.
             </summary>
         </member>
         <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.FunctionArg.Type">
@@ -212,9 +182,16 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.FunctionArg.DeclaredType">
+            <summary>
+            If this is a declaration of a parameter, what type is it
+            </summary>
+            <value></value>
+        </member>
         <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.FunctionArg.TryParseArg(System.String)">
             <summary>
             If str represents a function name (no quotes, letters only), make a FuncArg. Otherwise, return null.
+            In a declaration, function names can have a type, such as int n.
             </summary>
             <param name="str"></param>
             <returns></returns>
@@ -269,7 +246,7 @@
         </member>
         <member name="T:Fluency.Interpreter.Parser.Entities.ArgumentTypes.StringArg">
             <summary>
-            Represents an integer argument to a function.
+            Represents a string argument to a function.
             </summary>
         </member>
         <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.StringArg.Type">
@@ -566,6 +543,13 @@
         <member name="M:Fluency.Interpreter.Parser.ParseExtensions.Stringify(System.Collections.Generic.IEnumerable{System.Char})">
             <summary>
             Turn an IEnumerable of chars into a string.
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.ParseExtensions.Stringify(System.Collections.Generic.IEnumerable{Fluency.Interpreter.Parser.Entities.Argument})">
+            <summary>
+            Prettyprint an array of Arguments, with a comma and space between each one.
             </summary>
             <param name="source"></param>
             <returns></returns>

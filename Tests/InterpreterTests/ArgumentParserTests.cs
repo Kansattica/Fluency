@@ -127,21 +127,6 @@ namespace Fluency.Tests.Parser
             }
         }
 
-        [TestMethod]
-        public void CanParseAny()
-        {
-            if (Argument.TryParse("any", out var argument))
-            {
-                Assert.IsInstanceOfType(argument, typeof(AnyArg));
-                Assert.AreEqual("any", argument.GetAs<string>());
-                Assert.AreEqual(ParsedType.Any, argument.Type);
-            }
-            else
-            {
-                Assert.Fail("Could not parse any");
-            }
-        }
-
 
         [TestMethod]
         [DataRow("Howdy")]
@@ -164,6 +149,34 @@ namespace Fluency.Tests.Parser
         }
 
         [TestMethod]
+        [DataRow("int n", ParsedType.Int, "n")]
+        [DataRow("float floaty", ParsedType.Double, "floaty")]
+        [DataRow("double floaty", ParsedType.Double, "floaty")]
+        [DataRow("int    n", ParsedType.Int, "n")]
+        [DataRow("float \tfloaty", ParsedType.Double, "floaty")]
+        [DataRow("double    floaty", ParsedType.Double, "floaty")]
+        [DataRow("string n", ParsedType.String, "n")]
+        [DataRow("str string", ParsedType.String, "string")]
+        [DataRow("func f", ParsedType.Function, "f")]
+        [DataRow("fun predicate", ParsedType.Function, "predicate")]
+        [DataRow("any afun", ParsedType.Any, "afun")]
+        public void CanParseFunctionsWithTypenames(string toparse, ParsedType expectedType, string expectedName)
+        {
+            if (Argument.TryParse(toparse, out var argument))
+            {
+                Assert.IsInstanceOfType(argument, typeof(FunctionArg));
+                Assert.AreEqual(ParsedType.Function, argument.Type);
+                Assert.AreEqual(expectedName, argument.Name);
+                FunctionArg arg = (FunctionArg)argument;
+                Assert.AreEqual(expectedType, arg.DeclaredType);
+            }
+            else
+            {
+                Assert.Fail("Could not parse {0}.", toparse);
+            }
+        }
+
+        [TestMethod]
         [DataRow("\"H\"owdy")]
         [DataRow("Wor34234ds")]
         [DataRow("&*&^(^(&*^$")]
@@ -171,8 +184,15 @@ namespace Fluency.Tests.Parser
         [DataRow("Func22")]
         public void WontParse(string toparse)
         {
-            if (Argument.TryParse(toparse, out var argument))
-                Assert.Fail("Should not have parsed string {0}. Thought it was an {1}.", toparse, argument.Type);
+            try
+            {
+                if (Argument.TryParse(toparse, out var argument))
+                    Assert.Fail("Should not have parsed string {0}. Thought it was an {1}.", toparse, argument.Type);
+            }
+            catch (Exception ex) //This is fine, too.
+            {
+                Assert.AreEqual("ParseException", ex.GetType().Name);
+            }
         }
     }
 

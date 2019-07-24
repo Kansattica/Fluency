@@ -3,7 +3,7 @@ using System;
 namespace Fluency.Interpreter.Parser.Entities.ArgumentTypes
 {
     /// <summary>
-    /// Represents an integer argument to a function.
+    /// Represents an ellipsis argument in a function declaration.
     /// </summary>
     public class EllipsisArg : Argument
     {

@@ -3,7 +3,7 @@ using System;
 namespace Fluency.Interpreter.Parser.Entities.ArgumentTypes
 {
     /// <summary>
-    /// Represents an integer argument to a function.
+    /// Represents a string argument to a function.
     /// </summary>
     public class StringArg : Argument
     {
