@@ -43,7 +43,7 @@ namespace Fluency.Interpreter.Parser.Entities.ArgumentTypes
         /// <returns></returns>
         public static FunctionArg TryParseArg(string str)
         {
-            string functionName, paramName = null;
+            string functionName;
             ParsedType declType = ParsedType.Any;
             string[] halves = str.Split(_spliton, 2, StringSplitOptions.RemoveEmptyEntries);
 
@@ -51,14 +51,15 @@ namespace Fluency.Interpreter.Parser.Entities.ArgumentTypes
                 functionName = halves[0];
             else
             {
-                functionName = paramName = halves[1];
+                functionName = halves[1];
                 declType = PickType(halves[0]);
             }
 
-            if (functionName.All(c => char.IsLetter(c)))
+            if (functionName.All(c => char.IsLetter(c)) || functionName == "...")
             {
-                return new FunctionArg(functionName) { DeclaredType = declType, Name = paramName };
+                return new FunctionArg(functionName) { DeclaredType = declType };
             }
+
             return null;
         }
 

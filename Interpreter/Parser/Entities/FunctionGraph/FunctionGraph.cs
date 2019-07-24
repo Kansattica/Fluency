@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Fluency.Interpreter.Parser.Entities.ArgumentTypes;
 using Fluency.Interpreter.Parser.Exceptions;
 
 namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
@@ -133,6 +134,14 @@ namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
                 throw new ParseException("Function definitions must have at leat one argument- the name: " + example)
                 { FunctionToken = def };
 
+            foreach (Argument arg in def.Arguments)
+            {
+                FunctionArg argument = arg as FunctionArg;
+
+                if (argument == null)
+                    throw new ParseException("Incorrect formal parameter declaration. All parameters must have alphabetic names and no quotes.");
+
+            }
 
         }
 

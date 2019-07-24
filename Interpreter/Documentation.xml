@@ -25,12 +25,6 @@
             The C# type this object is.
             </summary>
         </member>
-        <member name="P:Fluency.Interpreter.Parser.Entities.Argument.Name">
-            <summary>
-            Some arguments have names, such as those in declarations.
-            </summary>
-            <value></value>
-        </member>
         <member name="M:Fluency.Interpreter.Parser.Entities.Argument.#ctor">
             <summary>
             Make an empty argument.
@@ -85,49 +79,8 @@
         </member>
         <member name="F:Fluency.Interpreter.Parser.Entities.ParsedType.Any">
             <summary>
-            When found in Def, indicates that the next argument can be of any type.
+            When found in Def, indicates that the argument can be of any type.
             </summary>
-        </member>
-        <member name="F:Fluency.Interpreter.Parser.Entities.ParsedType.Ellipsis">
-            <summary>
-            This argument, when found in Def, indicates that this function works on the whole pipeline at once.
-            </summary>
-        </member>
-        <member name="T:Fluency.Interpreter.Parser.Entities.ArgumentTypes.EllipsisArg">
-            <summary>
-            Represents an ellipsis argument in a function declaration.
-            </summary>
-        </member>
-        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.EllipsisArg.Type">
-            <summary>
-            The Fluency type this object is.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.EllipsisArg._realtype">
-            <summary>
-            The C# type this object is.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.EllipsisArg.TryParseArg(System.String)">
-            <summary>
-            If str represents a string (surrounded by quotes), make a EllipsisArg.  Otherwise, return null.
-            </summary>
-            <param name="str"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.EllipsisArg.ToString">
-            <summary>
-            Return "..."
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.EllipsisArg.Value">
-            <summary>
-            Get the value this argument represents.
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:Fluency.Interpreter.Parser.Entities.ArgumentTypes.DoubleArg">
             <summary>

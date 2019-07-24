@@ -113,22 +113,6 @@ namespace Fluency.Tests.Parser
         }
 
         [TestMethod]
-        public void CanParseEllipsis()
-        {
-            if (Argument.TryParse("...", out var argument))
-            {
-                Assert.IsInstanceOfType(argument, typeof(EllipsisArg));
-                Assert.AreEqual("...", argument.GetAs<string>());
-                Assert.AreEqual(ParsedType.Ellipsis, argument.Type);
-            }
-            else
-            {
-                Assert.Fail("Could not parse ...");
-            }
-        }
-
-
-        [TestMethod]
         [DataRow("Howdy")]
         [DataRow("Switch")]
         [DataRow("CoolFunc")]
@@ -160,13 +144,15 @@ namespace Fluency.Tests.Parser
         [DataRow("func f", ParsedType.Function, "f")]
         [DataRow("fun predicate", ParsedType.Function, "predicate")]
         [DataRow("any afun", ParsedType.Any, "afun")]
+        [DataRow("...", ParsedType.Any, "...")]
+        [DataRow("int ...", ParsedType.Int, "...")]
         public void CanParseFunctionsWithTypenames(string toparse, ParsedType expectedType, string expectedName)
         {
             if (Argument.TryParse(toparse, out var argument))
             {
                 Assert.IsInstanceOfType(argument, typeof(FunctionArg));
                 Assert.AreEqual(ParsedType.Function, argument.Type);
-                Assert.AreEqual(expectedName, argument.Name);
+                Assert.AreEqual(expectedName, argument.GetAs<string>());
                 FunctionArg arg = (FunctionArg)argument;
                 Assert.AreEqual(expectedType, arg.DeclaredType);
             }

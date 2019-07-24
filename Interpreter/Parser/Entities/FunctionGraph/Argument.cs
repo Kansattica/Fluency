@@ -22,12 +22,6 @@ namespace Fluency.Interpreter.Parser.Entities
         protected abstract Type _realtype { get; }
 
         /// <summary>
-        /// Some arguments have names, such as those in declarations.
-        /// </summary>
-        /// <value></value>
-        public string Name { get; set; }
-
-        /// <summary>
         /// Make an empty argument.
         /// </summary>
         protected Argument() { }
@@ -53,7 +47,7 @@ namespace Fluency.Interpreter.Parser.Entities
 
         private delegate Argument TryParser(string arg);
         private static readonly TryParser[] parsers =
-            new TryParser[] { IntArg.TryParseArg, DoubleArg.TryParseArg, StringArg.TryParseArg, EllipsisArg.TryParseArg, FunctionArg.TryParseArg };
+            new TryParser[] { IntArg.TryParseArg, DoubleArg.TryParseArg, StringArg.TryParseArg, FunctionArg.TryParseArg };
 
         /// <summary>
         /// Attempt to return this function's value as a type T.
@@ -95,13 +89,8 @@ namespace Fluency.Interpreter.Parser.Entities
         Function,
 
         /// <summary>
-        /// When found in Def, indicates that the next argument can be of any type.
+        /// When found in Def, indicates that the argument can be of any type.
         /// </summary>
         Any,
-
-        /// <summary>
-        /// This argument, when found in Def, indicates that this function works on the whole pipeline at once.
-        /// </summary>
-        Ellipsis
     }
 }
