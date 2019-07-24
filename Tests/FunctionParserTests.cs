@@ -178,6 +178,7 @@ namespace Fluency.Tests
                 result.Select(x => x.Indexes));
             EqualEnumerables(new[] { @"\.FunctionCall()", ".AnotherFunctionCall(with, \"argum)(ents\")", "./", @"\.ThirdCall()", "./" },
              result.Select(x => x.Stringify()));
+            Assert.AreEqual(arr.TrimEnd().Length - 1, result.Last().Indexes.Max); //.Length counts from one, so
         }
 
         [TestMethod]
@@ -192,6 +193,7 @@ namespace Fluency.Tests
                 result.Select(x => x.Indexes));
             EqualEnumerables(new[] { "Def(IsPrime, n)", ".Dup()", ".First()", ".Sqrt()", ".Floor()", ".Range()", ".MergeBottom()", ".DivBy()", ".Drain()", ".MergeBottom()" },
              result.Select(x => x.Stringify()));
+            Assert.AreEqual(arr.TrimEnd().Length - 1, result.Last().Indexes.Max);
         }
 
         [TestMethod]
@@ -206,20 +208,76 @@ namespace Fluency.Tests
                 result.Select(x => x.Indexes));
             EqualEnumerables(new[] { "Def(IsPrime, n)", ".Dup()", ".First()", ".Sqrt()", ".Floor()", ".Range()", ".MergeBottom()", ".DivBy()", ".Drain()", ".MergeBottom()" },
              result.Select(x => x.Stringify()));
+            Assert.AreEqual(arr.TrimEnd().Length - 1, result.Last().Indexes.Max);
         }
 
         [TestMethod]
         public void GroupWhileNoBranchUp()
         {
-            var arr = @"     \.Switch(false)        \.MergeTop().DupN()./                        \.Com(""remainders"")";
+            var arr = @"												\.Switch(false)		\.MergeTop().DupN()./						\.Com(""remainders"")"
+            .Replace("\t", "    ");
+            int doublequotes = 0;
+            var result = arr.GroupWhile((x, infunc) => FunctionParse(x, infunc, ref doublequotes));
+
+            var expectedRanges = new Range[] { (48, 62), (71, 82), (83, 89), (90, 91), (116, 134) };
+            var expectedStrings = new[] { @"\.Switch(false)", @"\.MergeTop()", ".DupN()", "./", @"\.Com(""remainders"")" };
+            EqualEnumerables(expectedRanges, result.Select(x => x.Indexes));
+            EqualEnumerables(expectedStrings, result.Select(x => x.Stringify()));
+            foreach (var pair in expectedRanges.Zip(expectedStrings, (ran, str) => (ran, str)))
+            {
+                Assert.AreEqual(pair.str, IndexedSubstring(arr, pair.ran));
+            }
+            Assert.AreEqual(arr.TrimEnd().Length - 1, result.Last().Indexes.Max);
+        }
+
+        [TestMethod]
+        public void GroupWhileSmall()
+        {
+            var arr = @"\.Func()";
 
             int doublequotes = 0;
             var result = arr.GroupWhile((x, infunc) => FunctionParse(x, infunc, ref doublequotes));
 
-            EqualEnumerables(new Range[] { (5, 19), (28, 39), (40, 46), (47, 48), (73, 91) },
+            EqualEnumerables(new Range[] { (0, 7) },
                 result.Select(x => x.Indexes));
-            EqualEnumerables(new[] { @"\.Switch(false)", @"\.MergeTop()", ".DupN()", "./", @"\.Com(""remainders"")" },
+            EqualEnumerables(new[] { @"\.Func()" },
              result.Select(x => x.Stringify()));
+            Assert.AreEqual(arr.TrimEnd().Length - 1, result.Last().Indexes.Max);
+        }
+
+        [TestMethod]
+        public void GroupWhileLeftoverIn()
+        {
+            var arr = new[] { 1, 2, 3, 4, 5 };
+
+            var result = arr.GroupWhile((a, b) => GroupWhileAction.In);
+
+            EqualEnumerables(arr, result.Single());
+        }
+
+        [TestMethod]
+        public void GroupWhileLeftoverOut()
+        {
+            var arr = new[] { 1, 2, 3, 4, 5 };
+
+            var result = arr.GroupWhile((a, b) => GroupWhileAction.StillOut);
+
+            Assert.AreEqual(0, result.Count());
+        }
+
+        [TestMethod]
+        public void GroupWhileExclude()
+        {
+            var arr = new[] { 1, 2, 3, 4, 5 };
+
+            var result = arr.GroupWhile((a, state) => a <= 3 ? GroupWhileAction.In : (state ? GroupWhileAction.LeaveExclude : GroupWhileAction.StillOut));
+
+            EqualEnumerables(new[] { 1, 2, 3 }, result.Single());
+        }
+
+        private static string IndexedSubstring(string str, Range range)
+        {
+            return str.Substring(range.Min, 1 + range.Max - range.Min);
         }
 
         private static GroupWhileAction FunctionParse(char c, bool infunc, ref int doublequotes)
