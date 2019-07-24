@@ -33,7 +33,6 @@ namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
         /// <param name="tokens"></param>
         public FunctionGraph(IEnumerable<IEnumerable<FunctionToken>> tokens)
         {
-
             // for each line, we want to go through each function
             // for each function, we want to store it in the graph and remember where it is, because 
             // things on the line below might want to connect to it.
