@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="15" Label="Def(DivBy, ..., n)" />
+    <Node Id="17" Label="First()" />
+    <Node Id="18" Label="Com(&quot;everything&quot;)" />
+    <Node Id="19" Label="Count()" />
+    <Node Id="20" Label="Com()" />
+    <Node Id="21" Label="Join(false)" />
+    <Node Id="22" Label="Com(&quot;n pairs of [pipeline element, n]&quot;)" />
+    <Node Id="23" Label="Div()" />
+    <Node Id="27" Label="Com(&quot;remainders&quot;)" />
+    <Node Id="return27" Label="Return" />
+    <Node Id="25" Label="MergeTop()" />
+    <Node Id="26" Label="DupN()" />
+    <Node Id="24" Label="Switch(false)" />
+    <Node Id="28" Label="Comment(&quot;just n&quot;)" />
+  </Nodes>
+  <Links>
+    <Link Source="27" Target="return27" Label="return" />
+    <Link Source="23" Target="27" Label="bottom" />
+    <Link Source="22" Target="23" Label="top" />
+    <Link Source="21" Target="22" Label="top" />
+    <Link Source="26" Target="22" Label="top" />
+    <Link Source="25" Target="26" Label="top" />
+    <Link Source="21" Target="25" Label="bottom" />
+    <Link Source="20" Target="21" Label="top" />
+    <Link Source="19" Target="20" Label="top" />
+    <Link Source="28" Target="25" Label="top" />
+    <Link Source="24" Target="28" Label="bottom" />
+    <Link Source="19" Target="24" Label="bottom" />
+    <Link Source="18" Target="19" Label="top" />
+    <Link Source="17" Target="18" Label="top" />
+    <Link Source="15" Target="17" Label="top" />
+  </Links>
+</DirectedGraph>

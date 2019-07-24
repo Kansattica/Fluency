@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="1" Label="Def(IsPrime, n)" />
+    <Node Id="3" Label="Dup()" />
+    <Node Id="4" Label="First()" />
+    <Node Id="5" Label="Sqrt()" />
+    <Node Id="6" Label="Floor()" />
+    <Node Id="7" Label="Range()" />
+    <Node Id="8" Label="MergeBottom()" />
+    <Node Id="9" Label="DivBy()" />
+    <Node Id="10" Label="Drain()" />
+    <Node Id="11" Label="MergeBottom()" />
+    <Node Id="return11" Label="Return" />
+    <Node Id="13" Label="Equals(0)" />
+    <Node Id="14" Label="Or()" />
+    <Node Id="12" Label="Com(&quot;n has to go all the way over here&quot;)" />
+  </Nodes>
+  <Links>
+    <Link Source="11" Target="return11" Label="return" />
+    <Link Source="10" Target="11" Label="top" />
+    <Link Source="9" Target="10" Label="top" />
+    <Link Source="14" Target="11" Label="top" />
+    <Link Source="13" Target="14" Label="top" />
+    <Link Source="9" Target="13" Label="bottom" />
+    <Link Source="8" Target="9" Label="top" />
+    <Link Source="7" Target="8" Label="top" />
+    <Link Source="6" Target="7" Label="top" />
+    <Link Source="5" Target="6" Label="top" />
+    <Link Source="4" Target="5" Label="top" />
+    <Link Source="3" Target="4" Label="top" />
+    <Link Source="12" Target="8" Label="top" />
+    <Link Source="3" Target="12" Label="bottom" />
+    <Link Source="1" Target="3" Label="top" />
+  </Links>
+</DirectedGraph>
