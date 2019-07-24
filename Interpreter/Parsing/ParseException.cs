@@ -1,7 +1,7 @@
 using System;
-using Fluency.Interpreter.Parser.Entities;
+using Fluency.Interpreter.Parsing.Entities;
 
-namespace Fluency.Interpreter.Parser.Exceptions
+namespace Fluency.Interpreter.Parsing.Exceptions
 {
     class ParseException : Exception
     {

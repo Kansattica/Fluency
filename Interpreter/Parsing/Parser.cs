@@ -3,12 +3,12 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using Fluency.Interpreter.Parser.Entities;
-using Fluency.Interpreter.Parser.Exceptions;
+using Fluency.Interpreter.Parsing.Entities;
+using Fluency.Interpreter.Parsing.Exceptions;
 using System.Runtime.CompilerServices;
-using Fluency.Interpreter.Parser.Entities.FunctionGraph;
+using Fluency.Interpreter.Parsing.Entities.FunctionGraph;
 
-namespace Fluency.Interpreter.Parser
+namespace Fluency.Interpreter.Parsing
 {
     /// <summary>
     /// Represents a Fluency parser.

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using Fluency.Interpreter.Parser.Entities.ArgumentTypes;
-using Fluency.Interpreter.Parser.Exceptions;
+using Fluency.Interpreter.Parsing.Entities.ArgumentTypes;
+using Fluency.Interpreter.Parsing.Exceptions;
 
-namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
+namespace Fluency.Interpreter.Parsing.Entities.FunctionGraph
 {
     /// <summary>
     /// Represents a single user-defined function and all the functions that implement it.

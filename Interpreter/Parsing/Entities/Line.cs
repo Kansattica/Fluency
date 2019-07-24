@@ -1,4 +1,4 @@
-namespace Fluency.Interpreter.Parser.Entities
+namespace Fluency.Interpreter.Parsing.Entities
 {
     /// <summary>
     /// Represents a raw line from the source file.

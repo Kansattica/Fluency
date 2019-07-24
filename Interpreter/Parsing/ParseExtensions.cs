@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Fluency.Interpreter.Parser.Entities;
+using Fluency.Interpreter.Parsing.Entities;
 
-namespace Fluency.Interpreter.Parser
+namespace Fluency.Interpreter.Parsing
 {
     /// <summary>
     /// A collection of extension methods to help with parsing.

@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
-using Fluency.Interpreter.Parser.Exceptions;
+using Fluency.Interpreter.Parsing.Exceptions;
 
-namespace Fluency.Interpreter.Parser.Entities.ArgumentTypes
+namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
 {
     /// <summary>
     /// Represents a function argument to any function or a parameter a declared function takes.

@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
-using Fluency.Interpreter.Parser.Entities.ArgumentTypes;
+using Fluency.Interpreter.Parsing.Entities.ArgumentTypes;
 
-namespace Fluency.Interpreter.Parser.Entities
+namespace Fluency.Interpreter.Parsing.Entities
 {
     /// <summary>
     /// Represents a parsed function argument.

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Fluency.Interpreter.Parser;
+using Fluency.Interpreter.Parsing;
 
 namespace Fluency.CLI
 {

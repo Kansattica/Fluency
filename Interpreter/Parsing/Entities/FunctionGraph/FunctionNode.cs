@@ -1,7 +1,7 @@
 
 using System.Linq;
 
-namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
+namespace Fluency.Interpreter.Parsing.Entities.FunctionGraph
 {
     /// <summary>
     /// Represents a single function in a pipeline.

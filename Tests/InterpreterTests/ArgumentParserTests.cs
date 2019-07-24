@@ -1,9 +1,9 @@
 using System;
-using Fluency.Interpreter.Parser.Entities;
-using Fluency.Interpreter.Parser.Entities.ArgumentTypes;
+using Fluency.Interpreter.Parsing.Entities;
+using Fluency.Interpreter.Parsing.Entities.ArgumentTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Fluency.Tests.Parser
+namespace Fluency.Tests.Parsing
 {
     [TestClass]
     public class ArgumentParserTests

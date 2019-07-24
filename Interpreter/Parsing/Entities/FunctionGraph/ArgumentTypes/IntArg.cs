@@ -1,46 +1,47 @@
 using System;
+using System.Linq;
 
-namespace Fluency.Interpreter.Parser.Entities.ArgumentTypes
+namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
 {
     /// <summary>
-    /// Represents a string argument to a function.
+    /// Represents an integer argument to a function.
     /// </summary>
-    public class StringArg : Argument
+    public class IntArg : Argument
     {
         /// <summary>
         /// The Fluency type this object is.
         /// </summary>
         /// <value></value>
-        public override ParsedType Type { get { return ParsedType.String; } }
+        public override ParsedType Type { get { return ParsedType.Int; } }
 
-        private string _value;
+        private int _value;
 
-        private StringArg(string value)
+        private IntArg(int value)
         {
             _value = value;
         }
 
         /// <summary>
-        /// If str represents a string (surrounded by quotes), make a StringArg.  Otherwise, return null.
+        /// If str represents an integer, make an IntArg.  Otherwise, return null.
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static StringArg TryParseArg(string str)
+        public static IntArg TryParseArg(string str)
         {
-            if (str[0] == '"' && str[str.Length - 1] == '"')
+            if (int.TryParse(str, out var i))
             {
-                return new StringArg(str.Substring(1, str.Length - 2).Replace("\\\"", "\""));
+                return new IntArg(i);
             }
             return null;
         }
 
         /// <summary>
-        /// Return the stored string.
+        /// Return the stored integer as a string.
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
-            return _value;
+            return _value.ToString();
         }
 
         /// <summary>

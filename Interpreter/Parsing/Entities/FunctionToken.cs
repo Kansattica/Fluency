@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Fluency.Interpreter.Parser.Exceptions;
+using Fluency.Interpreter.Parsing.Exceptions;
 
-namespace Fluency.Interpreter.Parser.Entities
+namespace Fluency.Interpreter.Parsing.Entities
 {
     /// <summary>
     /// Represents a parsed function from source control.

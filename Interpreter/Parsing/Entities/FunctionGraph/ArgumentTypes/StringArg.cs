@@ -1,46 +1,46 @@
 using System;
 
-namespace Fluency.Interpreter.Parser.Entities.ArgumentTypes
+namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
 {
     /// <summary>
-    /// Represents a double argument to a function.
+    /// Represents a string argument to a function.
     /// </summary>
-    public class DoubleArg : Argument
+    public class StringArg : Argument
     {
         /// <summary>
         /// The Fluency type this object is.
         /// </summary>
         /// <value></value>
-        public override ParsedType Type { get { return ParsedType.Double; } }
+        public override ParsedType Type { get { return ParsedType.String; } }
 
-        private double _value;
+        private string _value;
 
-        private DoubleArg(double value)
+        private StringArg(string value)
         {
             _value = value;
         }
 
         /// <summary>
-        /// If str represents a double, make a DoubleArg.  Otherwise, return null.
+        /// If str represents a string (surrounded by quotes), make a StringArg.  Otherwise, return null.
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static DoubleArg TryParseArg(string str)
+        public static StringArg TryParseArg(string str)
         {
-            if (double.TryParse(str, out var i))
+            if (str[0] == '"' && str[str.Length - 1] == '"')
             {
-                return new DoubleArg(i);
+                return new StringArg(str.Substring(1, str.Length - 2).Replace("\\\"", "\""));
             }
             return null;
         }
 
         /// <summary>
-        /// Return the stored double as a string.
+        /// Return the stored string.
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
-            return _value.ToString();
+            return _value;
         }
 
         /// <summary>
