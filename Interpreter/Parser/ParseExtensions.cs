@@ -17,7 +17,7 @@ namespace Fluency.Interpreter.Parser
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static string Stringify(this IEnumerable<char> source) => string.Join("", source);
+        public static string Stringify(this IEnumerable<char> source) => string.Concat(source);
 
         /// <summary>
         /// Return elements from source until startPredicate returns true, then skip them until endPredicate returns true.
@@ -232,7 +232,8 @@ namespace Fluency.Interpreter.Parser
     /// <summary>
     /// Actions you can instruct <see cref="ParseExtensions.GroupWhile{TSource}(IEnumerable{TSource}, Func{TSource, bool, GroupWhileAction})"/> to take from its callback.
     /// </summary>
-    public enum GroupWhileAction {
+    public enum GroupWhileAction
+    {
 
         /// <summary>
         /// Add the current item into the group, starting a new one if necessary.
