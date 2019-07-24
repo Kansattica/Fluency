@@ -56,7 +56,7 @@ namespace Fluency.CLI
                 {
                     var writer = new GraphWriter();
                     writer.WalkFunctionGraph(graph.Head);
-                    writer.Serialize(graph.Name + ".dgml");
+                    writer.Serialize("../Graphs/" + graph.Name + ".dgml");
                     Console.WriteLine("Wrote graph for " + graph.Name);
                 }
 
@@ -82,7 +82,7 @@ namespace Fluency.CLI
                 ("--tab-warn", "Enable warning when tabs appear in source after text. This is the default."),
                 ("--autofix", "Expand tabs after text and write back to input file."),
                 ("-t [number], --tab-width [number]", "How many spaces a tab is equal to. Defaults to four."),
-                ("-w, --write-graph", "Write each function's parsed graph to [FunctionName].dgml"),
+                ("-w, --write-graph", "Write each function's parsed graph to ../Graphs/[FunctionName].dgml"),
                 ("-p, --print-graph", "Print each function's parsed graph to stdout."),
                 ("-p, --print-graph", "Print each function's parsed graph to stdout."),
                 ("--unicode-arrows", "Show nice unicode arrows instead of the text ones when printing the graph to the console with -p. You may have to set unicode support in your terminal."),
