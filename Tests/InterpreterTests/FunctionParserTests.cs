@@ -33,31 +33,6 @@ namespace Fluency.Tests.Parser
             }
         }
 
-        private readonly Dictionary<string, IEnumerable<(int min, int max)>> expectedGroups = new Dictionary<string, IEnumerable<(int min, int max)>>()
-        {
-            {"../Examples/doubledef.fl", new []{(0,1),(2,4)}},
-            {"../Examples/fluency.fl", new []{(0, 1), (2, 32), (33,45), (46, 52), (53, 66)}}
-
-        };
-
-        [TestMethod]
-        [DataRow("../Examples/doubledef.fl", 2)]
-        [DataRow("../Examples/fluency.fl", 5)]
-        public void GroupUntilWorks(string path, int groupCount)
-        {
-            var lines = File.ReadAllLines(Path.Join("../../../../", path));
-
-            var groups = lines.GroupUntil(x => x.StartsWith("Def("));
-
-            Assert.AreEqual(groupCount, groups.Count());
-
-            foreach (var pair in groups.Select(x => x.Indexes).Zip(expectedGroups[path], (actual, expected) => (actual, expected)))
-            {
-                Assert.AreEqual(pair.expected.min, pair.actual.Min);
-                Assert.AreEqual(pair.expected.max, pair.actual.Max);
-            }
-        }
-
         [TestMethod]
         public void GroupUntilInclusive()
         {
