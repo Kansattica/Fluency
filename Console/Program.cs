@@ -27,7 +27,13 @@ namespace Fluency.CLI
                 return;
             }
 
-            var p = new Parser(a.Verbose, a.TabWarn);
+            if (a.Autofix)
+            {
+                new Autofix(a.Autofix, a.TabWidth);
+
+            }
+
+            var p = new Parser(a.Verbose, a.TabWarn, a.TabWidth);
 
             if (a.Help)
             {
@@ -69,7 +75,10 @@ namespace Fluency.CLI
                 ("-i [string], --inspect [string]", "Inspect (print indexes of all characters in, try naive splitting on periods the given string."),
                 ("--no-tab-warn", "Supress warning when tabs appear in source after text."),
                 ("--tab-warn", "Enable warning when tabs appear in source after text. This is the default."),
+                ("--autofix", "Expand tabs after text and write back to input file."),
+                ("-t [number], --tab-width [number]", "How many spaces a tab is equal to. Defaults to four."),
                 ("-w, --write-graph", "Write each function's parsed graph to [FunctionName].dgml"),
+                ("-p, --print-graph", "Print each function's parsed graph to stdout."),
                 ("-p, --print-graph", "Print each function's parsed graph to stdout."),
                 ("--unicode-arrows", "Show nice unicode arrows instead of the text ones when printing the graph to the console with -p. You may have to set unicode support in your terminal."),
                  })
