@@ -208,6 +208,20 @@ namespace Fluency.Tests
              result.Select(x => x.Stringify()));
         }
 
+        [TestMethod]
+        public void GroupWhileNoBranchUp()
+        {
+            var arr = @"     \.Switch(false)        \.MergeTop().DupN()./                        \.Com(""remainders"")";
+
+            int doublequotes = 0;
+            var result = arr.GroupWhile((x, infunc) => FunctionParse(x, infunc, ref doublequotes));
+
+            EqualEnumerables(new Range[] { (5, 19), (28, 39), (40, 46), (47, 48), (73, 91) },
+                result.Select(x => x.Indexes));
+            EqualEnumerables(new[] { @"\.Switch(false)", @"\.MergeTop()", ".DupN()", "./", @"\.Com(""remainders"")" },
+             result.Select(x => x.Stringify()));
+        }
+
         private static GroupWhileAction FunctionParse(char c, bool infunc, ref int doublequotes)
         {
             doublequotes += (c == '"' ? 1 : 0);
