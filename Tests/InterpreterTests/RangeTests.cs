@@ -76,6 +76,7 @@ namespace Fluency.Tests.Parser
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void Contains()
         {
             Parallel.For(0, numberoftrials, (i, _) =>
@@ -94,6 +95,7 @@ namespace Fluency.Tests.Parser
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void Single()
         {
             Parallel.For(0, numberoftrials, (i, _) =>

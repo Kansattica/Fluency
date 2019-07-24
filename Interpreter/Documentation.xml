@@ -4,6 +4,305 @@
         <name>Interpreter</name>
     </assembly>
     <members>
+        <member name="T:Fluency.Interpreter.Interpreter">
+            <summary>
+            Executes function graphs.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.Entities.Argument">
+            <summary>
+            Represents a parsed function argument.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.Argument.Type">
+            <summary>
+            The Fluency type this object is.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.Argument._realtype">
+            <summary>
+            The C# type this object is.
+            </summary>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.Argument.#ctor">
+            <summary>
+            Make an empty argument.
+            </summary>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.Argument.TryParse(System.String,Fluency.Interpreter.Parser.Entities.Argument@)">
+            <summary>
+            Create a new parsed argument from a string representing one.
+            Valid arguments are "strings", integers, floating point numbers, and function names. 
+            The special argument ... (three periods) is also valid in a Def only.
+            </summary>
+            <param name="arg">The string to be parsed.</param>
+            <param name="argument">The parsed result, if successful.</param>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.Argument.GetAs``1">
+            <summary>
+            Attempt to return this function's value as a type T.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.Argument.Value">
+            <summary>
+            Get the value this argument represents.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.Entities.ParsedType">
+            <summary>
+            The parsed type of the argument.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.Entities.ParsedType.Int">
+            <summary>
+            This argument is an integer.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.Entities.ParsedType.Double">
+            <summary>
+            This argument is a double precision floating point number.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.Entities.ParsedType.String">
+            <summary>
+            This argument is a string.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.Entities.ParsedType.Function">
+            <summary>
+            This argument is the name of a function.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.Entities.ParsedType.Any">
+            <summary>
+            When found in Def, indicates that the next argument can be of any type.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.Entities.ParsedType.Ellipsis">
+            <summary>
+            This argument, when found in Def, indicates that this function works on the whole pipeline at once.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.Entities.ArgumentTypes.AnyArg">
+            <summary>
+            Represents an integer argument to a function.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.AnyArg.Type">
+            <summary>
+            The Fluency type this object is.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.AnyArg._realtype">
+            <summary>
+            The C# type this object is.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.AnyArg.TryParseArg(System.String)">
+            <summary>
+            If str represents a string (surrounded by quotes), make a AnyArg.  Otherwise, return null.
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.AnyArg.ToString">
+            <summary>
+            Return "..."
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.AnyArg.Value">
+            <summary>
+            Get the value this argument represents.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.Entities.ArgumentTypes.EllipsisArg">
+            <summary>
+            Represents an integer argument to a function.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.EllipsisArg.Type">
+            <summary>
+            The Fluency type this object is.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.EllipsisArg._realtype">
+            <summary>
+            The C# type this object is.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.EllipsisArg.TryParseArg(System.String)">
+            <summary>
+            If str represents a string (surrounded by quotes), make a EllipsisArg.  Otherwise, return null.
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.EllipsisArg.ToString">
+            <summary>
+            Return "..."
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.EllipsisArg.Value">
+            <summary>
+            Get the value this argument represents.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.Entities.ArgumentTypes.DoubleArg">
+            <summary>
+            Represents a double argument to a function.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.DoubleArg.Type">
+            <summary>
+            The Fluency type this object is.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.DoubleArg._realtype">
+            <summary>
+            The C# type this object is.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.DoubleArg.TryParseArg(System.String)">
+            <summary>
+            If str represents a double, make a DoubleArg.  Otherwise, return null.
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.DoubleArg.ToString">
+            <summary>
+            Return the stored double as a string.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.DoubleArg.Value">
+            <summary>
+            Get the value this argument represents.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.Entities.ArgumentTypes.FunctionArg">
+            <summary>
+            Represents an integer argument to a function.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.FunctionArg.Type">
+            <summary>
+            The Fluency type this object is.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.FunctionArg._realtype">
+            <summary>
+            The C# type this object is.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.FunctionArg.TryParseArg(System.String)">
+            <summary>
+            If str represents a function name (no quotes, letters only), make a FuncArg. Otherwise, return null.
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.FunctionArg.ToString">
+            <summary>
+            Return the stored function name.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.FunctionArg.Value">
+            <summary>
+            Get the value this argument represents.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.Entities.ArgumentTypes.IntArg">
+            <summary>
+            Represents an integer argument to a function.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.IntArg.Type">
+            <summary>
+            The Fluency type this object is.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.IntArg._realtype">
+            <summary>
+            The C# type this object is.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.IntArg.TryParseArg(System.String)">
+            <summary>
+            If str represents an integer, make an IntArg.  Otherwise, return null.
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.IntArg.ToString">
+            <summary>
+            Return the stored integer as a string.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.IntArg.Value">
+            <summary>
+            Get the value this argument represents.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.Entities.ArgumentTypes.StringArg">
+            <summary>
+            Represents an integer argument to a function.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.StringArg.Type">
+            <summary>
+            The Fluency type this object is.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.StringArg._realtype">
+            <summary>
+            The C# type this object is.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.StringArg.TryParseArg(System.String)">
+            <summary>
+            If str represents a string (surrounded by quotes), make a StringArg.  Otherwise, return null.
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.StringArg.ToString">
+            <summary>
+            Return the stored string.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.StringArg.Value">
+            <summary>
+            Get the value this argument represents.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionGraph">
             <summary>
             Represents a single user-defined function and all the functions that implement it.
