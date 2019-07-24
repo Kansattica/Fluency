@@ -85,7 +85,7 @@ namespace Fluency.CLI
                 ("-w, --write-graph", "Write each function's parsed graph to ../Graphs/[FunctionName].dgml"),
                 ("-p, --print-graph", "Print each function's parsed graph to stdout."),
                 ("-p, --print-graph", "Print each function's parsed graph to stdout."),
-                ("--unicode-arrows", "Show nice unicode arrows instead of the text ones when printing the graph to the console with -p. You may have to set unicode support in your terminal."),
+                ("--unicode-arrows", "Show nice unicode arrows instead of the text ones when printing the graph to the console with -p. You may have to set unicode support in your terminal. In Powershell, try:\n[Console]::OutputEncoding = [Text.UTF8Encoding]::UTF8"),
                  })
             {
                 Console.WriteLine("{0}\t{1}", pair.Item1, pair.Item2);
