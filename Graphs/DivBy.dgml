@@ -8,7 +8,7 @@
     <Node Id="18" Label="Com()" />
     <Node Id="19" Label="Join(false)" />
     <Node Id="20" Label="Com(&quot;n pairs of [pipeline element, n]&quot;)" />
-    <Node Id="21" Label="Div()" />
+    <Node Id="21" Label="Div*()" />
     <Node Id="25" Label="Com(&quot;remainders&quot;)" />
     <Node Id="return25" Label="Return" />
     <Node Id="23" Label="MergeTop()" />
@@ -21,16 +21,16 @@
     <Link Source="21" Target="25" Label="bottom" />
     <Link Source="20" Target="21" Label="top" />
     <Link Source="19" Target="20" Label="top" />
-    <Link Source="24" Target="20" Label="top" />
-    <Link Source="23" Target="24" Label="top" />
-    <Link Source="19" Target="23" Label="bottom" />
     <Link Source="18" Target="19" Label="top" />
     <Link Source="17" Target="18" Label="top" />
-    <Link Source="26" Target="23" Label="top" />
-    <Link Source="22" Target="26" Label="bottom" />
-    <Link Source="17" Target="22" Label="bottom" />
     <Link Source="16" Target="17" Label="top" />
+    <Link Source="24" Target="18" Label="top" />
+    <Link Source="23" Target="24" Label="top" />
+    <Link Source="16" Target="23" Label="bottom" />
     <Link Source="15" Target="16" Label="top" />
     <Link Source="14" Target="15" Label="top" />
+    <Link Source="26" Target="23" Label="top" />
+    <Link Source="22" Target="26" Label="bottom" />
+    <Link Source="14" Target="22" Label="bottom" />
   </Links>
 </DirectedGraph>
