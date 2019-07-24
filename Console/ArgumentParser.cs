@@ -1,14 +1,20 @@
 using System.Collections.Generic;
+using System.Linq;
 
 class ArgumentParser
 {
     public bool Verbose { get; private set; } = false;
     public bool TabWarn { get; private set; } = true;
+    public bool Unicode { get; private set; } = false;
+    public bool Help { get; private set; } = false;
     public List<string> Inspect { get; private set; } = null;
     public List<string> Leftover { get; private set; } = new List<string>();
 
     public ArgumentParser(IEnumerable<string> args)
     {
+        if (!args.Any())
+            Help = true;
+
         bool inspectNext = false;
         foreach (string arg in args)
         {
@@ -34,6 +40,13 @@ class ArgumentParser
                     break;
                 case "--tab-warn":
                     TabWarn = true;
+                    break;
+                case "--unicode-arrows":
+                    Unicode = true;
+                    break;
+                case "--help":
+                case "-h":
+                    Help = true;
                     break;
                 default:
                     Leftover.Add(arg);
