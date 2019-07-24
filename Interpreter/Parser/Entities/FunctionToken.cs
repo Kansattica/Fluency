@@ -6,7 +6,6 @@ namespace Fluency.Interpreter.Parser.Entities
 {
     public class FunctionToken
     {
-        //public static Regex ExtractNameAndArgs = new Regex(@"(?<name>[a-zA-Z]+)\(((?<arguments>[0-9]+|true|false|[""].?[""]),? *)*\)", RegexOptions.ExplicitCapture);
         public string Name { get; private set; }
         public string[] Arguments { get; private set; } = new string[0];
         public int? Line { get; set; } //this has to be set from outside
