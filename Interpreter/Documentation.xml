@@ -1,0 +1,381 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Interpreter</name>
+    </assembly>
+    <members>
+        <member name="T:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionGraph">
+            <summary>
+            Represents a single user-defined function and all the functions that implement it.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionGraph.Head">
+            <summary>
+            The root node of the function. This is the Def() function.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionGraph.Name">
+            <summary>
+            Name of the function this graph represents.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionGraph.Arguments">
+            <summary>
+            The arguments this function has declared.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionGraph.#ctor(System.Collections.Generic.IEnumerable{System.Collections.Generic.IEnumerable{Fluency.Interpreter.Parser.Entities.FunctionToken}})">
+            <summary>
+            Create a new function graph. This takes an IEnumerable of tokenized lines (which are themselves IEnumerables of tokens).
+            </summary>
+            <param name="tokens"></param>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionNode">
+            <summary>
+            Represents a single function in a pipeline.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionNode.Name">
+            <summary>
+            The function's name.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionNode.Arguments">
+            <summary>
+            The function's declared arguments.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionNode.TopIn">
+            <summary>
+            The function that this reads from on top ("top" can be above or immediately before on the same level).
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionNode.BottomIn">
+            <summary>
+            The function that feeds this one from the bottom.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionNode.TopOut">
+            <summary>
+            The function that this outputs to on top ("top" can be above or immediately before on the same level).
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionNode.BottomOut">
+            <summary>
+            The function that this outputs to on the bottom.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionNode.Id">
+            <summary>
+            A unique integer ID for this function. Two function calls with the same name have different IDs.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionNode.#ctor(Fluency.Interpreter.Parser.Entities.FunctionToken)">
+            <summary>
+            Make a function node from a parsed function token.
+            </summary>
+            <param name="tok"></param>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.FunctionGraph.FunctionNode.ToString">
+            <summary>
+            Return a string that looks like Name(arguments, like this)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.Entities.FunctionToken">
+            <summary>
+            Represents a parsed function from source control.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.FunctionToken.Name">
+            <summary>
+            The function's name.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.FunctionToken.Arguments">
+            <summary>
+            The arguments the function takes.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.FunctionToken.Line">
+            <summary>
+            The line number this function was on. Not available when constructed, has to be set from the outside for better metadata and error location.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.FunctionToken.Range">
+            <summary>
+            The inclusive range of indexes this was in its original line.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.FunctionToken.Original">
+            <summary>
+            What the function looked like before it got spaces, periods, and slashes trimmed.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.FunctionToken.ConnectsUpBefore">
+            <summary>
+            Whether the function connects to the one above it for input (starts with \.)
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.FunctionToken.ConnectsBefore">
+            <summary>
+            Whether the function connects to the one before it (starts with .)
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.FunctionToken.ConnectsUpAfter">
+            <summary>
+            Whether the function connects to the one above it for output (ends with ./)
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.FunctionToken.#ctor(System.String,System.Int32,System.Int32)">
+            <summary>
+            Create a new function token.
+            </summary>
+            <param name="toparse"></param>
+            <param name="start">The first index into the line containing this function.</param>
+            <param name="end">The last index into the line containing this function.</param>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.FunctionToken.ToString">
+            <summary>
+            Prettyprints some metadata about the function token.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.Entities.Line">
+            <summary>
+            Represents a raw line from the source file.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.Line.Number">
+            <summary>
+            The one-indexed line number.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.Line.Contents">
+            <summary>
+            The contents of the string.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.Line.Create(System.String,System.Int32)">
+            <summary>
+            Create a line. This is a factory function so you can give it to Linq's .Select and have it do the indexing for you.
+            </summary>
+            <param name="contents"></param>
+            <param name="number">The zero-based index. The number one higher than this will be stored.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.Line.ToString">
+            <summary>
+            Return lineNumber: Contents
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.Entities.Range">
+            <summary>
+            Represents an inclusive range.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.Range.Min">
+            <summary>
+            The lower bound.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.Range.Max">
+            <summary>
+            The upper bound.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.Range.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Create a new range from its inclusive bounds.
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if min is greater than max.</exception>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.Range.Contains(System.Int32)">
+            <summary>
+            Whether n is inside the range.
+            </summary>
+            <param name="n"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.Range.Equals(Fluency.Interpreter.Parser.Entities.Range)">
+            <summary>
+            Two ranges are equal if they represent the same range- that is, they have the same minimum and maximum.
+            </summary>
+            <param name="that"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.Range.Equals(System.Object)">
+            <summary>
+            Two ranges are equal if they represent the same range- that is, they have the same minimum and maximum.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.Range.GetHashCode">
+            <summary>
+            Gets a hash code by xoring the min and max's hash codes.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.Range.op_Equality(Fluency.Interpreter.Parser.Entities.Range,Fluency.Interpreter.Parser.Entities.Range)">
+            <summary>
+            Two ranges are equal if they represent the same range- that is, they have the same minimum and maximum.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.Range.op_Inequality(Fluency.Interpreter.Parser.Entities.Range,Fluency.Interpreter.Parser.Entities.Range)">
+            <summary>
+            Two ranges are equal if and only if they represent the same range- that is, they have the same minimum and maximum.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.Range.op_Implicit(System.ValueTuple{System.Int32,System.Int32})~Fluency.Interpreter.Parser.Entities.Range">
+            <summary>
+            A Range can be implicitly constructed from a tuple of two ints. 
+            </summary>
+            <param name="pair"></param>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Entities.Range.ToString">
+            <summary>
+            Returns a nice string representation like (Min, Max)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.ParseExtensions">
+            <summary>
+            A collection of extension methods to help with parsing.
+            </summary>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.ParseExtensions.Stringify(System.Collections.Generic.IEnumerable{System.Char})">
+            <summary>
+            Turn an IEnumerable of chars into a string.
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.ParseExtensions.SkipBetween``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean},System.Func{``0,System.Boolean})">
+            <summary>
+            Return elements from source until startPredicate returns true, then skip them until endPredicate returns true.
+            Note that the element endPredicate returns true for will be returned.
+            </summary>
+            <param name="source"></param>
+            <param name="startPredicate">When this returns true, begin skipping elements.</param>
+            <param name="endPredicate">When this returns true, stop skipping elements and yield the current one.</param>
+            <typeparam name="TSource"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.ParseExtensions.MergeLastIf``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean},System.Func{``0,``0,``0})">
+            <summary>
+            Call predicate on each element. If that predicate returns true, then call merge on the current and previous elements and yield that instead of either the current or previous element.
+            </summary>
+            <param name="source"></param>
+            <param name="predicate">If this is true for current, call merge(current, previous)</param>
+            <param name="merge">If predicate(current) is true, yield merge(current, previous) instead of current or previous.</param>
+            <typeparam name="TSource"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.ParseExtensions.GroupWhile``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean,Fluency.Interpreter.Parser.GroupWhileAction})">
+            <summary>
+            Groups elements according to pickAction. For each element, pickAction is called with the element and whether the function is currently making a group.
+            Groups will be yielded when complete- that is, when pickAction returns <see cref="F:Fluency.Interpreter.Parser.GroupWhileAction.LeaveExclude"/> or <see cref="F:Fluency.Interpreter.Parser.GroupWhileAction.LeaveInclude"/>.
+            </summary>
+            <param name="source"></param>
+            <param name="pickAction"></param>
+            <typeparam name="TSource"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.ParseExtensions.GroupUntil``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean},System.Boolean)">
+            <summary>
+            Gather elements of source into a group while predicate returns false. If predicate returns true, finish the current group and start a new one.
+            </summary>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <param name="inclusive">If true, the element that caused predicate to return false will be put in the current group. Otherwise, it'll be in the next one.</param>
+            <typeparam name="TSource"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.Grouped`1">
+            <summary>
+            Represents a group of elements from <see cref="M:Fluency.Interpreter.Parser.ParseExtensions.GroupUntil``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean},System.Boolean)" /> or <see cref="M:Fluency.Interpreter.Parser.ParseExtensions.GroupWhile``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean,Fluency.Interpreter.Parser.GroupWhileAction})"/>.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Grouped`1.Indexes">
+            <summary>
+            The inclusive range of indexes this group was taken from.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Grouped`1.#ctor(System.Collections.Generic.List{`0},System.Int32,System.Int32)">
+            <summary>
+            Construct a new group.
+            </summary>
+            <param name="source"></param>
+            <param name="startIndex"></param>
+            <param name="endIndex"></param>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.GroupWhileAction">
+            <summary>
+            Actions you can instruct <see cref="M:Fluency.Interpreter.Parser.ParseExtensions.GroupWhile``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean,Fluency.Interpreter.Parser.GroupWhileAction})"/> to take from its callback.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.GroupWhileAction.In">
+            <summary>
+            Add the current item into the group, starting a new one if necessary.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.GroupWhileAction.StillOut">
+            <summary>
+            We're not making a group, and this element should stay out of the group. Only return this if pickAction was passed false.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.GroupWhileAction.LeaveInclude">
+            <summary>
+            Finish the current group and put this item in it.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Parser.GroupWhileAction.LeaveExclude">
+            <summary>
+            Finish the current group and don't put this item in it.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Parser.Parser">
+            <summary>
+            Represents a Fluency parser.
+            </summary>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Parser.#ctor(System.Boolean,System.Boolean,System.Int32)">
+            <summary>
+            Construct a new parser.
+            </summary>
+            <param name="verbose">Be verbose.</param>
+            <param name="tabWarn">Whether to warn about tabs after text.</param>
+            <param name="tabWidth">How wide to try to expand tabs to.</param>
+        </member>
+        <member name="M:Fluency.Interpreter.Parser.Parser.Parse(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Parse an IEnumerable of lines, such as those from File.ReadAllLines.
+            </summary>
+            <param name="lines"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

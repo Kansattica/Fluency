@@ -4,12 +4,33 @@ using Fluency.Interpreter.Parser.Exceptions;
 
 namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
 {
+    /// <summary>
+    /// Represents a single user-defined function and all the functions that implement it.
+    /// </summary>
     public class FunctionGraph
     {
+        /// <summary>
+        /// The root node of the function. This is the Def() function.
+        /// </summary>
+        /// <value></value>
         public FunctionNode Head { get; private set; }
+
+        /// <summary>
+        /// Name of the function this graph represents.
+        /// </summary>
+        /// <value></value>
         public string Name { get { return Head.Arguments[0]; } }
+
+        /// <summary>
+        /// The arguments this function has declared.
+        /// </summary>
+        /// <value></value>
         public string[] Arguments { get { return Head.Arguments; } }
 
+        /// <summary>
+        /// Create a new function graph. This takes an IEnumerable of tokenized lines (which are themselves IEnumerables of tokens).
+        /// </summary>
+        /// <param name="tokens"></param>
         public FunctionGraph(IEnumerable<IEnumerable<FunctionToken>> tokens)
         {
 

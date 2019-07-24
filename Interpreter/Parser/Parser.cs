@@ -10,12 +10,21 @@ using Fluency.Interpreter.Parser.Entities.FunctionGraph;
 
 namespace Fluency.Interpreter.Parser
 {
+    /// <summary>
+    /// Represents a Fluency parser.
+    /// </summary>
     public class Parser
     {
         private readonly bool _verbose = false;
         private readonly bool _tabWarn;
         private readonly string _spaces;
 
+        /// <summary>
+        /// Construct a new parser.
+        /// </summary>
+        /// <param name="verbose">Be verbose.</param>
+        /// <param name="tabWarn">Whether to warn about tabs after text.</param>
+        /// <param name="tabWidth">How wide to try to expand tabs to.</param>
         public Parser(bool verbose = false, bool tabWarn = true, int tabWidth = 4)
         {
             _verbose = verbose;
@@ -25,6 +34,11 @@ namespace Fluency.Interpreter.Parser
             _tabWarn = tabWarn;
         }
 
+        /// <summary>
+        /// Parse an IEnumerable of lines, such as those from File.ReadAllLines.
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <returns></returns>
         public IEnumerable<FunctionGraph> Parse(IEnumerable<string> lines)
         {
             return lines.Select(x => x.TrimEnd())

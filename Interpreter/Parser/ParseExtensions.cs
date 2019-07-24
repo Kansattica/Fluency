@@ -6,17 +6,28 @@ using Fluency.Interpreter.Parser.Entities;
 
 namespace Fluency.Interpreter.Parser
 {
+    /// <summary>
+    /// A collection of extension methods to help with parsing.
+    /// </summary>
     public static class ParseExtensions
     {
 
-        public static string Stringify(this IEnumerable<char> source)
-        {
-            var sb = new StringBuilder();
-            foreach (char c in source)
-                sb.Append(c);
-            return sb.ToString();
-        }
+        /// <summary>
+        /// Turn an IEnumerable of chars into a string.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string Stringify(this IEnumerable<char> source) => string.Join("", source);
 
+        /// <summary>
+        /// Return elements from source until startPredicate returns true, then skip them until endPredicate returns true.
+        /// Note that the element endPredicate returns true for will be returned.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="startPredicate">When this returns true, begin skipping elements.</param>
+        /// <param name="endPredicate">When this returns true, stop skipping elements and yield the current one.</param>
+        /// <typeparam name="TSource"></typeparam>
+        /// <returns></returns>
         public static IEnumerable<TSource> SkipBetween<TSource>(this IEnumerable<TSource> source,
         Func<TSource, bool> startPredicate,
         Func<TSource, bool> endPredicate)
@@ -38,6 +49,14 @@ namespace Fluency.Interpreter.Parser
             }
         }
 
+        /// <summary>
+        /// Call predicate on each element. If that predicate returns true, then call merge on the current and previous elements and yield that instead of either the current or previous element.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="predicate">If this is true for current, call merge(current, previous)</param>
+        /// <param name="merge">If predicate(current) is true, yield merge(current, previous) instead of current or previous.</param>
+        /// <typeparam name="TSource"></typeparam>
+        /// <returns></returns>
         public static IEnumerable<TSource> MergeLastIf<TSource>(this IEnumerable<TSource> source,
             Func<TSource, bool> predicate,
             Func<TSource, TSource, TSource> merge)
@@ -83,8 +102,16 @@ namespace Fluency.Interpreter.Parser
                 yield return current;
         }
 
+        /// <summary>
+        /// Groups elements according to pickAction. For each element, pickAction is called with the element and whether the function is currently making a group.
+        /// Groups will be yielded when complete- that is, when pickAction returns <see cref="GroupWhileAction.LeaveExclude"/> or <see cref="GroupWhileAction.LeaveInclude"/>.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="pickAction"></param>
+        /// <typeparam name="TSource"></typeparam>
+        /// <returns></returns>
         public static IEnumerable<Grouped<TSource>> GroupWhile<TSource>(this IEnumerable<TSource> source,
-            Func<TSource, bool, GroupWhileAction> predicate)
+            Func<TSource, bool, GroupWhileAction> pickAction)
         {
             List<TSource> currentChunk = new List<TSource>();
             int startIndex = 0, thisIndex = -1;
@@ -92,7 +119,7 @@ namespace Fluency.Interpreter.Parser
             foreach (TSource s in source)
             {
                 thisIndex++;
-                GroupWhileAction nextAction = predicate(s, inGroup);
+                GroupWhileAction nextAction = pickAction(s, inGroup);
 
                 switch (nextAction)
                 {
@@ -121,7 +148,14 @@ namespace Fluency.Interpreter.Parser
         }
 
 
-
+        /// <summary>
+        /// Gather elements of source into a group while predicate returns false. If predicate returns true, finish the current group and start a new one.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="predicate"></param>
+        /// <param name="inclusive">If true, the element that caused predicate to return false will be put in the current group. Otherwise, it'll be in the next one.</param>
+        /// <typeparam name="TSource"></typeparam>
+        /// <returns></returns>
         public static IEnumerable<Grouped<TSource>> GroupUntil<TSource>(this IEnumerable<TSource> source,
             Func<TSource, bool> predicate, bool inclusive = false)
         {
@@ -160,8 +194,16 @@ namespace Fluency.Interpreter.Parser
 
     }
 
+    /// <summary>
+    /// Represents a group of elements from <see cref="ParseExtensions.GroupUntil{TSource}(IEnumerable{TSource}, Func{TSource, bool}, bool)" /> or <see cref="ParseExtensions.GroupWhile{TSource}(IEnumerable{TSource}, Func{TSource, bool, GroupWhileAction})"/>.
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
     public class Grouped<TSource> : IEnumerable<TSource>
     {
+        /// <summary>
+        /// The inclusive range of indexes this group was taken from.
+        /// </summary>
+        /// <value></value>
         public Range Indexes { get; set; } = null;
         private List<TSource> GroupList { get; set; }
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -173,11 +215,43 @@ namespace Fluency.Interpreter.Parser
             foreach (var s in GroupList)
                 yield return s;
         }
+
+        /// <summary>
+        /// Construct a new group.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="endIndex"></param>
         public Grouped(List<TSource> source, int startIndex, int endIndex)
         {
             GroupList = source;
             Indexes = new Range(startIndex, endIndex);
         }
     }
-    public enum GroupWhileAction { In, StillOut, LeaveInclude, LeaveExclude }
+
+    /// <summary>
+    /// Actions you can instruct <see cref="ParseExtensions.GroupWhile{TSource}(IEnumerable{TSource}, Func{TSource, bool, GroupWhileAction})"/> to take from its callback.
+    /// </summary>
+    public enum GroupWhileAction {
+
+        /// <summary>
+        /// Add the current item into the group, starting a new one if necessary.
+        /// </summary>
+        In,
+
+        /// <summary>
+        /// We're not making a group, and this element should stay out of the group. Only return this if pickAction was passed false.
+        /// </summary>
+        StillOut,
+
+        /// <summary>
+        /// Finish the current group and put this item in it.
+        /// </summary>
+        LeaveInclude,
+
+        /// <summary>
+        /// Finish the current group and don't put this item in it.
+        /// </summary>
+        LeaveExclude
+    }
 }
