@@ -19,6 +19,18 @@ namespace Fluency.Tests.Console
 
             Assert.AreEqual(toTest, fixer.FixString(toTest));
         }
+
+        [TestMethod]
+        [DataRow("\t\t\t .SomeText()\t ", "\t\t\t .SomeText()   ")]
+        [DataRow("\t\t\t\\.SomeText()\t ", "\t\t\t\\.SomeText()   ")]
+        [DataRow(@"\t\t\t\.SomeText()\t ", @"\t\t\t\.SomeText()\t ")]
+        [DataRow("\t \\.SomeText()   \\.SomeOtherText().OverHere()./      ", "\t \\.SomeText()   \\.SomeOtherText().OverHere()./      ")]
+        public void FixTabsAfterText(string toTest, string expected)
+        {
+            var fixer = new Autofix(tabsAfterText: true, tabWidth: 2);
+
+            Assert.AreEqual(expected, fixer.FixString(toTest));
+        }
     }
 
 }
