@@ -29,8 +29,13 @@ namespace Fluency.CLI
 
             if (a.Autofix)
             {
-                new Autofix(a.Autofix, a.TabWidth);
-
+                var fixer = new Autofix(a.Autofix, a.TabWidth);
+                foreach (var file in a.Leftover)
+                {
+                    if (fixer.FixFile(file))
+                        Console.WriteLine("Autofixed " + file);
+                }
+                return;
             }
 
             var p = new Parser(a.Verbose, a.TabWarn, a.TabWidth);
