@@ -26,7 +26,7 @@ namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
         /// The arguments this function has declared.
         /// </summary>
         /// <value></value>
-        public Argument[] Arguments { get; private set; }
+        public FunctionArg[] Arguments { get; private set; }
 
         /// <summary>
         /// Create a new function graph. This takes an IEnumerable of tokenized lines (which are themselves IEnumerables of tokens).
@@ -136,13 +136,23 @@ namespace Fluency.Interpreter.Parser.Entities.FunctionGraph
 
             foreach (Argument arg in def.Arguments)
             {
-                FunctionArg argument = arg as FunctionArg;
-
-                if (argument == null)
-                    throw new ParseException("Incorrect formal parameter declaration. All parameters must have alphabetic names and no quotes.");
+                if (!(arg is FunctionArg))
+                    throw new ParseException("Incorrect formal parameter declaration {0}. All parameters must have alphabetic names and no quotes.", arg) { FunctionToken = def };
 
             }
 
+            Arguments = def.Arguments.Skip(1).Cast<FunctionArg>().ToArray();
+
+            string functionName = def.Arguments[0].GetAs<string>();
+
+            if (functionName == "...")
+            {
+                throw new ParseException("... cannot be the name of a function. Function names consist of letters only.") { FunctionToken = def };
+            }
+            else
+            {
+                Name = functionName;
+            }
         }
 
     }
