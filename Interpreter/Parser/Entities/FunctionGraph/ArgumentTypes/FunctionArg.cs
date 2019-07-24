@@ -16,17 +16,16 @@ namespace Fluency.Interpreter.Parser.Entities.ArgumentTypes
         public override ParsedType Type { get { return ParsedType.Function; } }
 
         /// <summary>
-        /// The C# type this object is.
-        /// </summary>
-        /// <returns></returns>
-        protected override Type _realtype { get { return typeof(string); } }
-
-        /// <summary>
         /// If this is a declaration of a parameter, what type is it
         /// </summary>
         /// <value></value>
         public ParsedType DeclaredType { get; private set; } = ParsedType.Any;
 
+        /// <summary>
+        /// The name of the function or parameter this instance represents.
+        /// </summary>
+        /// <value></value>
+        public string FunctionName { get { return _value; } }
         private string _value;
 
         private FunctionArg(string value)

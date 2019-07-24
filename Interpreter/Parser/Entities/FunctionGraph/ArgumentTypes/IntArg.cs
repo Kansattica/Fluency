@@ -14,12 +14,6 @@ namespace Fluency.Interpreter.Parser.Entities.ArgumentTypes
         /// <value></value>
         public override ParsedType Type { get { return ParsedType.Int; } }
 
-        /// <summary>
-        /// The C# type this object is.
-        /// </summary>
-        /// <returns></returns>
-        protected override Type _realtype { get { return typeof(int); } }
-
         private int _value;
 
         private IntArg(int value)

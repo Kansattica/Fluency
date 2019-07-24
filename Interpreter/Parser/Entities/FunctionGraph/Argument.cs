@@ -17,11 +17,6 @@ namespace Fluency.Interpreter.Parser.Entities
         public abstract ParsedType Type { get; }
 
         /// <summary>
-        /// The C# type this object is.
-        /// </summary>
-        protected abstract Type _realtype { get; }
-
-        /// <summary>
         /// Make an empty argument.
         /// </summary>
         protected Argument() { }

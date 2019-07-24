@@ -13,12 +13,6 @@ namespace Fluency.Interpreter.Parser.Entities.ArgumentTypes
         /// <value></value>
         public override ParsedType Type { get { return ParsedType.String; } }
 
-        /// <summary>
-        /// The C# type this object is.
-        /// </summary>
-        /// <returns></returns>
-        protected override Type _realtype { get { return typeof(string); } }
-
         private string _value;
 
         private StringArg(string value)

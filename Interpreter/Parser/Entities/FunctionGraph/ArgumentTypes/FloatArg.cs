@@ -13,12 +13,6 @@ namespace Fluency.Interpreter.Parser.Entities.ArgumentTypes
         /// <value></value>
         public override ParsedType Type { get { return ParsedType.Double; } }
 
-        /// <summary>
-        /// The C# type this object is.
-        /// </summary>
-        /// <returns></returns>
-        protected override Type _realtype { get { return typeof(double); } }
-
         private double _value;
 
         private DoubleArg(double value)

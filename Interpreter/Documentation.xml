@@ -20,11 +20,6 @@
             </summary>
             <value></value>
         </member>
-        <member name="P:Fluency.Interpreter.Parser.Entities.Argument._realtype">
-            <summary>
-            The C# type this object is.
-            </summary>
-        </member>
         <member name="M:Fluency.Interpreter.Parser.Entities.Argument.#ctor">
             <summary>
             Make an empty argument.
@@ -93,12 +88,6 @@
             </summary>
             <value></value>
         </member>
-        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.DoubleArg._realtype">
-            <summary>
-            The C# type this object is.
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.DoubleArg.TryParseArg(System.String)">
             <summary>
             If str represents a double, make a DoubleArg.  Otherwise, return null.
@@ -129,15 +118,15 @@
             </summary>
             <value></value>
         </member>
-        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.FunctionArg._realtype">
-            <summary>
-            The C# type this object is.
-            </summary>
-            <returns></returns>
-        </member>
         <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.FunctionArg.DeclaredType">
             <summary>
             If this is a declaration of a parameter, what type is it
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.FunctionArg.FunctionName">
+            <summary>
+            The name of the function or parameter this instance represents.
             </summary>
             <value></value>
         </member>
@@ -172,12 +161,6 @@
             </summary>
             <value></value>
         </member>
-        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.IntArg._realtype">
-            <summary>
-            The C# type this object is.
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.IntArg.TryParseArg(System.String)">
             <summary>
             If str represents an integer, make an IntArg.  Otherwise, return null.
@@ -207,12 +190,6 @@
             The Fluency type this object is.
             </summary>
             <value></value>
-        </member>
-        <member name="P:Fluency.Interpreter.Parser.Entities.ArgumentTypes.StringArg._realtype">
-            <summary>
-            The C# type this object is.
-            </summary>
-            <returns></returns>
         </member>
         <member name="M:Fluency.Interpreter.Parser.Entities.ArgumentTypes.StringArg.TryParseArg(System.String)">
             <summary>
