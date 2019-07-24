@@ -6,7 +6,7 @@ using Fluency.Interpreter.Parser.Entities.FunctionGraph;
 
 namespace Fluency.CLI
 {
-    public class GraphWriter
+    class GraphWriter
     {
         public struct Graph
         {

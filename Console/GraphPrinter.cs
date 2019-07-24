@@ -5,7 +5,7 @@ using Fluency.Interpreter.Parser.Entities.FunctionGraph;
 
 namespace Fluency.CLI
 {
-    public class GraphPrinter
+    class GraphPrinter
     {
         private readonly FunctionNode head;
         private string next = " → ";
@@ -24,7 +24,7 @@ namespace Fluency.CLI
             List<PrintedFunction> lastPrinted = new List<PrintedFunction>();
             List<PrintedFunction> printed = new List<PrintedFunction>();
             Queue<FunctionNode> toVisit = new Queue<FunctionNode>();
-            
+
             StringBuilder thisLine = new StringBuilder();
             //We want to do a depth-first search, I think.
             //the first row is easy
@@ -46,7 +46,7 @@ namespace Fluency.CLI
             thisLine.Append("Return (top)");
             toVisit.Enqueue(null);
             string toReturn = thisLine.ToString();
-            thisLine = new StringBuilder(); 
+            thisLine = new StringBuilder();
 
             bool secondLine = true;
             while (toVisit.TryDequeue(out curr))
@@ -60,7 +60,7 @@ namespace Fluency.CLI
                         string check = thisLine.ToString();
                         int lastUp = check.LastIndexOf('/');
                         int lastParen = check.LastIndexOf(')');
-                        
+
                         if (lastParen > lastUp)
                         {
                             thisLine.Append(next);
@@ -82,7 +82,7 @@ namespace Fluency.CLI
 
                 // Find where this node is in the last line to print underneath it
                 var parent = lastPrinted.First(x => x.Child == curr);
-                int printAt = parent.Midpoint + 2; 
+                int printAt = parent.Midpoint + 2;
                 EnsurePadding(thisLine, printAt);
                 var pcurr = new PrintedFunction(curr, thisLine.Length);
                 thisLine.Append(below);
@@ -133,14 +133,14 @@ namespace Fluency.CLI
         {
             public FunctionNode Node;
             public FunctionNode Child;
-            public int Midpoint; 
+            public int Midpoint;
             public string Stringed;
 
             public PrintedFunction(FunctionNode node, int currentLength)
             {
                 Node = node;
                 Stringed = node.ToString();
-                Midpoint = currentLength + (Stringed.Length/2);
+                Midpoint = currentLength + (Stringed.Length / 2);
             }
         }
 

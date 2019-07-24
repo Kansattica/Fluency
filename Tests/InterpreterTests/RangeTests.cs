@@ -5,7 +5,7 @@ using System.Threading;
 using System.Numerics;
 using Fluency.Interpreter.Parser.Entities;
 
-namespace Fluency.Tests
+namespace Fluency.Tests.Parser
 {
     [TestClass]
     public class RangeTests
