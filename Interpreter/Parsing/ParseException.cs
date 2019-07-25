@@ -3,7 +3,10 @@ using Fluency.Interpreter.Parsing.Entities;
 
 namespace Fluency.Interpreter.Parsing.Exceptions
 {
-    class ParseException : Exception
+    ///<summary>
+    /// Represents an error that ocurred while parsing the source code.
+    ///</summary>
+    public class ParseException : Exception
     {
         public int LineNumber { get; set; }
         public int? Position { get; set; }

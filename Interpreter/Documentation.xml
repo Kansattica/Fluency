@@ -670,6 +670,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Fluency.Interpreter.Parsing.Exceptions.ParseException">
+            <summary>
+             Represents an error that ocurred while parsing the source code.
+            </summary>
+        </member>
         <member name="T:Fluency.Interpreter.Parsing.ParseExtensions">
             <summary>
             A collection of extension methods to help with parsing.
