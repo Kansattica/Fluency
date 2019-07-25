@@ -1,4 +1,5 @@
 using System;
+using Fluency.Interpreter.Common;
 
 namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
 {
@@ -11,7 +12,7 @@ namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
         /// The Fluency type this object is.
         /// </summary>
         /// <value></value>
-        public override ParsedType Type { get { return ParsedType.String; } }
+        public override ValueTypes Type { get { return ValueTypes.String; } }
 
         private string _value;
 

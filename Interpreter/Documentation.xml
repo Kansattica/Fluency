@@ -4,6 +4,47 @@
         <name>Interpreter</name>
     </assembly>
     <members>
+        <member name="T:Fluency.Interpreter.Common.ValueTypes">
+            <summary>
+            The type a value can have.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Common.ValueTypes.Int">
+            <summary>
+            This argument is an integer.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Common.ValueTypes.Double">
+            <summary>
+            This argument is a double precision floating point number.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Common.ValueTypes.String">
+            <summary>
+            This argument is a string.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Common.ValueTypes.Function">
+            <summary>
+            This argument is the name of a function.
+            </summary>
+        </member>
+        <member name="F:Fluency.Interpreter.Common.ValueTypes.Any">
+            <summary>
+            Any type, or no type at all. Usually found in function definitions.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Extensions.ExecutionExtensions">
+            <summary>
+            Extension methods to help execution.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Execution.Functions.Value.Done">
+            <summary>
+            Returned when the called function has no more work to do.
+            </summary>
+            <value></value>
+        </member>
         <member name="T:Fluency.Interpreter.Execution.Interpreter">
             <summary>
             Executes function graphs.
@@ -19,6 +60,11 @@
             Execute the program represented by a bunch of lines of source code.
             </summary>
             <param name="program"></param>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Linker">
+            <summary>
+            Ensures all the function names in the program correspond to something.
+            </summary>
         </member>
         <member name="T:Fluency.Interpreter.Parsing.Entities.Argument">
             <summary>
@@ -57,36 +103,6 @@
             Get the value this argument represents.
             </summary>
             <returns></returns>
-        </member>
-        <member name="T:Fluency.Interpreter.Parsing.Entities.ParsedType">
-            <summary>
-            The parsed type of the argument.
-            </summary>
-        </member>
-        <member name="F:Fluency.Interpreter.Parsing.Entities.ParsedType.Int">
-            <summary>
-            This argument is an integer.
-            </summary>
-        </member>
-        <member name="F:Fluency.Interpreter.Parsing.Entities.ParsedType.Double">
-            <summary>
-            This argument is a double precision floating point number.
-            </summary>
-        </member>
-        <member name="F:Fluency.Interpreter.Parsing.Entities.ParsedType.String">
-            <summary>
-            This argument is a string.
-            </summary>
-        </member>
-        <member name="F:Fluency.Interpreter.Parsing.Entities.ParsedType.Function">
-            <summary>
-            This argument is the name of a function.
-            </summary>
-        </member>
-        <member name="F:Fluency.Interpreter.Parsing.Entities.ParsedType.Any">
-            <summary>
-            When found in Def, indicates that the argument can be of any type.
-            </summary>
         </member>
         <member name="T:Fluency.Interpreter.Parsing.Entities.ArgumentTypes.DoubleArg">
             <summary>

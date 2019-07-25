@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Fluency.Interpreter.Common;
 using Fluency.Interpreter.Parsing.Entities.ArgumentTypes;
 
 namespace Fluency.Interpreter.Parsing.Entities
@@ -14,7 +15,7 @@ namespace Fluency.Interpreter.Parsing.Entities
         /// The Fluency type this object is.
         /// </summary>
         /// <value></value>
-        public abstract ParsedType Type { get; }
+        public abstract ValueTypes Type { get; }
 
         /// <summary>
         /// Make an empty argument.
@@ -58,34 +59,4 @@ namespace Fluency.Interpreter.Parsing.Entities
         protected abstract object Value();
     }
 
-    /// <summary>
-    /// The parsed type of the argument.
-    /// </summary>
-    public enum ParsedType
-    {
-        /// <summary>
-        /// This argument is an integer.
-        /// </summary>
-        Int,
-
-        /// <summary>
-        /// This argument is a double precision floating point number.
-        /// </summary>
-        Double,
-
-        /// <summary>
-        /// This argument is a string.
-        /// </summary>
-        String,
-
-        /// <summary>
-        /// This argument is the name of a function.
-        /// </summary>
-        Function,
-
-        /// <summary>
-        /// When found in Def, indicates that the argument can be of any type.
-        /// </summary>
-        Any,
-    }
 }

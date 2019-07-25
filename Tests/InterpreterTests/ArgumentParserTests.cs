@@ -1,4 +1,5 @@
 using System;
+using Fluency.Interpreter.Common;
 using Fluency.Interpreter.Parsing.Entities;
 using Fluency.Interpreter.Parsing.Entities.ArgumentTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,7 +21,7 @@ namespace Fluency.Tests.Parsing
             {
                 Assert.IsInstanceOfType(argument, typeof(IntArg));
                 Assert.AreEqual(expected, argument.GetAs<int>());
-                Assert.AreEqual(ParsedType.Int, argument.Type);
+                Assert.AreEqual(ValueTypes.Int, argument.Type);
             }
             else
             {
@@ -39,7 +40,7 @@ namespace Fluency.Tests.Parsing
             {
                 Assert.IsInstanceOfType(argument, typeof(DoubleArg));
                 Assert.AreEqual(expected, argument.GetAs<double>());
-                Assert.AreEqual(ParsedType.Double, argument.Type);
+                Assert.AreEqual(ValueTypes.Double, argument.Type);
             }
             else
             {
@@ -59,7 +60,7 @@ namespace Fluency.Tests.Parsing
                 {
                     Assert.IsInstanceOfType(argument, typeof(IntArg));
                     Assert.AreEqual(expected, argument.GetAs<int>());
-                    Assert.AreEqual(ParsedType.Int, argument.Type);
+                    Assert.AreEqual(ValueTypes.Int, argument.Type);
                 }
                 else
                 {
@@ -78,12 +79,12 @@ namespace Fluency.Tests.Parsing
                 string toparse = expected.ToString();
                 if (Argument.TryParse(toparse, out var argument))
                 {
-                    if (argument.Type == ParsedType.Int && argument.GetAs<int>() == 0)
+                    if (argument.Type == ValueTypes.Int && argument.GetAs<int>() == 0)
                         continue;
 
                     Assert.IsInstanceOfType(argument, typeof(DoubleArg));
                     Assert.AreEqual(expected, argument.GetAs<double>(), .0000000001);
-                    Assert.AreEqual(ParsedType.Double, argument.Type);
+                    Assert.AreEqual(ValueTypes.Double, argument.Type);
                 }
                 else
                 {
@@ -104,7 +105,7 @@ namespace Fluency.Tests.Parsing
             {
                 Assert.IsInstanceOfType(argument, typeof(StringArg));
                 Assert.AreEqual(expected, argument.GetAs<string>());
-                Assert.AreEqual(ParsedType.String, argument.Type);
+                Assert.AreEqual(ValueTypes.String, argument.Type);
             }
             else
             {
@@ -124,7 +125,7 @@ namespace Fluency.Tests.Parsing
             {
                 Assert.IsInstanceOfType(argument, typeof(FunctionArg));
                 Assert.AreEqual(toparse, argument.GetAs<string>());
-                Assert.AreEqual(ParsedType.Function, argument.Type);
+                Assert.AreEqual(ValueTypes.Function, argument.Type);
             }
             else
             {
@@ -133,25 +134,25 @@ namespace Fluency.Tests.Parsing
         }
 
         [TestMethod]
-        [DataRow("int n", ParsedType.Int, "n")]
-        [DataRow("float floaty", ParsedType.Double, "floaty")]
-        [DataRow("double floaty", ParsedType.Double, "floaty")]
-        [DataRow("int    n", ParsedType.Int, "n")]
-        [DataRow("float \tfloaty", ParsedType.Double, "floaty")]
-        [DataRow("double    floaty", ParsedType.Double, "floaty")]
-        [DataRow("string n", ParsedType.String, "n")]
-        [DataRow("str string", ParsedType.String, "string")]
-        [DataRow("func f", ParsedType.Function, "f")]
-        [DataRow("fun predicate", ParsedType.Function, "predicate")]
-        [DataRow("any afun", ParsedType.Any, "afun")]
-        [DataRow("...", ParsedType.Any, "...")]
-        [DataRow("int ...", ParsedType.Int, "...")]
-        public void CanParseFunctionsWithTypenames(string toparse, ParsedType expectedType, string expectedName)
+        [DataRow("int n", ValueTypes.Int, "n")]
+        [DataRow("float floaty", ValueTypes.Double, "floaty")]
+        [DataRow("double floaty", ValueTypes.Double, "floaty")]
+        [DataRow("int    n", ValueTypes.Int, "n")]
+        [DataRow("float \tfloaty", ValueTypes.Double, "floaty")]
+        [DataRow("double    floaty", ValueTypes.Double, "floaty")]
+        [DataRow("string n", ValueTypes.String, "n")]
+        [DataRow("str string", ValueTypes.String, "string")]
+        [DataRow("func f", ValueTypes.Function, "f")]
+        [DataRow("fun predicate", ValueTypes.Function, "predicate")]
+        [DataRow("any afun", ValueTypes.Any, "afun")]
+        [DataRow("...", ValueTypes.Any, "...")]
+        [DataRow("int ...", ValueTypes.Int, "...")]
+        public void CanParseFunctionsWithTypenames(string toparse, ValueTypes expectedType, string expectedName)
         {
             if (Argument.TryParse(toparse, out var argument))
             {
                 Assert.IsInstanceOfType(argument, typeof(FunctionArg));
-                Assert.AreEqual(ParsedType.Function, argument.Type);
+                Assert.AreEqual(ValueTypes.Function, argument.Type);
                 Assert.AreEqual(expectedName, argument.GetAs<string>());
                 FunctionArg arg = (FunctionArg)argument;
                 Assert.AreEqual(expectedType, arg.DeclaredType);

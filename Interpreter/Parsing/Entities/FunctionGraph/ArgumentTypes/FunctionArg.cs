@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Fluency.Interpreter.Common;
 using Fluency.Interpreter.Parsing.Exceptions;
 
 namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
@@ -13,19 +14,20 @@ namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
         /// The Fluency type this object is.
         /// </summary>
         /// <value></value>
-        public override ParsedType Type { get { return ParsedType.Function; } }
+        public override ValueTypes Type { get { return ValueTypes.Function; } }
 
         /// <summary>
         /// If this is a declaration of a parameter, what type is it
         /// </summary>
         /// <value></value>
-        public ParsedType DeclaredType { get; private set; } = ParsedType.Any;
+        public ValueTypes DeclaredType { get; private set; } = ValueTypes.Any;
 
         /// <summary>
         /// The name of the function or parameter this instance represents.
         /// </summary>
         /// <value></value>
         public string FunctionName { get { return _value; } }
+
         private string _value;
 
         private FunctionArg(string value)
@@ -43,7 +45,7 @@ namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
         public static FunctionArg TryParseArg(string str)
         {
             string functionName;
-            ParsedType declType = ParsedType.Any;
+            ValueTypes declType = ValueTypes.Any;
             string[] halves = str.Split(_spliton, 2, StringSplitOptions.RemoveEmptyEntries);
 
             if (halves.Length == 1)
@@ -62,23 +64,23 @@ namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
             return null;
         }
 
-        private static ParsedType PickType(string typename)
+        private static ValueTypes PickType(string typename)
         {
             switch (typename)
             {
                 case "float":
                 case "double":
-                    return ParsedType.Double;
+                    return ValueTypes.Double;
                 case "func":
                 case "fun":
-                    return ParsedType.Function;
+                    return ValueTypes.Function;
                 case "int":
-                    return ParsedType.Int;
+                    return ValueTypes.Int;
                 case "string":
                 case "str":
-                    return ParsedType.String;
+                    return ValueTypes.String;
                 case "any":
-                    return ParsedType.Any;
+                    return ValueTypes.Any;
                 default:
                     throw new ParseException("Could not parse type name {0}. Did you forget a comma?", typename);
 
@@ -91,7 +93,7 @@ namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
         /// <returns></returns>
         public override string ToString()
         {
-            if (DeclaredType != ParsedType.Any)
+            if (DeclaredType != ValueTypes.Any)
                 return DeclaredType.ToString() + " " + _value;
             return _value;
         }
