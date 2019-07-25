@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Fluency.Interpreter.Parsing;
@@ -9,6 +10,7 @@ namespace Fluency.CLI
     {
         static void Main(string[] args)
         {
+            Stopwatch watch = Stopwatch.StartNew();
             ArgumentParser a = new ArgumentParser(args);
 
             if (a.Verbose)
@@ -67,6 +69,9 @@ namespace Fluency.CLI
                     Console.WriteLine();
                 }
             }
+
+            watch.Stop();
+            Console.WriteLine("Executed in {0}s.", watch.Elapsed.TotalSeconds);
 
             // Console.Write(string.Join(Environment.NewLine, parsed.SelectMany(x => x).Select(x => x.ToString())));
         }
