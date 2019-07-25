@@ -24,6 +24,7 @@ namespace Fluency.Interpreter.Execution
         /// <param name="program"></param>
         public void Execute(IEnumerable<string> program)
         {
+            var functions = parser.Parse(program);
 
         }
     }
