@@ -44,6 +44,103 @@
             Extension methods to help execution.
             </summary>
         </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.BuiltIn.Com">
+            <summary>
+            A Fluency source code comment. Passes input to output.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.BuiltIn.Comment">
+            <summary>
+            A Fluency source code comment. Passes input to output. Same as <see cref="T:Fluency.Interpreter.Execution.Functions.BuiltIn.Com"/>
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.BuiltIn.Drain">
+            <summary>
+            Takes all values from both inputs and returns nothing.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.BuiltIn.Dup">
+            <summary>
+            Reads a value from the top input and puts it on both top and bottom outputs.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.BuiltIn.First">
+            <summary>
+            Returns the first N values, then stops.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.BuiltIn.MergeTop">
+            <summary>
+            Pass everything from the top input to the top output, then everything from the bottom input to top output.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.BuiltIn.MergeBottom">
+            <summary>
+            Pass everything from the bottom input to the top output, then everything from the top input to top output.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.BuiltIn.Switch">
+            <summary>
+            If switch(true), put everything from the top input onto the top pipeline.
+            If switch(false), put everything from the top input onto the bottom pipeline.
+            If no argument given, treat the first value seen as if it was passed as the argument.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.IFunction">
+            <summary>
+            A Fluency function.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Execution.Functions.IFunction.Name">
+            <summary>
+            The function's name.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.ITopOut">
+            <summary>
+            A Fluency function that writes to the top output.
+            </summary>
+        </member>
+        <member name="M:Fluency.Interpreter.Execution.Functions.ITopOut.Top">
+            <summary>
+            Called when the function after this one on top wants a value.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.IBottomOut">
+            <summary>
+            A Fluency function that writes to the bottom output.
+            </summary>
+        </member>
+        <member name="M:Fluency.Interpreter.Execution.Functions.IBottomOut.Bottom">
+            <summary>
+            Called when the function after this one on the bottom wants a value.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.ITopIn">
+            <summary>
+            A Fluency function that reads from the top input.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Execution.Functions.ITopIn.TopInput">
+            <summary>
+            A function to call when you want the next value from the top input.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.IBottomIn">
+            <summary>
+            A Fluency function that reads from the bottom input.
+            </summary>
+        </member>
+        <member name="P:Fluency.Interpreter.Execution.Functions.IBottomIn.BottomInput">
+            <summary>
+            A function to call when you want the next value from the bottom input.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.GetNext">
+            <summary>
+            A function that, when called, returns the next element in the corresponding pipeline.
+            </summary>
+        </member>
         <member name="T:Fluency.Interpreter.Execution.Functions.Value">
             <summary>
             Represents a value that Fluency functions operate on.
@@ -81,6 +178,11 @@
             <param name="value"></param>
             <param name="type"></param>
         </member>
+        <member name="M:Fluency.Interpreter.Execution.Functions.Value.op_Implicit(Fluency.Interpreter.Execution.Functions.Value)~System.Boolean">
+            <summary>
+            The Done value converts to false, all others to true. This is so you can do something like (while (NextValue()) { doSomething(); }
+            </summary>
+        </member>
         <member name="P:Fluency.Interpreter.Execution.Functions.Value.Finished">
             <summary>
             The "done" Value that indicates there's no more work.
@@ -105,6 +207,11 @@
         <member name="T:Fluency.Interpreter.Execution.Linker">
             <summary>
             Ensures all the function names in the program correspond to something.
+            </summary>
+        </member>
+        <member name="M:Fluency.Interpreter.Execution.Linker.Register(Fluency.Interpreter.Execution.Functions.IFunction)">
+            <summary>
+            Tell the linker about a function.
             </summary>
         </member>
         <member name="T:Fluency.Interpreter.Parsing.Entities.Argument">

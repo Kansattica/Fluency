@@ -5,13 +5,16 @@ using Fluency.Interpreter.Common;
 
 namespace Fluency.Interpreter.Execution.Functions.BuiltIn
 {
-    class Switch : IFunction, ITopIn, ITopOut, IBottomOut
+    /// <summary>
+    /// If switch(true), put everything from the top input onto the top pipeline.
+    /// If switch(false), put everything from the top input onto the bottom pipeline.
+    /// If no argument given, treat the first value seen as if it was passed as the argument.
+    /// </summary>
+    class Switch : ITopIn, ITopOut, IBottomOut
     {
-        private GetNext _next;
-
         public string Name => "Switch";
 
-        public GetNext TopInput { set => _next = value; }
+        public GetNext TopInput { private get; set; }
 
         bool? everythingToTop;
 
@@ -41,8 +44,8 @@ namespace Fluency.Interpreter.Execution.Functions.BuiltIn
 
         public Value Top()
         {
-            Value next = _next();
-            if (EnsureDirectionSet(next) && everythingToTop.Value)
+            Value next;
+            if ((next = TopInput()) && EnsureDirectionSet(next) && everythingToTop.Value)
             {
                 return next;
             }
@@ -51,8 +54,8 @@ namespace Fluency.Interpreter.Execution.Functions.BuiltIn
 
         public Value Bottom()
         {
-            Value next = _next();
-            if (EnsureDirectionSet(next) && everythingToTop.Value == false)
+            Value next;
+            if ((next = TopInput()) && EnsureDirectionSet(next) && everythingToTop.Value == false)
             {
                 return next;
             }

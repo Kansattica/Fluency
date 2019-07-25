@@ -2,31 +2,66 @@ using System.Collections.Generic;
 
 namespace Fluency.Interpreter.Execution.Functions
 {
-    interface IFunction
+
+    /// <summary>
+    /// A Fluency function.
+    /// </summary>
+    public interface IFunction
     {
+        /// <summary>
+        /// The function's name.
+        /// </summary>
         string Name { get; }
     }
 
-    interface ITopOut
+
+    /// <summary>
+    /// A Fluency function that writes to the top output.
+    /// </summary>
+    public interface ITopOut : IFunction
     {
+
+        /// <summary>
+        /// Called when the function after this one on top wants a value.
+        /// </summary>
         Value Top();
     }
 
-    interface IBottomOut
+    /// <summary>
+    /// A Fluency function that writes to the bottom output.
+    /// </summary>
+    public interface IBottomOut : IFunction
     {
-
+        /// <summary>
+        /// Called when the function after this one on the bottom wants a value.
+        /// </summary>
         Value Bottom();
     }
 
-    interface ITopIn
+    /// <summary>
+    /// A Fluency function that reads from the top input.
+    /// </summary>
+    public interface ITopIn : IFunction
     {
+        /// <summary>
+        /// A function to call when you want the next value from the top input.
+        /// </summary>
         GetNext TopInput { set; }
     }
 
-    interface IBottomIn
+    /// <summary>
+    /// A Fluency function that reads from the bottom input.
+    /// </summary>
+    public interface IBottomIn : IFunction
     {
-        GetNext TopInput { set; }
+        /// <summary>
+        /// A function to call when you want the next value from the bottom input.
+        /// </summary>
+        GetNext BottomInput { set; }
     }
 
-    delegate Value GetNext();
+    /// <summary>
+    /// A function that, when called, returns the next element in the corresponding pipeline.
+    /// </summary>
+    public delegate Value GetNext();
 }
