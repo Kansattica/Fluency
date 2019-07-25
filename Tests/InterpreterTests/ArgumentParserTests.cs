@@ -127,6 +127,7 @@ namespace Fluency.Tests.Parsing
             {
                 Assert.IsInstanceOfType(argument, typeof(StringArg));
                 Assert.AreEqual(expected, argument.GetAs<string>());
+                Assert.AreEqual(toparse.Replace("\\\"", "\""), argument.ToString());
                 Assert.AreEqual(FluencyType.String, argument.Type);
             }
             else

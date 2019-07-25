@@ -41,7 +41,7 @@ namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
         /// <returns></returns>
         public override string ToString()
         {
-            return _value;
+            return $"\"{_value}\"";
         }
 
         /// <summary>
