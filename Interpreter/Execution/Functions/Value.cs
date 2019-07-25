@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Fluency.Interpreter.Common;
 using Fluency.Interpreter.Execution.Exceptions;
 using Fluency.Interpreter.Parsing.Entities;
@@ -7,6 +8,7 @@ namespace Fluency.Interpreter.Execution.Functions
     /// <summary>
     /// Represents a value that Fluency functions operate on.
     /// </summary>
+    [DebuggerDisplay("Done: {Done}  Value: {_value}")]
     public class Value
     {
         /// <summary>

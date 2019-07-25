@@ -11,9 +11,9 @@ namespace Fluency.Interpreter.Execution.Functions.BuiltIn
     /// If switch(false), put everything from the top input onto the bottom pipeline.
     /// If no argument given, treat the first value seen as if it was passed as the argument.
     /// </summary>
-    class Switch : ITopIn, ITopOut, IBottomOut
+    public class Switch : ITopIn, ITopOut, IBottomOut
     {
-        public string Name => "Switch";
+        public string Name => nameof(Switch);
 
         public GetNext TopInput { private get; set; }
 
@@ -33,34 +33,30 @@ namespace Fluency.Interpreter.Execution.Functions.BuiltIn
 
         }
 
-        private bool EnsureDirectionSet(Value direction)
+        private bool EnsureDirectionSet()
         {
             if (!everythingToTop.HasValue)
             {
+                Value direction = TopInput();
                 everythingToTop = direction.Get<bool>(FluencyType.Bool, "Switch needs a boolean to set which direction it's going.");
                 return false;
             }
             return true;
         }
 
-        public Value Top()
+        public Value Top() => SendTo(isTop: true);
+        public Value Bottom() => SendTo(isTop: false);
+
+        private Value SendTo(bool isTop)
         {
-            Value next;
-            if ((next = TopInput()) && EnsureDirectionSet(next) && everythingToTop.Value)
-            {
-                return next;
-            }
-            return Value.Finished;
+            EnsureDirectionSet();
+
+            // If we know that we shouldn't be sending stuff this way, return finished
+            // before consuming an input.
+            if (everythingToTop.Value != isTop) { return Value.Finished; }
+
+            return TopInput();
         }
 
-        public Value Bottom()
-        {
-            Value next;
-            if ((next = TopInput()) && EnsureDirectionSet(next) && everythingToTop.Value == false)
-            {
-                return next;
-            }
-            return Value.Finished;
-        }
     }
 }
