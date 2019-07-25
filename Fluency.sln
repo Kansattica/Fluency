@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F228C9C2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTests", "Tests\ConsoleTests\ConsoleTests.csproj", "{F70A0F92-34B3-42AD-B158-B894E8D4B3F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExecutionTests", "Tests\ExecutionTests\ExecutionTests.csproj", "{EBB1E442-809F-4E7F-9A82-F787239E099C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,8 +76,21 @@ Global
 		{F70A0F92-34B3-42AD-B158-B894E8D4B3F7}.Release|x64.Build.0 = Release|Any CPU
 		{F70A0F92-34B3-42AD-B158-B894E8D4B3F7}.Release|x86.ActiveCfg = Release|Any CPU
 		{F70A0F92-34B3-42AD-B158-B894E8D4B3F7}.Release|x86.Build.0 = Release|Any CPU
+		{EBB1E442-809F-4E7F-9A82-F787239E099C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBB1E442-809F-4E7F-9A82-F787239E099C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBB1E442-809F-4E7F-9A82-F787239E099C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EBB1E442-809F-4E7F-9A82-F787239E099C}.Debug|x64.Build.0 = Debug|Any CPU
+		{EBB1E442-809F-4E7F-9A82-F787239E099C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EBB1E442-809F-4E7F-9A82-F787239E099C}.Debug|x86.Build.0 = Debug|Any CPU
+		{EBB1E442-809F-4E7F-9A82-F787239E099C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBB1E442-809F-4E7F-9A82-F787239E099C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBB1E442-809F-4E7F-9A82-F787239E099C}.Release|x64.ActiveCfg = Release|Any CPU
+		{EBB1E442-809F-4E7F-9A82-F787239E099C}.Release|x64.Build.0 = Release|Any CPU
+		{EBB1E442-809F-4E7F-9A82-F787239E099C}.Release|x86.ActiveCfg = Release|Any CPU
+		{EBB1E442-809F-4E7F-9A82-F787239E099C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F70A0F92-34B3-42AD-B158-B894E8D4B3F7} = {F228C9C2-FE72-4D9A-A1FB-2ABB7234B709}
+		{EBB1E442-809F-4E7F-9A82-F787239E099C} = {F228C9C2-FE72-4D9A-A1FB-2ABB7234B709}
 	EndGlobalSection
 EndGlobal
