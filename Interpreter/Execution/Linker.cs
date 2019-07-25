@@ -39,6 +39,8 @@ namespace Fluency.Interpreter.Execution
             _namesToFunctions[name] = function;
         }
     }
+    
+    //naming things is hard
     delegate IFunction FunctionMaker(Value[] arguments);
 
 }
