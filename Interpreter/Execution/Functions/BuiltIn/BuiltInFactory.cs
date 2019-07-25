@@ -6,7 +6,7 @@ namespace Fluency.Interpreter.Execution.Functions.BuiltIn
 {
     static class BuiltInFactory
     {
-        private static Dictionary<string, Func<Value[], IFunction>> _builtInFunctions = new Dictionary<string, Func<Value[], IFunction>>()
+        public static IReadOnlyDictionary<string, FunctionMaker> BuiltInFunctions = new Dictionary<string, FunctionMaker>()
         {
             {"Switch", (args) => new Switch(args)},
             {"Com", (_) => new Com()},
@@ -19,9 +19,5 @@ namespace Fluency.Interpreter.Execution.Functions.BuiltIn
             {"Drain", (_) => new Drain()},
         };
 
-        public static IFunction Construct(string name, Value[] arguments)
-        {
-            return _builtInFunctions[name](arguments);
-        }
     }
 }

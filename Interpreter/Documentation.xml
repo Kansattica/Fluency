@@ -209,7 +209,10 @@
             Ensures all the function names in the program correspond to something.
             </summary>
         </member>
-        <member name="M:Fluency.Interpreter.Execution.Linker.Register(Fluency.Interpreter.Execution.Functions.IFunction)">
+        <member name="M:Fluency.Interpreter.Execution.Linker.#ctor(System.Collections.Generic.IEnumerable{System.ValueTuple{System.String,Fluency.Interpreter.Execution.FunctionMaker}})">
+            Construct a new linker already knowing about some functions.
+        </member>
+        <member name="M:Fluency.Interpreter.Execution.Linker.Register(System.String,Fluency.Interpreter.Execution.FunctionMaker)">
             <summary>
             Tell the linker about a function.
             </summary>

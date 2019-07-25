@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Fluency.Interpreter.Execution.Functions.BuiltIn;
 using Fluency.Interpreter.Parsing;
 
 namespace Fluency.Interpreter.Execution
@@ -25,6 +27,10 @@ namespace Fluency.Interpreter.Execution
         public void Execute(IEnumerable<string> program)
         {
             var functions = parser.Parse(program);
+
+            Linker abraham = new Linker(BuiltInFactory.BuiltInFunctions.Select(kvp => (kvp.Key, kvp.Value)));
+            //who kept the country as one big compilation unit
+
 
         }
     }

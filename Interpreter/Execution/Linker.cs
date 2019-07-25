@@ -1,5 +1,7 @@
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Fluency.Interpreter.Execution.Exceptions;
 using Fluency.Interpreter.Execution.Functions;
 
@@ -10,19 +12,33 @@ namespace Fluency.Interpreter.Execution
     /// </summary>
     class Linker
     {
-        private Dictionary<string, IFunction> _namesToFunctions = new Dictionary<string, IFunction>();
+        private Dictionary<string, FunctionMaker> _namesToFunctions; 
+
+        ///Construct a new linker already knowing about some functions.
+        public Linker(IEnumerable<(string FunctionName, FunctionMaker Constructor)> startingFunctions = null)
+        {
+            if (startingFunctions == null) 
+            {
+                _namesToFunctions = new Dictionary<string, FunctionMaker>();
+            }
+            else
+            {
+                _namesToFunctions = startingFunctions.ToDictionary(pair => pair.FunctionName, pair => pair.Constructor);
+            }
+            
+        }
 
         /// <summary>
         /// Tell the linker about a function.
         /// </summary>
-        public void Register(IFunction function)
+        public void Register(string name, FunctionMaker function)
         {
-            if (_namesToFunctions.ContainsKey(function.Name))
-                throw new ExecutionException("Function {0} defined twice.", function.Name);
+            if (_namesToFunctions.ContainsKey(name))
+                throw new ExecutionException("Function {0} defined twice.", name);
             
-            _namesToFunctions[function.Name] = function;
+            _namesToFunctions[name] = function;
         }
-
-
     }
+    delegate IFunction FunctionMaker(Value[] arguments);
+
 }
