@@ -32,8 +32,8 @@ Def(IsPrime, n).Dup().First().Sqrt().Floor().Range().MergeBottom().DivBy().Drain
 //div all other numbers in the pipeline by n and get the remainder
 //pipeline is [everything else, n]
 Def(DivBy, ..., n).First().Com("everything").Count().Com().Join(false).Com("n pairs of [pipeline element, n]").Div()
-		    \.Switch(false)        \.MergeTop().DupN()./                                                            \.Com("remainders")
-				\.Comment("just n")./
+					\.Switch(false)        \.MergeTop().DupN()./                                                \.Com("remainders")
+							\.Comment("just n")./
 
 //maybe turn this pattern into a function because it seems useful
 //Apply or something
