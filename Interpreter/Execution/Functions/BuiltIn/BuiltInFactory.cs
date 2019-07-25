@@ -5,7 +5,7 @@ using Fluency.Interpreter.Parsing.Entities;
 
 namespace Fluency.Interpreter.Execution.Functions.BuiltIn
 {
-    static class BuiltInFactory
+    public static class BuiltInFactory
     {
         public static IReadOnlyDictionary<string, FunctionMaker> BuiltInFunctions = new Dictionary<string, FunctionMaker>()
         {
@@ -18,7 +18,9 @@ namespace Fluency.Interpreter.Execution.Functions.BuiltIn
             {"MergeTop", (_) => new MergeTop()},
             {"MergeBottom", (_) => new MergeBottom()},
             {"Drain", (_) => new Drain()},
-            {"Add", (args) => new WrapMath<int>((a, b) => a + b, FluencyType.Int, "Add", args )},
+            {"Add", (args) => new WrapBinary<int, int, int>((a, b) => a + b, FluencyType.Int, "Add", args )},
+            {"AddDouble", (args) => new WrapBinary<double, double, double>((a, b) => a + b, FluencyType.Double, "AddDouble", args )},
+            {"ParseInt", (_) => new WrapUnary<string, int>(int.Parse, FluencyType.Int, "ParseInt")},
         };
 
     }

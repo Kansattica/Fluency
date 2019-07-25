@@ -17,11 +17,12 @@ namespace Fluency.Tests.Execution
     public class BuiltInFunctionTests
     {
 
-        public static IEnumerable<Value>[] sequences = new IEnumerable<Value>[] 
+        public static IEnumerable<Value>[] sequences = new IEnumerable<Value>[]
         {
             new[] { new Value(1, FluencyType.Int), new Value(2, FluencyType.Int), new Value(3, FluencyType.Int), new Value(4, FluencyType.Int), new Value(5, FluencyType.Int), },
             new[] { new Value(6, FluencyType.Int), new Value(7, FluencyType.Int), new Value(8, FluencyType.Int), new Value(9, FluencyType.Int), new Value(10, FluencyType.Int), },
-            new Value[0]
+            new Value[0],
+            new[] { new Value("100", FluencyType.String), new Value("2", FluencyType.String), new Value("-1", FluencyType.String), new Value("40", FluencyType.String), new Value("0", FluencyType.String), },
         };
 
         [TestMethod]
@@ -141,7 +142,7 @@ namespace Fluency.Tests.Execution
 
             var topresult = ReadOutput(first.Top).ToArray();
 
-            Assert.AreEqual(Min(2, sequences[sequenceIndex].Count()+1), topresult.Length);
+            Assert.AreEqual(Min(2, sequences[sequenceIndex].Count() + 1), topresult.Length);
             EqualEnumerables(sequences[sequenceIndex].Take(1).Select(x => x.Get<int>()), topresult.TakeWhile(x => !x.Done).Select(x => x.Get<int>()));
         }
 
@@ -180,7 +181,7 @@ namespace Fluency.Tests.Execution
         public void FirstNBadArgs()
         {
             Assert.ThrowsException<ExecutionException>(() => new First(new Value[] { new Value("hi", FluencyType.String) }));
-            Assert.ThrowsException<ExecutionException>(() => new First(new Value[] { new Value(1, FluencyType.Int) , new Value(1, FluencyType.Int) }));
+            Assert.ThrowsException<ExecutionException>(() => new First(new Value[] { new Value(1, FluencyType.Int), new Value(1, FluencyType.Int) }));
         }
 
         [TestMethod]
@@ -310,7 +311,7 @@ namespace Fluency.Tests.Execution
         [TestMethod]
         public void Add()
         {
-            WrapMath<int> add = new WrapMath<int>((a, b) => a + b, FluencyType.Int, "Add", new Value[0]);
+            var add = new WrapBinary<int, int, int>((a, b) => a + b, FluencyType.Int, "Add", new Value[0]);
 
             var topEnumerator = sequences[0].GetEnumerator();
             add.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
@@ -319,8 +320,42 @@ namespace Fluency.Tests.Execution
 
             var topresult = ReadOutput(add.Top).ToArray();
 
-            Assert.AreEqual(Min(sequences[0].Count(),  sequences[1].Count()) + 1, topresult.Length);
+            Assert.AreEqual(Min(sequences[0].Count(), sequences[1].Count()) + 1, topresult.Length);
             EqualEnumerables(sequences[0].Zip(sequences[1], (a, b) => a.Get<int>() + b.Get<int>()), topresult.TakeWhile(x => !x.Done).Select(x => x.Get<int>()));
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(1)]
+        [DataRow(2)]
+        public void AddTo(int sequenceIndex)
+        {
+            var add = new WrapBinary<int, int, int>((a, b) => a + b, FluencyType.Int, "Add", new Value[] { new Value(100, FluencyType.Int) });
+
+            var topEnumerator = sequences[sequenceIndex].GetEnumerator();
+            add.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
+            var bottomEnumerator = sequences[sequenceIndex].GetEnumerator();
+            add.BottomInput = () => { while (bottomEnumerator.MoveNext()) { return bottomEnumerator.Current; } return Value.Finished; };
+
+            var topresult = ReadOutput(add.Top).ToArray();
+
+            Assert.AreEqual(sequences[sequenceIndex].Count() + 1, topresult.Length);
+            EqualEnumerables(sequences[sequenceIndex].Select(x => x.Get<int>() + 100), topresult.TakeWhile(x => !x.Done).Select(x => x.Get<int>()));
+        }
+
+        [TestMethod]
+        [DataRow(3)]
+        public void ParseInt(int sequenceIndex)
+        {
+            WrapUnary<string, int> parseInt = (WrapUnary<string, int>)BuiltInFactory.BuiltInFunctions["ParseInt"](new Value[0]);
+
+            var topEnumerator = sequences[sequenceIndex].GetEnumerator();
+            parseInt.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
+
+            var topresult = ReadOutput(parseInt.Top).ToArray();
+
+            Assert.AreEqual(sequences[sequenceIndex].Count() + 1, topresult.Length);
+            EqualEnumerables(sequences[sequenceIndex].Select(x => int.Parse(x.Get<string>())), topresult.TakeWhile(x => !x.Done).Select(x => x.Get<int>()));
         }
 
         public IEnumerable<Value> ReadOutput(GetNext f)

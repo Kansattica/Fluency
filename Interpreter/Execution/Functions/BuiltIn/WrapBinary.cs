@@ -5,32 +5,32 @@ using Fluency.Interpreter.Execution.Exceptions;
 
 namespace Fluency.Interpreter.Execution.Functions.BuiltIn
 {
-    
+
     /// <summary>
-    /// Wrap a math function with one output.
+    /// Wrap a C# function that takes two arguments and returns one value as a Fluency function.
     /// </summary>
-    public class WrapMath<TReal> : ITopIn, IBottomIn, ITopOut
+    public class WrapBinary<TRealTop, TRealBottom, TRealOut> : ITopIn, IBottomIn, ITopOut
     {
-        private readonly Func<TReal, TReal, TReal> function;
+        private readonly Func<TRealTop, TRealBottom, TRealOut> function;
         private readonly FluencyType type;
         private readonly Value stored;
 
         public string Name { get; private set; }
 
         public GetNext TopInput { private get; set; }
-        public GetNext BottomInput  { private get; set; }
+        public GetNext BottomInput { private get; set; }
 
-        public WrapMath(Func<TReal, TReal, TReal> function, FluencyType type, string name, Value[] arguments)
+        public WrapBinary(Func<TRealTop, TRealBottom, TRealOut> function, FluencyType returnType, string name, Value[] arguments)
         {
             this.function = function;
-            this.type = type;
+            this.type = returnType;
             Name = name;
 
             if (arguments.Length == 1)
             {
                 stored = arguments[0];
-                if (stored.Type != type)
-                    throw new ExecutionException("Function {0} takes a {1}. You supplied a {2}: {3}", name, type, stored.Type, stored.ToString());
+                if (stored.Type != returnType)
+                    throw new ExecutionException("Function {0} takes a {1}. You supplied a {2}: {3}", name, returnType, stored.Type, stored.ToString());
 
             }
             else if (arguments.Length > 1)
@@ -41,10 +41,11 @@ namespace Fluency.Interpreter.Execution.Functions.BuiltIn
 
         public Value Top()
         {
-            Value top = TopInput(), bottom = BottomInput();
+            Value top = TopInput();
+            Value bottom = stored ?? BottomInput();
 
             if (top && bottom)
-                return new Value(function(top.Get<TReal>(type), bottom.Get<TReal>(type)), type);
+                return new Value(function(top.Get<TRealTop>(type), bottom.Get<TRealBottom>(type)), type);
 
             return Value.Finished;
         }
