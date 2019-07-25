@@ -16,6 +16,7 @@ namespace Fluency.Interpreter.Execution.Functions.BuiltIn
             {"First", (args) => new First(args)},
             {"MergeTop", (_) => new MergeTop()},
             {"MergeBottom", (_) => new MergeBottom()},
+            {"Drain", (_) => new Drain()},
         };
 
         public static IFunction Construct(string name, Value[] arguments)
