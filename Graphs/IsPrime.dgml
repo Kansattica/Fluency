@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DirectedGraph xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="1" Label="Def(IsPrime, n)" />
+    <Node Id="1" Label="Def(IsPrime, Int n)" />
     <Node Id="2" Label="Dup()" />
     <Node Id="3" Label="First()" />
     <Node Id="4" Label="Sqrt()" />
