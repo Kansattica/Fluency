@@ -10,6 +10,27 @@ namespace Fluency.Tests.Parsing
     public class ArgumentParserTests
     {
         [TestMethod]
+        [DataRow("true", true)]
+        [DataRow("True", true)]
+        [DataRow("TrUE", true)]
+        [DataRow("false", false)]
+        [DataRow("False", false)]
+        [DataRow("FalsE", false)]
+        public void CanParseBools(string toparse, bool expected)
+        {
+            if (Argument.TryParse(toparse, out var argument))
+            {
+                Assert.IsInstanceOfType(argument, typeof(BoolArg));
+                Assert.AreEqual(expected, argument.GetAs<bool>());
+                Assert.AreEqual(ValueTypes.Bool, argument.Type);
+            }
+            else
+            {
+                Assert.Fail("Could not parse {0}.", toparse);
+            }
+        }
+
+        [TestMethod]
         [DataRow("1", 1)]
         [DataRow("123123123", 123123123)]
         [DataRow("069", 69)]

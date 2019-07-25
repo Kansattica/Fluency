@@ -6,22 +6,27 @@ namespace Fluency.Interpreter.Common
     public enum ValueTypes
     {
         /// <summary>
-        /// This argument is an integer.
+        /// Represents a boolean (true or false)
+        /// </summary>
+        Bool,
+
+        /// <summary>
+        /// Represents an integer.
         /// </summary>
         Int,
 
         /// <summary>
-        /// This argument is a double precision floating point number.
+        /// Represents a double precision floating point number.
         /// </summary>
         Double,
 
         /// <summary>
-        /// This argument is a string.
+        /// Represents a string.
         /// </summary>
         String,
 
         /// <summary>
-        /// This argument is the name of a function.
+        /// Represents the name of a function.
         /// </summary>
         Function,
 

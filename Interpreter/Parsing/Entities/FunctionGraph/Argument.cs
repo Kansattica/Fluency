@@ -43,7 +43,7 @@ namespace Fluency.Interpreter.Parsing.Entities
 
         private delegate Argument TryParser(string arg);
         private static readonly TryParser[] parsers =
-            new TryParser[] { IntArg.TryParseArg, DoubleArg.TryParseArg, StringArg.TryParseArg, FunctionArg.TryParseArg };
+            new TryParser[] { BoolArg.TryParseArg, IntArg.TryParseArg, DoubleArg.TryParseArg, StringArg.TryParseArg, FunctionArg.TryParseArg };
 
         /// <summary>
         /// Attempt to return this function's value as a type T.
