@@ -86,6 +86,11 @@
             If no argument given, treat the first value seen as if it was passed as the argument.
             </summary>
         </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.BuiltIn.WrapMath`1">
+            <summary>
+            Wrap a math function with one output.
+            </summary>
+        </member>
         <member name="T:Fluency.Interpreter.Execution.Functions.IFunction">
             <summary>
             A Fluency function.

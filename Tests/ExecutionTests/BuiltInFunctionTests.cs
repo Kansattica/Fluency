@@ -307,6 +307,22 @@ namespace Fluency.Tests.Execution
             EqualEnumerables(sequences[sequenceIndex].Select(x => x.Get<int>()), topresult.TakeWhile(x => !x.Done).Select(x => x.Get<int>()));
         }
 
+        [TestMethod]
+        public void Add()
+        {
+            WrapMath<int> add = new WrapMath<int>((a, b) => a + b, FluencyType.Int, "Add", new Value[0]);
+
+            var topEnumerator = sequences[0].GetEnumerator();
+            add.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
+            var bottomEnumerator = sequences[1].GetEnumerator();
+            add.BottomInput = () => { while (bottomEnumerator.MoveNext()) { return bottomEnumerator.Current; } return Value.Finished; };
+
+            var topresult = ReadOutput(add.Top).ToArray();
+
+            Assert.AreEqual(Min(sequences[0].Count(),  sequences[1].Count()) + 1, topresult.Length);
+            EqualEnumerables(sequences[0].Zip(sequences[1], (a, b) => a.Get<int>() + b.Get<int>()), topresult.TakeWhile(x => !x.Done).Select(x => x.Get<int>()));
+        }
+
         public IEnumerable<Value> ReadOutput(GetNext f)
         {
             Value next;
