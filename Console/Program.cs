@@ -57,13 +57,14 @@ namespace Fluency.CLI
                     var writer = new GraphWriter();
                     writer.WalkFunctionGraph(graph.Head);
                     writer.Serialize("../Graphs/" + graph.Name + ".dgml");
-                    Console.WriteLine("Wrote graph for " + graph.Name);
+                    //Console.WriteLine("Wrote graph for " + graph.Name);
                 }
 
                 if (a.PrintGraph)
                 {
                     var printer = new GraphPrinter(graph.Head, a.Unicode);
                     Console.WriteLine(printer.Print());
+                    Console.WriteLine();
                 }
             }
 
