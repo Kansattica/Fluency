@@ -14,13 +14,13 @@ namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
         /// The Fluency type this object is.
         /// </summary>
         /// <value></value>
-        public override ValueTypes Type { get { return ValueTypes.Function; } }
+        public override FluencyType Type { get { return FluencyType.Function; } }
 
         /// <summary>
         /// If this is a declaration of a parameter, what type is it
         /// </summary>
         /// <value></value>
-        public ValueTypes DeclaredType { get; private set; } = ValueTypes.Any;
+        public FluencyType DeclaredType { get; private set; } = FluencyType.Any;
 
         /// <summary>
         /// The name of the function or parameter this instance represents.
@@ -45,7 +45,7 @@ namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
         public static FunctionArg TryParseArg(string str)
         {
             string functionName;
-            ValueTypes declType = ValueTypes.Any;
+            FluencyType declType = FluencyType.Any;
             string[] halves = str.Split(_spliton, 2, StringSplitOptions.RemoveEmptyEntries);
 
             if (halves.Length == 1)
@@ -64,23 +64,23 @@ namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
             return null;
         }
 
-        private static ValueTypes PickType(string typename)
+        private static FluencyType PickType(string typename)
         {
             switch (typename)
             {
                 case "float":
                 case "double":
-                    return ValueTypes.Double;
+                    return FluencyType.Double;
                 case "func":
                 case "fun":
-                    return ValueTypes.Function;
+                    return FluencyType.Function;
                 case "int":
-                    return ValueTypes.Int;
+                    return FluencyType.Int;
                 case "string":
                 case "str":
-                    return ValueTypes.String;
+                    return FluencyType.String;
                 case "any":
-                    return ValueTypes.Any;
+                    return FluencyType.Any;
                 default:
                     throw new ParseException("Could not parse type name {0}. Did you forget a comma?", typename);
 
@@ -93,7 +93,7 @@ namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
         /// <returns></returns>
         public override string ToString()
         {
-            if (DeclaredType != ValueTypes.Any)
+            if (DeclaredType != FluencyType.Any)
                 return DeclaredType.ToString() + " " + _value;
             return _value;
         }

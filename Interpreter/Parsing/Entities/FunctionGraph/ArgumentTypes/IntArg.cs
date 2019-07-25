@@ -13,7 +13,7 @@ namespace Fluency.Interpreter.Parsing.Entities.ArgumentTypes
         /// The Fluency type this object is.
         /// </summary>
         /// <value></value>
-        public override ValueTypes Type { get { return ValueTypes.Int; } }
+        public override FluencyType Type { get { return FluencyType.Int; } }
 
         private int _value;
 

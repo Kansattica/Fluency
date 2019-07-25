@@ -15,7 +15,7 @@ namespace Fluency.Interpreter.Parsing.Entities
         /// The Fluency type this object is.
         /// </summary>
         /// <value></value>
-        public abstract ValueTypes Type { get; }
+        public abstract FluencyType Type { get; }
 
         /// <summary>
         /// Make an empty argument.

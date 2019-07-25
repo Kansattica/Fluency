@@ -3,7 +3,7 @@ namespace Fluency.Interpreter.Common
     /// <summary>
     /// The type a value can have.
     /// </summary>
-    public enum ValueTypes
+    public enum FluencyType
     {
         /// <summary>
         /// Represents a boolean (true or false)
