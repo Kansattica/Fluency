@@ -86,9 +86,14 @@
             If no argument given, treat the first value seen as if it was passed as the argument.
             </summary>
         </member>
-        <member name="T:Fluency.Interpreter.Execution.Functions.BuiltIn.WrapMath`1">
+        <member name="T:Fluency.Interpreter.Execution.Functions.BuiltIn.WrapBinary`3">
             <summary>
-            Wrap a math function with one output.
+            Wrap a C# function that takes two arguments and returns one value as a Fluency function.
+            </summary>
+        </member>
+        <member name="T:Fluency.Interpreter.Execution.Functions.BuiltIn.WrapUnary`2">
+            <summary>
+            Wrap a C# function that takes one argument and returns one value as a Fluency function.
             </summary>
         </member>
         <member name="T:Fluency.Interpreter.Execution.Functions.IFunction">

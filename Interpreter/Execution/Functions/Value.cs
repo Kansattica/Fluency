@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using Fluency.Interpreter.Common;
 using Fluency.Interpreter.Execution.Exceptions;
@@ -9,7 +10,7 @@ namespace Fluency.Interpreter.Execution.Functions
     /// Represents a value that Fluency functions operate on.
     /// </summary>
     [DebuggerDisplay("Done: {Done}  Value: {_value}")]
-    public class Value
+    public class Value : IEquatable<Value>
     {
         /// <summary>
         /// Returned when the called function has no more work to do.
@@ -54,6 +55,7 @@ namespace Fluency.Interpreter.Execution.Functions
 
         }
 
+
         /// <summary>
         /// Construct a value from a C# value and a type.
         /// </summary>
@@ -78,5 +80,31 @@ namespace Fluency.Interpreter.Execution.Functions
         /// The "done" Value that indicates there's no more work.
         /// </summary>
         public static Value Finished => _done;
+
+        /// <summary>
+        /// Two Values are equal if and only if:
+        /// - they are both Done OR
+        /// - neither of them are done AND they have the same type and value.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(Value other)
+        {
+            if (this.Done && other.Done) return true;
+            return this.Type == other.Type && other.Equals(_value);
+        }
+
+        public override bool Equals(object other)
+        {
+            if (other is null) { return _value is null; }
+            if (_value is null) { return other is null; }
+
+            return _value.Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return _value.GetHashCode();
+        }
     }
 }
