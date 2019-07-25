@@ -5,7 +5,7 @@ namespace Fluency.Interpreter.Execution.Functions.BuiltIn
     /// <summary>
     /// Reads a value from the top input and puts it on both top and bottom outputs.
     /// </summary>
-    class Dup : ITopIn, ITopOut, IBottomOut
+    public class Dup : ITopIn, ITopOut, IBottomOut
     {
         public virtual string Name => "Dup";
 
@@ -14,7 +14,7 @@ namespace Fluency.Interpreter.Execution.Functions.BuiltIn
         private Queue<Value> _topQueue = new Queue<Value>();
         private Queue<Value> _bottomQueue = new Queue<Value>();
 
-        private Value DoQueueing(Queue<Value> thisQueue, Queue<Value> thatQueue)
+        protected Value DoQueueing(Queue<Value> thisQueue, Queue<Value> thatQueue)
         {
             Value toReturn;
             if (thisQueue.Count == 0)
@@ -33,7 +33,7 @@ namespace Fluency.Interpreter.Execution.Functions.BuiltIn
 
     }
 
-    class Duplicate : Com
+    public class Duplicate : Dup
     {
         public override string Name => "Duplicate";
     }

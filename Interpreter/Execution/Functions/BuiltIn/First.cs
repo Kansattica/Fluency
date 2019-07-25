@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Fluency.Interpreter.Common;
+using Fluency.Interpreter.Execution.Exceptions;
 
 namespace Fluency.Interpreter.Execution.Functions.BuiltIn
 {
@@ -8,7 +9,7 @@ namespace Fluency.Interpreter.Execution.Functions.BuiltIn
     /// <summary>
     /// Returns the first N values, then stops.
     /// </summary>
-    class First : ITopIn, ITopOut
+    public class First : ITopIn, ITopOut
     {
 
         public virtual string Name => "First";
@@ -24,7 +25,7 @@ namespace Fluency.Interpreter.Execution.Functions.BuiltIn
             }
             else if (args.Length > 1)
             {
-                throw new ArgumentException("First takes either zero or one argument.");
+                throw new ExecutionException("First takes either zero or one argument.");
             }
         }
 

@@ -2,6 +2,7 @@ using System;
 using Fluency.Interpreter.Common;
 using Fluency.Interpreter.Parsing.Entities;
 using Fluency.Interpreter.Parsing.Entities.ArgumentTypes;
+using Fluency.Interpreter.Parsing.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Fluency.Tests.Parsing
@@ -197,9 +198,8 @@ namespace Fluency.Tests.Parsing
                 if (Argument.TryParse(toparse, out var argument))
                     Assert.Fail("Should not have parsed string {0}. Thought it was an {1}.", toparse, argument.Type);
             }
-            catch (Exception ex) //This is fine, too.
+            catch (ParseException) //This is fine, too.
             {
-                Assert.AreEqual("ParseException", ex.GetType().Name);
             }
         }
     }

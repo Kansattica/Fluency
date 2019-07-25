@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Fluency.Interpreter.Common;
+using Fluency.Interpreter.Execution.Exceptions;
 
 namespace Fluency.Interpreter.Execution.Functions.BuiltIn
 {
@@ -27,7 +28,7 @@ namespace Fluency.Interpreter.Execution.Functions.BuiltIn
             }
             else if (arguments.Length > 1)
             {
-                throw new ArgumentException("Switch takes either zero or one argument.");
+                throw new ExecutionException("Switch takes either zero or one arguments.");
             }
 
         }
