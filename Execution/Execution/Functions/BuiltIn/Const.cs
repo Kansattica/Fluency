@@ -10,8 +10,7 @@ namespace Fluency.Execution.Functions.BuiltIn
 
         public virtual string Name => nameof(Const);
 
-        public GetNext TopInput { private get; set; }
-
+        public GetNext TopInput { set {} }
             
         public Const(Value[] arguments)
         {
@@ -27,7 +26,7 @@ namespace Fluency.Execution.Functions.BuiltIn
         private int nextArg = 0;
         public Value Top()
         {
-            return arguments[nextArg = (++nextArg%arguments.Length)];                        
+            return arguments[(nextArg++ % arguments.Length)];
         }
     }
 

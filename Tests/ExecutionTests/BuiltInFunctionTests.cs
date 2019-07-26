@@ -358,6 +358,50 @@ namespace Fluency.Tests.Execution
             EqualEnumerables(sequences[sequenceIndex].Select(x => int.Parse(x.Get<string>())), topresult.TakeWhile(x => !x.Done).Select(x => x.Get<int>()));
         }
 
+        [TestMethod]
+        public void Const()
+        {
+            int take = new Random().Next(10000);
+
+            Const cons = BuiltInFactory.BuiltInFunctions["Const"](new Value[] { new Value("hi", FluencyType.String) }) as Const;
+
+            var topEnumerator = sequences[0].GetEnumerator();
+            cons.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
+
+            var topresult = ReadOutput(cons.Top).Take(take).ToArray();
+
+            Assert.AreEqual(take, topresult.Length);
+            EqualEnumerables(Enumerable.Range(0, take).Select(_ => new Value("hi", FluencyType.String)), topresult.TakeWhile(x => !x.Done));
+        }
+
+        [TestMethod]
+        public void ConstMultivar()
+        {
+            int take = new Random().Next(10000);
+
+            Const cons = BuiltInFactory.BuiltInFunctions["Const"](new Value[] { new Value("hi", FluencyType.String), new Value(3, FluencyType.Int) }) as Const;
+
+            var topEnumerator = sequences[0].GetEnumerator();
+            cons.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
+
+            var topresult = ReadOutput(cons.Top).Take(take).ToArray();
+
+            Assert.AreEqual(take, topresult.Length);
+            EqualEnumerables(EndlessStream(new Value("hi", FluencyType.String), new Value(3, FluencyType.Int)).Take(take), topresult.TakeWhile(x => !x.Done));
+        }
+
+        public IEnumerable<Value> EndlessStream(params Value[] v)
+        {
+            while (true)
+            {
+                foreach (var value in v)
+                {
+                    yield return value;
+                }
+
+            }
+        }
+
         public IEnumerable<Value> ReadOutput(GetNext f)
         {
             Value next;
