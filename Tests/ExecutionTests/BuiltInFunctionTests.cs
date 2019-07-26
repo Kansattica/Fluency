@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Fluency.Interpreter.Common;
-using Fluency.Interpreter.Execution.Exceptions;
-using Fluency.Interpreter.Execution.Functions;
-using Fluency.Interpreter.Execution.Functions.BuiltIn;
+using Fluency.Common;
+using Fluency.Execution.Exceptions;
+using Fluency.Execution.Functions;
+using Fluency.Execution.Functions.BuiltIn;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [assembly: Parallelize(Workers = 0, Scope = ExecutionScope.MethodLevel)]

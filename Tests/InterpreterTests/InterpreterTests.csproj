@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Interpreter\Interpreter.csproj" />
+    <ProjectReference Include="..\..\Execution\Execution.csproj" />
   </ItemGroup>
 
 </Project>

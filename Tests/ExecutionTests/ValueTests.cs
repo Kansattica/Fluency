@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Fluency.Interpreter.Common;
-using Fluency.Interpreter.Execution.Functions;
+using Fluency.Common;
+using Fluency.Execution.Functions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Fluency.Tests.Execution

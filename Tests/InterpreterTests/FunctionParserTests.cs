@@ -1,15 +1,15 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Fluency.Interpreter.Parsing;
+using Fluency.Execution.Parsing;
 using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
-using Fluency.Interpreter.Parsing.Entities;
+using Fluency.Execution.Parsing.Entities;
 using System.Text;
 
 [assembly: Parallelize(Workers = 0, Scope = ExecutionScope.MethodLevel)]
 
-namespace Fluency.Tests.Parsing
+namespace Fluency.Tests.Execution.Parsing
 {
     [TestClass]
     public class FunctionParserTests

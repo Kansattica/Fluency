@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
-using Fluency.Interpreter.Parsing.Entities.FunctionGraph;
+using Fluency.Execution.Parsing.Entities.FunctionGraph;
 
 namespace Fluency.CLI
 {

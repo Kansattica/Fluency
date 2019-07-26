@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Fluency.Interpreter.Parsing.Entities.FunctionGraph;
+using Fluency.Execution.Parsing.Entities.FunctionGraph;
 
 namespace Fluency.CLI
 {

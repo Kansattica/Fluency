@@ -3,9 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Numerics;
-using Fluency.Interpreter.Parsing.Entities;
+using Fluency.Execution.Parsing.Entities;
 
-namespace Fluency.Tests.Parsing
+namespace Fluency.Tests.Execution.Parsing
 {
     [TestClass]
     public class RangeTests

@@ -2,7 +2,8 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Fluency.Interpreter.Parsing;
+using Fluency.Execution;
+using Fluency.Execution.Parsing;
 
 namespace Fluency.CLI
 {
@@ -16,6 +17,12 @@ namespace Fluency.CLI
             if (a.Verbose)
             {
                 Console.WriteLine("My arguments are: {0}", string.Join(' ', args));
+            }
+
+            if (a.Help)
+            {
+                PrintHelp(Environment.GetCommandLineArgs()[0]);
+                return;
             }
 
             if (a.Inspect != null)
@@ -42,33 +49,30 @@ namespace Fluency.CLI
 
             var p = new Parser(a.Verbose, a.TabWarn, a.TabWidth);
 
-            if (a.Help)
+            if (a.WriteGraph)
             {
-                PrintHelp(Environment.GetCommandLineArgs()[0]);
-                return;
-            }
-
-            var fileLines = a.Leftover.Where(x => x.EndsWith(".fl")).SelectMany(x => File.ReadAllLines(x));
-            var parsed = p.Parse(fileLines);
-
-            if (!Directory.Exists("../Graphs")) { Directory.CreateDirectory("../Graphs"); }
-            foreach (var graph in parsed)
-            {
-                if (a.WriteGraph)
+                if (!Directory.Exists("../Graphs")) { Directory.CreateDirectory("../Graphs"); }
+                p.Register(graph =>
                 {
                     var writer = new GraphWriter();
                     writer.WalkFunctionGraph(graph.Head);
                     writer.Serialize("../Graphs/" + graph.Name + ".dgml");
-                    //Console.WriteLine("Wrote graph for " + graph.Name);
-                }
+                });
+            }
 
-                if (a.PrintGraph)
+            if (a.PrintGraph)
+            {
+                p.Register(graph =>
                 {
                     var printer = new GraphPrinter(graph.Head, a.Unicode);
                     Console.WriteLine(printer.Print());
                     Console.WriteLine();
-                }
+
+                });
             }
+
+            var fileLines = a.Leftover.Where(x => x.EndsWith(".fl")).SelectMany(x => File.ReadAllLines(x));
+            new Interpreter(p).Execute(fileLines);
 
             watch.Stop();
             Console.WriteLine("Executed in {0}s.", watch.Elapsed.TotalSeconds);
