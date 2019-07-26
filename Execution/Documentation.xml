@@ -101,7 +101,19 @@
             If no argument given, treat the first value seen as if it was passed as the argument.
             </summary>
         </member>
+        <member name="T:Fluency.Execution.Functions.BuiltIn.Unzip">
+            <summary>
+            If Unzip(true), put an element from the top pipeline onto the top pipeline, then top to bottom, then top to top, and so on.
+            If Unzip(false), same, but put on the bottom pipeline first.
+            If no argument given, treat the first value seen as if it was passed as the argument.
+            </summary>
+        </member>
         <member name="T:Fluency.Execution.Functions.BuiltIn.WrapBinary`3">
+            <summary>
+            Wrap a C# function that takes two arguments and returns one value as a Fluency function.
+            </summary>
+        </member>
+        <member name="T:Fluency.Execution.Functions.BuiltIn.WrapBinaryTwoOutputs`4">
             <summary>
             Wrap a C# function that takes two arguments and returns one value as a Fluency function.
             </summary>
@@ -109,6 +121,13 @@
         <member name="T:Fluency.Execution.Functions.BuiltIn.WrapUnary`2">
             <summary>
             Wrap a C# function that takes one argument and returns one value as a Fluency function.
+            </summary>
+        </member>
+        <member name="T:Fluency.Execution.Functions.BuiltIn.Zip">
+            <summary>
+            If Zip(true), put an element from the top pipeline onto the top pipeline, then bottom to top, then top to top, and so on.
+            If Zip(false), same, but take from the bottom pipeline first.
+            If no argument given, treat the first value seen as if it was passed as the argument.
             </summary>
         </member>
         <member name="T:Fluency.Execution.Functions.IFunction">

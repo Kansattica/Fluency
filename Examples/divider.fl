@@ -1,0 +1,2 @@
+Def(Main).ParseInt().Unzip(true).DivMod().Com("Quotient").Zip(true)
+                       \.Com("n")./   \.Com("Remainder!!")./

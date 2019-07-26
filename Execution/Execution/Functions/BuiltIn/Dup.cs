@@ -7,7 +7,7 @@ namespace Fluency.Execution.Functions.BuiltIn
     /// </summary>
     public class Dup : ITopIn, ITopOut, IBottomOut
     {
-        public virtual string Name => "Dup";
+        public virtual string Name => nameof(Dup);
 
         public GetNext TopInput { private get; set; }
 
@@ -39,6 +39,6 @@ namespace Fluency.Execution.Functions.BuiltIn
 
     public class Duplicate : Dup
     {
-        public override string Name => "Duplicate";
+        public override string Name => nameof(Duplicate);
     }
 }

@@ -390,6 +390,39 @@ namespace Fluency.Tests.Execution
             EqualEnumerables(EndlessStream(new Value("hi", FluencyType.String), new Value(3, FluencyType.Int)).Take(take), topresult.TakeWhile(x => !x.Done));
         }
 
+        [TestMethod]
+        public void DivMod()
+        {
+            WrapBinaryTwoOutputs<int, int, int, int> divmod = BuiltInFactory.BuiltInFunctions["DivMod"](new Value[0]) as WrapBinaryTwoOutputs<int, int, int, int>;
+
+            var topEnumerator = sequences[1].GetEnumerator();
+            divmod.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
+            var bottomEnumerator = sequences[0].GetEnumerator();
+            divmod.BottomInput = () => { while (bottomEnumerator.MoveNext()) { return bottomEnumerator.Current; } return Value.Finished; };
+
+            var topresult = ReadOutput(divmod.Top).ToArray();
+            var bottomresult = ReadOutput(divmod.Bottom).ToArray();
+
+            Assert.AreEqual(Min(sequences[0].Count(), sequences[1].Count()) + 1, topresult.Length);
+            EqualEnumerables(sequences[1].Zip(sequences[0], (a, b) => a.Get<int>() / b.Get<int>()), topresult.TakeWhile(x => !x.Done).Select(x => x.Get<int>()));
+            EqualEnumerables(sequences[1].Zip(sequences[0], (a, b) => a.Get<int>() % b.Get<int>()), bottomresult.TakeWhile(x => !x.Done).Select(x => x.Get<int>()));
+        }
+
+        [TestMethod]
+        public void Zip()
+        {
+            Zip zip = new Zip(new Value[] { new Value(true, FluencyType.Bool) });
+
+            var topEnumerator = sequences[0].GetEnumerator();
+            zip.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
+            var bottomEnumerator = sequences[1].GetEnumerator();
+            zip.BottomInput = () => { while (bottomEnumerator.MoveNext()) { return bottomEnumerator.Current; } return Value.Finished; };
+            var topresult = ReadOutput(zip.Top).ToArray();
+
+            Assert.AreEqual(sequences[0].Count() + sequences[1].Count() + 1, topresult.Length);
+            EqualEnumerables(sequences[0].Zip(sequences[1], (a, b) => new [] {a, b}).SelectMany(x => x), topresult.TakeWhile(x => !x.Done));
+        }
+
         public IEnumerable<Value> EndlessStream(params Value[] v)
         {
             while (true)

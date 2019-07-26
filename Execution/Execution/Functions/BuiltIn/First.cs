@@ -12,7 +12,7 @@ namespace Fluency.Execution.Functions.BuiltIn
     public class First : ITopIn, ITopOut
     {
 
-        public virtual string Name => "First";
+        public virtual string Name => nameof(First);
 
         public GetNext TopInput { private get; set; }
 
