@@ -29,6 +29,41 @@ namespace Fluency.Execution.Extensions
                 throw new ExecutionException("Tried to use function {0} as a {1}, which it isn't.{2}", ex, function.Name, typeof(T).Name,
                         extraInfo != null ? "\n" + extraInfo : "");
             }
+        }
+
+        /// <summary>
+        /// Puts everything in range into the queue.
+        /// </summary>
+        /// <param name="queue"></param>
+        /// <param name="range"></param>
+        /// <typeparam name="T"></typeparam>
+        public static void EnqueueRange<T>(this Queue<T> queue, IEnumerable<T> range)
+        {
+            foreach (T val in range)
+            {
+                queue.Enqueue(val);
+            }
+        }
+
+        /// <summary>
+        /// Try to get a value from queue. Returns true if it found one.
+        /// </summary>
+        /// <param name="queue"></param>
+        /// <param name="value"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static bool TryDequeue<T>(this Queue<T> queue, out T value)
+        {
+            if (queue.Count == 0)
+            {
+                value = default(T);
+                return false;
+            }
+            else
+            {
+                value = queue.Dequeue();
+                return true;
+            }
 
         }
     }

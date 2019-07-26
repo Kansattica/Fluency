@@ -27,6 +27,8 @@ namespace Fluency.Execution.Functions.BuiltIn
             {"AddDouble", (args) => new WrapBinary<double, double, double>((a, b) => a + b, FluencyType.Double, "AddDouble", args )},
             {"ParseInt", (_) => new WrapUnary<string, int>(int.Parse, FluencyType.Int, "ParseInt")},
             {"Concat", (args) => new WrapBinary<string, string, string>((a, b) => a + b, FluencyType.String, "Concat", args )},
+            {"Split", (args) => new WrapBinaryStreamOutput<string, string, string>((a, b) =>
+                                             a.Split(new string[] {b}, StringSplitOptions.RemoveEmptyEntries), FluencyType.String, FluencyType.String, "Split", args )},
             {"DivMod", (args) => new WrapBinaryTwoOutputs<int, int, int, int>((a, b) => (a/b, a%b) , FluencyType.Int, FluencyType.Int, FluencyType.Int, "DivMod", args )},
         };
 

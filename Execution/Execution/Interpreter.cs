@@ -66,7 +66,7 @@ namespace Fluency.Execution
 
             mainIn.TopInput = input;
             Value next;
-            yield return new Value("Ready!", FluencyType.String);
+            yield return new Value("Ready!\n", FluencyType.String);
             while (next = mainOut.Top())
             {
                 yield return next;

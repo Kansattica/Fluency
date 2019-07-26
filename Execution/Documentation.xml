@@ -54,6 +54,23 @@
             <returns></returns>
             <exception cref="T:Fluency.Execution.Exceptions.ExecutionException">Thrown if function is not a T</exception>
         </member>
+        <member name="M:Fluency.Execution.Extensions.ExecutionExtensions.EnqueueRange``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Puts everything in range into the queue.
+            </summary>
+            <param name="queue"></param>
+            <param name="range"></param>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Fluency.Execution.Extensions.ExecutionExtensions.TryDequeue``1(System.Collections.Generic.Queue{``0},``0@)">
+            <summary>
+            Try to get a value from queue. Returns true if it found one.
+            </summary>
+            <param name="queue"></param>
+            <param name="value"></param>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
         <member name="T:Fluency.Execution.Functions.BuiltIn.Com">
             <summary>
             A Fluency source code comment. Passes input to output.
@@ -111,6 +128,11 @@
         <member name="T:Fluency.Execution.Functions.BuiltIn.WrapBinary`3">
             <summary>
             Wrap a C# function that takes two arguments and returns one value as a Fluency function.
+            </summary>
+        </member>
+        <member name="T:Fluency.Execution.Functions.BuiltIn.WrapBinaryStreamOutput`3">
+            <summary>
+            Wrap a C# function that takes two arguments and returns many values as a Fluency function.
             </summary>
         </member>
         <member name="T:Fluency.Execution.Functions.BuiltIn.WrapBinaryTwoOutputs`4">

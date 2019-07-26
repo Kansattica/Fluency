@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Fluency.Common;
 using Fluency.Execution.Exceptions;
+using Fluency.Execution.Extensions;
 
 namespace Fluency.Execution.Functions.BuiltIn
 {
@@ -56,6 +57,11 @@ namespace Fluency.Execution.Functions.BuiltIn
         {
             EnsureDirectionSet();
             putOnTop = !putOnTop;
+
+            if (mine.TryDequeue(out Value val))
+            {
+                return val;
+            }
 
             if (putOnTop.Value == top)
             {
