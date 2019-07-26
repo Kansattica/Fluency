@@ -33,7 +33,7 @@ namespace Fluency.Execution.Functions.BuiltIn
             if (arguments.Length == 1)
             {
                 stored = arguments[0];
-                if (stored.Type != argType)
+                if (argType != FluencyType.Any && stored.Type != argType)
                     throw new ExecutionException("Function {0} takes a {1}. You supplied a {2}: {3}", name, topReturnType, stored.Type, stored.ToString());
 
             }

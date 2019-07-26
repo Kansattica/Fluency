@@ -21,4 +21,12 @@ namespace Fluency.Execution.Functions.BuiltIn
     {
         public override string Name => nameof(Comment);
     }
+
+    /// <summary>
+    /// The identity function. Passes input to output. Same as <see cref="Com"/>
+    /// </summary>
+    public class I : Com
+    {
+        public override string Name => nameof(I);
+    }
 }

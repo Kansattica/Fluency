@@ -20,7 +20,7 @@ namespace Fluency.Execution.Functions.BuiltIn
         public GetNext TopInput { private get; set; }
         public GetNext BottomInput { private get; set; }
 
-        public WrapBinary(Func<TRealTop, TRealBottom, TRealOut> function, FluencyType returnType, string name, Value[] arguments)
+        public WrapBinary(Func<TRealTop, TRealBottom, TRealOut> function, FluencyType argType, FluencyType returnType, string name, Value[] arguments)
         {
             this.function = function;
             this.type = returnType;
@@ -29,7 +29,7 @@ namespace Fluency.Execution.Functions.BuiltIn
             if (arguments.Length == 1)
             {
                 stored = arguments[0];
-                if (stored.Type != returnType)
+                if (argType != FluencyType.Any && stored.Type != argType)
                     throw new ExecutionException("Function {0} takes a {1}. You supplied a {2}: {3}", name, returnType, stored.Type, stored.ToString());
 
             }

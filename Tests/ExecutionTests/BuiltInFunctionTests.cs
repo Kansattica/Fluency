@@ -311,7 +311,7 @@ namespace Fluency.Tests.Execution
         [TestMethod]
         public void Add()
         {
-            var add = new WrapBinary<int, int, int>((a, b) => a + b, FluencyType.Int, "Add", new Value[0]);
+            var add = new WrapBinary<int, int, int>((a, b) => a + b, FluencyType.Int, FluencyType.Int, "Add", new Value[0]);
 
             var topEnumerator = sequences[0].GetEnumerator();
             add.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
@@ -330,7 +330,7 @@ namespace Fluency.Tests.Execution
         [DataRow(2)]
         public void AddTo(int sequenceIndex)
         {
-            var add = new WrapBinary<int, int, int>((a, b) => a + b, FluencyType.Int, "Add", new Value[] { new Value(100, FluencyType.Int) });
+            var add = new WrapBinary<int, int, int>((a, b) => a + b, FluencyType.Int, FluencyType.Int, "Add", new Value[] { new Value(100, FluencyType.Int) });
 
             var topEnumerator = sequences[sequenceIndex].GetEnumerator();
             add.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
