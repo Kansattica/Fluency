@@ -1,0 +1,4 @@
+Def(Main).ParseInt().Square()
+
+Def(Square, int n).Dup().Mult()
+                    \.I()./

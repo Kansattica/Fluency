@@ -23,6 +23,7 @@ namespace Fluency.Execution.Functions.BuiltIn
             {"Unzip", (args) => new Unzip(args)},
             {"Drain", (_) => new Drain()},
             {"Add", (args) => new WrapBinary<int, int, int>((a, b) => a + b, FluencyType.Int, FluencyType.Int,"Add", args )},
+            {"Mult", (args) => new WrapBinary<int, int, int>((a, b) => a * b, FluencyType.Int, FluencyType.Int,"Mult", args )},
             {"Equals", (args) => new WrapBinary<Value, Value, bool>((a, b) => a.Equals(b) , FluencyType.Any, FluencyType.Bool, "Equals", args)},
             {"And", (_) => new WrapBinary<bool,bool, bool>((a, b) => a && b, FluencyType.Bool, FluencyType.Bool, "And", new Value[0])},
             {"Or", (_) => new WrapBinary<bool,bool, bool>((a, b) => a || b, FluencyType.Bool, FluencyType.Bool, "Or", new Value[0])},

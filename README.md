@@ -22,6 +22,10 @@ And type and enter something after it says "Ready!"
 
 or use the long options, like `--help` and `--in-file`.
 
+### Tutorial
+Coming soon, but you can look at the examples folder for now!
+I find it helps to turn on C#-style syntax highlighting.
+
 ### Roadmap
 Fluency is currently in a working state, but I'd to do more.
 - The design makes it very amenable to being parallelized, so I'd like to do more with that. Currently, each function is lazily evaluated. A parallel Fluency could have each node on its own thread, or even on its own computer, exchanging messages through queues.
@@ -30,3 +34,5 @@ Fluency is currently in a working state, but I'd to do more.
 - Better support for users bringing their own C# functions
 - Better support for all C# types- at the moment, Fluency just calls them "Any".
 - A better tutorial
+- Numeric type for ints, floats, decimals, etc.
+- Argument support for user defined functions.
