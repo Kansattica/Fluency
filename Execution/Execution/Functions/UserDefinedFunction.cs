@@ -12,8 +12,8 @@ namespace Fluency.Execution.Functions
         public Argument[] Arguments { get; private set; }
 
 
-        public GetNext TopInput { set => _topHead.Function.TopInput = value; }
-        public GetNext BottomInput { set => _bottomHead.Function.TopInput = value; }
+        public GetNext TopInput { set => _topHead.TypedFunction.TopInput = value; }
+        public GetNext BottomInput { set => _bottomHead.TypedFunction.TopInput = value; }
 
         private ExecutableNode<ITopIn> _topHead;
         private ExecutableNode<ITopIn> _bottomHead;
@@ -45,7 +45,6 @@ namespace Fluency.Execution.Functions
 
                     ExecutableNode<ITopOut> topOut = resolved.Is<ITopOut>();
                     nextTop.TypedFunction.TopInput = topOut.TypedFunction.Top;
-                    nextTop.TopBefore = topOut;
                 }
 
                 if (node.BottomOut != null)
@@ -57,7 +56,6 @@ namespace Fluency.Execution.Functions
 
                     ExecutableNode<IBottomOut> topOut = resolved.Is<IBottomOut>();
                     nextBottom.TypedFunction.TopInput = topOut.TypedFunction.Bottom;
-                    nextBottom.TopBefore = topOut;
                 }
             }
 
@@ -86,9 +84,9 @@ namespace Fluency.Execution.Functions
             if (_topHead != null)
             {
                 ExecutableNode<ITopIn> next = _topHead;
-                if (next.TopAfter != null)
+                while (next.TopAfter != null)
                 {
-                    next = next.Is<ITopOut>().Top
+                    next = next.TopAfter;
                 }
             }
 

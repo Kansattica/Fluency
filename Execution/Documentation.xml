@@ -44,11 +44,12 @@
             Extension methods to help execution.
             </summary>
         </member>
-        <member name="M:Fluency.Execution.Extensions.ExecutionExtensions.Is``1(Fluency.Execution.Functions.IFunction)">
+        <member name="M:Fluency.Execution.Extensions.ExecutionExtensions.Is``1(Fluency.Execution.Functions.IFunction,System.String)">
             <summary>
             Asserts that this IFunction also implements interface T, usually one of the I[Top|Bottom][InOut] interfaces.
             </summary>
             <param name="function"></param>
+            <param name="extraInfo">Will be added to the exception, if thrown.</param>
             <typeparam name="T"></typeparam>
             <returns></returns>
             <exception cref="T:Fluency.Execution.Exceptions.ExecutionException">Thrown if function is not a T</exception>
@@ -216,6 +217,11 @@
             <param name="other"></param>
             <returns></returns>
         </member>
+        <member name="T:Fluency.Execution.IFunctionResolver">
+            <summary>
+            Something that knows how to make a Fluency function, given a name and arguments.
+            </summary>
+        </member>
         <member name="T:Fluency.Execution.Interpreter">
             <summary>
             Executes function graphs.
@@ -243,7 +249,7 @@
             Tell the linker about a function.
             </summary>
         </member>
-        <member name="M:Fluency.Execution.Linker.Create(System.String,Fluency.Execution.Functions.Value[])">
+        <member name="M:Fluency.Execution.Linker.Resolve(System.String,Fluency.Execution.Functions.Value[])">
             <summary>
             Create a new instance of the function with the specified name.
             </summary>

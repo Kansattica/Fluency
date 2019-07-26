@@ -8,10 +8,8 @@ namespace Fluency.Execution.Functions
     {
         public IFunction Function { get; set; }
 
-        public ExecutableNode<ITopOut> TopBefore { get; set; }
         public ExecutableNode<ITopIn> TopAfter { get; set; }
-        public ExecutableNode<ITopOut> BottomBefore { get; set; }
-        public ExecutableNode<IBottomIn> BottomAfter { get; set; }
+        public ExecutableNode<ITopIn> BottomAfter { get; set; }
 
     }
 
