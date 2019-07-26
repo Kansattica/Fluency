@@ -104,7 +104,7 @@ namespace Fluency.CLI
                         //It's above
                         EnsurePadding(thisLine, top.Midpoint - 2);
                         thisLine.Append(above);
-                        curr.TopOut = null;
+                        break;
                     }
                     else
                     {

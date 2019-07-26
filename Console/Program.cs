@@ -66,7 +66,6 @@ namespace Fluency.CLI
                     var printer = new GraphPrinter(graph.Head, a.Unicode);
                     Console.WriteLine(printer.Print());
                     Console.WriteLine();
-
                 });
             }
 
