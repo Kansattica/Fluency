@@ -26,6 +26,7 @@ namespace Fluency.Execution.Functions.BuiltIn
             {"Or", (_) => new WrapBinary<bool,bool, bool>((a, b) => a || b, FluencyType.Bool, "Or", new Value[0])},
             {"AddDouble", (args) => new WrapBinary<double, double, double>((a, b) => a + b, FluencyType.Double, "AddDouble", args )},
             {"ParseInt", (_) => new WrapUnary<string, int>(int.Parse, FluencyType.Int, "ParseInt")},
+            {"Concat", (args) => new WrapBinary<string, string, string>((a, b) => a + b, FluencyType.String, "Concat", args )},
             {"DivMod", (args) => new WrapBinaryTwoOutputs<int, int, int, int>((a, b) => (a/b, a%b) , FluencyType.Int, FluencyType.Int, FluencyType.Int, "DivMod", args )},
         };
 
