@@ -29,3 +29,4 @@ Fluency is currently in a working state, but I'd to do more.
 - Real recursion (expand user-defined functions on first request so you can have base cases)
 - Better support for users bringing their own C# functions
 - Better support for all C# types- at the moment, Fluency just calls them "Any".
+- A better tutorial
