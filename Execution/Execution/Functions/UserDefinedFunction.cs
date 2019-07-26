@@ -22,15 +22,15 @@ namespace Fluency.Execution.Functions
 
         public Value Top()
         {
-            return _topTail.Function.Top();
+            return _topTail.TypedFunction.Top();
         }
 
         public Value Bottom()
         {
-            return _bottomTail.Function.Top();
+            return _bottomTail.TypedFunction.Top();
         }
 
-        private ExecutableNode<T> RecursiveExpand<T>(FunctionNode node, Dictionary<FunctionNode, ExecutableNode<IFunction>> seen, IFunctionResolver linker) where T : IFunction
+        private ExecutableNode<T> RecursiveExpand<T>(FunctionNode node, Dictionary<FunctionNode, ExecutableNode> seen, IFunctionResolver linker) where T : IFunction
         {
             if (!seen.ContainsKey(node))
             {
@@ -40,20 +40,28 @@ namespace Fluency.Execution.Functions
 
                 if (node.TopOut != null)
                 {
-                    ITopIn topIn = RecursiveExpand(node.TopOut, seen, linker).Function.Is<ITopIn>();
-                    topIn.TopInput = resolved.Function.Is<ITopOut>().Top;
+                    var nextTop = RecursiveExpand<ITopIn>(node.TopOut, seen, linker);
+                    resolved.TopAfter = nextTop;
+
+                    ExecutableNode<ITopOut> topOut = resolved.Is<ITopOut>();
+                    nextTop.TypedFunction.TopInput = topOut.TypedFunction.Top;
+                    nextTop.TopBefore = topOut;
                 }
 
                 if (node.BottomOut != null)
                 {
                     // I expect the person below me to be able to take from the top
                     // because I'm handing them that from the bottom.
-                    ITopIn bottomOut = RecursiveExpand(node.TopOut, seen, linker).Function.Is<ITopIn>();
-                    bottomOut.TopInput = resolved.Function.Is<IBottomOut>().Bottom;
+                    var nextBottom = RecursiveExpand<ITopIn>(node.BottomOut, seen, linker);
+                    resolved.BottomAfter = nextBottom;
+
+                    ExecutableNode<IBottomOut> topOut = resolved.Is<IBottomOut>();
+                    nextBottom.TypedFunction.TopInput = topOut.TypedFunction.Bottom;
+                    nextBottom.TopBefore = topOut;
                 }
             }
 
-            return seen[node];
+            return (ExecutableNode<T>)seen[node];
         }
 
 
@@ -61,7 +69,7 @@ namespace Fluency.Execution.Functions
         {
             //Basically, we want to walk the FunctionGraph and turn it into an ExecutableGraph of IFunctions.
 
-            var seen = new Dictionary<FunctionNode, ExecutableNode<IFunction>>();
+            var seen = new Dictionary<FunctionNode, ExecutableNode>();
 
             if (head.TopOut != null)
             {
@@ -75,10 +83,10 @@ namespace Fluency.Execution.Functions
 
             // Find the tail functions. Top is easy- follow it until there's no more head.
 
-            if (_expandedGraph.TopHead != null)
+            if (_topHead != null)
             {
-                IFunction next = _expandedGraph.TopHead;
-                if (next is ITopOut)
+                ExecutableNode<ITopIn> next = _topHead;
+                if (next.TopAfter != null)
                 {
                     next = next.Is<ITopOut>().Top
                 }
