@@ -11,7 +11,6 @@ namespace Fluency.CLI
     {
         static void Main(string[] args)
         {
-            Stopwatch watch = Stopwatch.StartNew();
             ArgumentParser a = new ArgumentParser(args);
 
             if (a.Verbose)
@@ -72,10 +71,12 @@ namespace Fluency.CLI
             }
 
             var fileLines = a.Leftover.Where(x => x.EndsWith(".fl")).SelectMany(x => File.ReadAllLines(x));
-            new Interpreter(p).Execute(fileLines);
 
-            watch.Stop();
-            Console.WriteLine("Executed in {0}s.", watch.Elapsed.TotalSeconds);
+            var console = new ConsoleIO();
+            var result = new Interpreter(p).Execute(fileLines, console.Read);
+
+            console.Write(result);
+
 
             // Console.Write(string.Join(Environment.NewLine, parsed.SelectMany(x => x).Select(x => x.ToString())));
         }

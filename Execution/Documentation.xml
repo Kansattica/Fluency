@@ -44,6 +44,15 @@
             Extension methods to help execution.
             </summary>
         </member>
+        <member name="M:Fluency.Execution.Extensions.ExecutionExtensions.Is``1(Fluency.Execution.Functions.IFunction)">
+            <summary>
+            Asserts that this IFunction also implements interface T, usually one of the I[Top|Bottom][InOut] interfaces.
+            </summary>
+            <param name="function"></param>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+            <exception cref="T:Fluency.Execution.Exceptions.ExecutionException">Thrown if function is not a T</exception>
+        </member>
         <member name="T:Fluency.Execution.Functions.BuiltIn.Com">
             <summary>
             A Fluency source code comment. Passes input to output.
@@ -217,11 +226,12 @@
             Create a new interpreter using the specified parser.
             </summary>
         </member>
-        <member name="M:Fluency.Execution.Interpreter.Execute(System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:Fluency.Execution.Interpreter.Execute(System.Collections.Generic.IEnumerable{System.String},Fluency.Execution.Functions.GetNext)">
             <summary>
             Execute the program represented by a bunch of lines of source code.
             </summary>
             <param name="program"></param>
+            <param name="input">The values to pass to the program.</param>
         </member>
         <member name="T:Fluency.Execution.Linker">
             <summary>
