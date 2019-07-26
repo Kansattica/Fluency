@@ -23,7 +23,7 @@ namespace Fluency.Execution.Functions.BuiltIn
             if (arguments.Length == 1)
             {
                 takeFromTop = !arguments.Single().Get<bool>(FluencyType.Bool, //invert here because we'll invert it back before getting the first element
-                        "Zip takes a boolean. True means everything goes up, false means everything goes down.");
+                        "Zip takes a boolean. True means the first element comes from the top, false, false means the first element comes from the.");
             }
             else if (arguments.Length > 1)
             {

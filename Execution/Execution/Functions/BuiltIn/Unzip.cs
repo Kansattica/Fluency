@@ -26,7 +26,7 @@ namespace Fluency.Execution.Functions.BuiltIn
             if (arguments.Length == 1)
             {
                 putOnTop = !arguments.Single().Get<bool>(FluencyType.Bool, //invert here because we'll invert it back before getting the first element
-                        "Unzip takes a boolean. True means everything goes up, false means everything goes down.");
+                        "Unzip takes a boolean. True means the first element goes on top, false, means the first element goes on bottom.");
             }
             else if (arguments.Length > 1)
             {
