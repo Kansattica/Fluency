@@ -64,6 +64,11 @@
             A Fluency source code comment. Passes input to output. Same as <see cref="T:Fluency.Execution.Functions.BuiltIn.Com"/>
             </summary>
         </member>
+        <member name="T:Fluency.Execution.Functions.BuiltIn.Const">
+            <summary>
+            Returns an infinite stream of its arguments.
+            </summary>
+        </member>
         <member name="T:Fluency.Execution.Functions.BuiltIn.Drain">
             <summary>
             Takes all values from both inputs and returns nothing.

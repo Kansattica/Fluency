@@ -10,6 +10,7 @@ namespace Fluency.Execution.Functions.BuiltIn
         public static IReadOnlyDictionary<string, FunctionMaker> BuiltInFunctions = new Dictionary<string, FunctionMaker>()
         {
             {"Switch", (args) => new Switch(args)},
+            {"Const", (args) => new Const(args)},
             {"Com", (_) => new Com()},
             {"Comment", (_) => new Comment()},
             {"Dup", (_) => new Dup()},
