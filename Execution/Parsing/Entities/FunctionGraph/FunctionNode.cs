@@ -55,6 +55,11 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
             Arguments = tok.Arguments;
         }
 
+        public override int GetHashCode()
+        {
+            return Id;
+        }
+
         /// <summary>
         /// Return a string that looks like Name(arguments, like this)
         /// </summary>

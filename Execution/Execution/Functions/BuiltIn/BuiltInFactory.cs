@@ -5,7 +5,7 @@ using Fluency.Execution.Parsing.Entities;
 
 namespace Fluency.Execution.Functions.BuiltIn
 {
-    public static class BuiltInFactory
+    public class BuiltInFactory : IFunctionResolver
     {
         public static IReadOnlyDictionary<string, FunctionMaker> BuiltInFunctions = new Dictionary<string, FunctionMaker>()
         {
@@ -23,5 +23,9 @@ namespace Fluency.Execution.Functions.BuiltIn
             {"ParseInt", (_) => new WrapUnary<string, int>(int.Parse, FluencyType.Int, "ParseInt")},
         };
 
+        public IFunction Resolve(string name, Value[] arguments)
+        {
+            return BuiltInFunctions[name](arguments);
+        }
     }
 }

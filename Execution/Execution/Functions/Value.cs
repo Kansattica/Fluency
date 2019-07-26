@@ -74,6 +74,7 @@ namespace Fluency.Execution.Functions
         /// The Done value converts to false, all others to true. This is so you can do something like (while (NextValue()) { doSomething(); }
         /// </summary>
         public static implicit operator bool(Value v) => !v.Done;
+
         private static Value _done = new Value { Done = true, Type = FluencyType.Any };
 
         /// <summary>

@@ -10,7 +10,7 @@ namespace Fluency.Execution
     /// <summary>
     /// Ensures all the function names in the program correspond to something.
     /// </summary>
-    class Linker
+    class Linker : IFunctionResolver
     {
         private Dictionary<string, FunctionMaker> _namesToFunctions = new Dictionary<string, FunctionMaker>();
 
@@ -39,7 +39,7 @@ namespace Fluency.Execution
         /// <param name="name"></param>
         /// <param name="arguments"></param>
         /// <returns></returns>
-        public IFunction Create(string name, Value[] arguments)
+        public IFunction Resolve(string name, Value[] arguments)
         {
             if (_namesToFunctions.TryGetValue(name, out var func))
             {
@@ -49,7 +49,6 @@ namespace Fluency.Execution
             throw new ExecutionException("Could not find a definition for function {0}.{1}", name,
                     verbose ? "\nI know about these functions:\n" + string.Join("\n", _namesToFunctions.Keys) : "");
         }
-
     }
 
     //naming things is hard

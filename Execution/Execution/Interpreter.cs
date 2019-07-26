@@ -42,13 +42,13 @@ namespace Fluency.Execution
 
             foreach (var functionGraph in functions)
             {
-                abraham.Register(functionGraph.Name, (args) => new UserDefinedFunction(functionGraph, args));
+                abraham.Register(functionGraph.Name, (args) => new UserDefinedFunction(functionGraph, args, abraham));
             }
 
             IFunction main;
             try
             {
-                main = abraham.Create("Main", new Value[0]);
+                main = abraham.Resolve("Main", new Value[0]);
             }
             catch (ExecutionException ex)
             {
