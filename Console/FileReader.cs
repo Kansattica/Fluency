@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Fluency.Common;
 using Fluency.Execution.Functions;
 
@@ -8,27 +9,30 @@ namespace Fluency.CLI
 {
     public class FileReader
     {
-        public FileReader(string file, string seperator = "\n")
+        public FileReader(IEnumerable<string> files, string seperator = "\n")
         {
-            foreach (var chunk in File.ReadAllText(file).Split(seperator))
-            {
-                buffer.Enqueue(chunk);
-            }
-
+           _read = ReadFile(files, seperator).GetEnumerator();
         }
 
-        private Queue<string> buffer = new Queue<string>();
+        private IEnumerable<string> ReadFile(IEnumerable<string> files, string seperator)
+        {
+            foreach (var chunk in files.SelectMany(f => File.ReadAllText(f).Split(seperator)))
+            {
+                yield return chunk;
+            }
+        }
+
+        private IEnumerator<string> _read;
+
+
         public Value Read()
         {
-            string line;
-            if (buffer.TryDequeue(out line))
+            if (_read.MoveNext())
             {
-                return new Value(line, FluencyType.String);
+                return new Value(_read.Current, FluencyType.String);
             }
-            else
-            {
-                return Value.Finished;
-            }
+
+            return Value.Finished;
         }
 
     }

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Fluency.Execution;
+using Fluency.Execution.Functions;
 using Fluency.Execution.Parsing;
 
 namespace Fluency.CLI
@@ -71,13 +72,15 @@ namespace Fluency.CLI
 
             var fileLines = a.Leftover.Where(x => x.EndsWith(".fl")).SelectMany(x => File.ReadAllLines(x));
 
-            var console = new ConsoleIO();
-            var result = new Interpreter(p).Execute(fileLines, console.Read);
+            var console = new ConsoleIO(a.Separator);
+            GetNext readFrom = console.Read;
+            if (a.ReadFile != null)
+            {
+                readFrom = new FileReader(a.ReadFile, a.Separator).Read;
+            }
+            var result = new Interpreter(p).Execute(fileLines, readFrom);
 
             console.Write(result);
-
-
-            // Console.Write(string.Join(Environment.NewLine, parsed.SelectMany(x => x).Select(x => x.ToString())));
         }
 
         private static void PrintHelp(string programName)
@@ -87,6 +90,8 @@ namespace Fluency.CLI
             foreach (var pair in new[] {
                 ("-h, --help", "You're lookin' at it."),
                 ("-v, --verbose", "Run in verbose mode."),
+                ("-f [filepath], --in-file [filepath]", "Read the next named file as input, not as Fluency source."),
+                ("-s [string], --separator [string]", "Use this string as the record separator for all input and output."),
                 ("-i [string], --inspect [string]", "Inspect (print indexes of all characters in, try naive splitting on periods the given string."),
                 ("--no-tab-warn", "Supress warning when tabs appear in source after text."),
                 ("--tab-warn", "Enable warning when tabs appear in source after text. This is the default."),
