@@ -17,52 +17,28 @@ namespace Fluency.Execution.Functions
 
         private ExecutableNode<ITopIn> _topHead;
         private ExecutableNode<ITopIn> _bottomHead;
-        private ExecutableNode<ITopOut> _topTail;
-        private ExecutableNode<ITopOut> _bottomTail;
+
+        //These two should be TopOut, since they are for whoever comes after this to read from
+        //However, C# doesn't let you turn a Something<A> into a Something<B>, even if A is a B and vice versa.
+        private ExecutableNode<ITopIn> _topTail;
+        private ExecutableNode<ITopIn> _bottomTail;
 
         public Value Top()
         {
-            return _topTail.TypedFunction.Top();
+            return _topTail.Has<ITopOut>().Top();
         }
 
         public Value Bottom()
         {
-            return _bottomTail.TypedFunction.Top();
+            return _bottomTail.Has<ITopOut>().Top();
         }
 
-        private ExecutableNode<T> RecursiveExpand<T>(FunctionNode node, Dictionary<FunctionNode, ExecutableNode> seen, IFunctionResolver linker) where T : IFunction
+        public UserDefinedFunction(FunctionGraph graph, Value[] arguments, IFunctionResolver linker)
         {
-            if (!seen.ContainsKey(node))
-            {
-                ExecutableNode<T> resolved = new ExecutableNode<T>();
-                resolved.Function = linker.Resolve(node.Name, node.Arguments.Select(x => new Value(x)).ToArray()).Is<T>();
-                seen.Add(node, resolved);
-
-                if (node.TopOut != null)
-                {
-                    var nextTop = RecursiveExpand<ITopIn>(node.TopOut, seen, linker);
-                    resolved.TopAfter = nextTop;
-
-                    ExecutableNode<ITopOut> topOut = resolved.Is<ITopOut>();
-                    nextTop.TypedFunction.TopInput = topOut.TypedFunction.Top;
-                }
-
-                if (node.BottomOut != null)
-                {
-                    // I expect the person below me to be able to take from the top
-                    // because I'm handing them that from the bottom.
-                    var nextBottom = RecursiveExpand<ITopIn>(node.BottomOut, seen, linker);
-                    resolved.BottomAfter = nextBottom;
-
-                    ExecutableNode<IBottomOut> topOut = resolved.Is<IBottomOut>();
-                    nextBottom.TypedFunction.TopInput = topOut.TypedFunction.Bottom;
-                }
-            }
-
-            return (ExecutableNode<T>)seen[node];
+            Name = graph.Name;
+            Arguments = graph.Arguments;
+            Expand(graph.Head, linker);
         }
-
-
         private void Expand(FunctionNode head, IFunctionResolver linker)
         {
             //Basically, we want to walk the FunctionGraph and turn it into an ExecutableGraph of IFunctions.
@@ -79,24 +55,102 @@ namespace Fluency.Execution.Functions
                 _bottomHead = RecursiveExpand<ITopIn>(head.BottomOut, seen, linker);
             }
 
-            // Find the tail functions. Top is easy- follow it until there's no more head.
+            FindHeadTail(_topHead);
+            // it's possible that the top and bottom routes never meet
+            _bottomTail = PickBetterNode(FindBottoms(_topHead), FindBottoms(_bottomHead));
+        }
 
-            if (_topHead != null)
+        private ExecutableNode<T> RecursiveExpand<T>(FunctionNode node, Dictionary<FunctionNode, ExecutableNode> seen, IFunctionResolver linker) where T : IFunction
+        {
+            if (!seen.ContainsKey(node))
             {
-                ExecutableNode<ITopIn> next = _topHead;
-                while (next.TopAfter != null)
+                ExecutableNode<T> resolved = new ExecutableNode<T>();
+                resolved.Tiebreaker = node.Tiebreaker;
+                resolved.Function = linker.Resolve(node.Name, node.Arguments.Select(x => new Value(x)).ToArray()).Is<T>();
+                seen.Add(node, resolved);
+
+                if (node.TopOut != null)
                 {
-                    next = next.TopAfter;
+                    var nextTop = RecursiveExpand<ITopIn>(node.TopOut, seen, linker);
+                    resolved.TopAfter = nextTop;
+
+                    if (node.TopOut.BottomIn == node) //If I'm giving to them from below.
+                    {
+                        nextTop.Has<IBottomIn>().BottomInput = resolved.Has<ITopOut>().Top;
+                    }
+                    else
+                    {
+                        nextTop.TypedFunction.TopInput = resolved.Has<ITopOut>().Top;
+                    }
                 }
+
+                if (node.BottomOut != null)
+                {
+                    // I expect the person below me to be able to take from the top
+                    // because I'm handing them that from the bottom.
+                    var nextBottom = RecursiveExpand<ITopIn>(node.BottomOut, seen, linker);
+                    resolved.BottomAfter = nextBottom;
+
+                    nextBottom.TypedFunction.TopInput = resolved.Has<IBottomOut>().Bottom;
+                }
+
+                //maybe detect here if you're a tail?
             }
 
+
+            return (ExecutableNode<T>)seen[node];
         }
 
-        public UserDefinedFunction(FunctionGraph graph, Value[] arguments, IFunctionResolver linker)
+
+        private void FindHeadTail(ExecutableNode<ITopIn> thisNode)
         {
-            Name = graph.Name;
-            Arguments = graph.Arguments;
-            Expand(graph.Head, linker);
+            // Top is easy- follow it until there's no more head.
+            var next = thisNode.TopAfter;
+
+            if (next == null)
+            {
+                //you're the last one
+                _topTail = thisNode;
+                return;
+            }
+
+            FindHeadTail(next);
         }
+
+        private ExecutableNode<ITopIn> FindBottoms(ExecutableNode<ITopIn> thisNode)
+        {
+            // We want to find all the non-_topTail tail nodes we can from here and return the best one
+
+            if (thisNode == null) { return null; }
+
+
+            ExecutableNode<ITopIn> nextTop = thisNode.TopAfter, nextBottom = thisNode.BottomAfter;
+
+            if (nextTop == null && nextBottom == null)
+            {
+                // We found a tail node!
+                if (object.ReferenceEquals(thisNode, _topTail))
+                {
+                    return null; // we found the top tail
+                }
+                else
+                {
+                    return thisNode;
+                }
+            }
+            else
+            {
+                return PickBetterNode(FindBottoms(nextTop), FindBottoms(nextBottom));
+            }
+        }
+
+        private ExecutableNode<T> PickBetterNode<T>(ExecutableNode<T> a, ExecutableNode<T> b) where T : IFunction
+        {
+            if (a == null) { return b; }
+            if (b == null) { return a; }
+
+            return a.Tiebreaker > b.Tiebreaker ? a : b;
+        }
+
     }
 }

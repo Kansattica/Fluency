@@ -1,2 +1,2 @@
-Def(Main).Dup().Com().Add()
-            \.Com("n")./
+Def(Main).ParseInt().Dup().Com().Add()
+                        \.Com("n")./

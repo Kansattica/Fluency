@@ -43,6 +43,7 @@ namespace Fluency.CLI
         {
             foreach (var value in values)
             {
+                if (value.Done) { break; }
                 Console.Write(value.Type == FluencyType.String ? value.Get<string>() : value.ToString());
                 Console.Write(seperator);
             }

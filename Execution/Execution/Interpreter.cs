@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Fluency.Common;
 using Fluency.Execution.Exceptions;
 using Fluency.Execution.Extensions;
 using Fluency.Execution.Functions;
@@ -65,6 +66,7 @@ namespace Fluency.Execution
 
             mainIn.TopInput = input;
             Value next;
+            yield return new Value("Ready!", FluencyType.String);
             while (next = mainOut.Top())
             {
                 yield return next;

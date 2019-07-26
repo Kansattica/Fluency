@@ -73,7 +73,8 @@ namespace Fluency.CLI
             var fileLines = a.Leftover.Where(x => x.EndsWith(".fl")).SelectMany(x => File.ReadAllLines(x));
 
             var console = new ConsoleIO();
-            var result = new Interpreter(p).Execute(fileLines, console.Read);
+            var fileReader = new FileReader("numbers", " ");
+            var result = new Interpreter(p).Execute(fileLines, fileReader.Read);
 
             console.Write(result);
 

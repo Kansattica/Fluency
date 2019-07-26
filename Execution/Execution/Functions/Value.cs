@@ -95,6 +95,13 @@ namespace Fluency.Execution.Functions
             return this.Type == other.Type && other.Equals(_value);
         }
 
+
+        public override string ToString()
+        {
+            if (Done) { return "Done"; }
+            return _value.ToString();
+        }
+
         public override bool Equals(object other)
         {
             if (other is null) { return _value is null; }

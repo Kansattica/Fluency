@@ -522,6 +522,11 @@
             The function that this outputs to on the bottom.
             </summary>
         </member>
+        <member name="P:Fluency.Execution.Parsing.Entities.FunctionGraph.FunctionNode.Tiebreaker">
+            <summary>
+            In the case where there are multiple outgoing bottom pipelines, the one that's furthest to the right wins.
+            </summary>
+        </member>
         <member name="P:Fluency.Execution.Parsing.Entities.FunctionGraph.FunctionNode.Id">
             <summary>
             A unique integer ID for this function. Two function calls with the same name have different IDs.

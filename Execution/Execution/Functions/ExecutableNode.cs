@@ -11,25 +11,25 @@ namespace Fluency.Execution.Functions
         public ExecutableNode<ITopIn> TopAfter { get; set; }
         public ExecutableNode<ITopIn> BottomAfter { get; set; }
 
+        public int Tiebreaker { get; set; }
+
     }
 
     public class ExecutableNode<T> : ExecutableNode where T : IFunction
     {
         public T TypedFunction { get { return (T)Function; } set { Function = value; } }
 
-        public ExecutableNode<OutT> Is<OutT>() where OutT : IFunction
+        public OutT Has<OutT>() where OutT : IFunction
         {
-
             try
             {
-                //hahahaha wow
-                return (ExecutableNode<OutT>)(ExecutableNode)this;
+                return (OutT)Function;
             }
             catch (InvalidCastException ex)
             {
-                throw new ExecutionException("Tried to use function {0} as a {1}, which it isn't.{2}", ex, Function.Name, typeof(T).Name);
+                throw new ExecutionException("Tried to use function {0} as a {1}, which it isn't.", ex, Function.Name, typeof(OutT).Name);
             }
         }
-    }
 
+    }
 }

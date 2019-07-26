@@ -39,6 +39,11 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
         public FunctionNode BottomOut;
 
         /// <summary>
+        /// In the case where there are multiple outgoing bottom pipelines, the one that's furthest to the right wins.
+        /// </summary>
+        public int Tiebreaker {get; private set;}
+
+        /// <summary>
         /// A unique integer ID for this function. Two function calls with the same name have different IDs.
         /// </summary>
         /// <value></value>
@@ -53,6 +58,7 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
         {
             Name = tok.Name;
             Arguments = tok.Arguments;
+            Tiebreaker = tok.Range.Max;
         }
 
         public override int GetHashCode()
