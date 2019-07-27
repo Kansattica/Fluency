@@ -101,9 +101,14 @@
             Reads a value from the top input and puts it on both top and bottom outputs.
             </summary>
         </member>
+        <member name="T:Fluency.Execution.Functions.BuiltIn.FirstN">
+            <summary>
+            Returns the first N values, then puts the rest on the bottom. If no arguments given, N is read from the top pipeline.
+            </summary>
+        </member>
         <member name="T:Fluency.Execution.Functions.BuiltIn.First">
             <summary>
-            Returns the first N values, then puts the rest on the bottom.
+            Returns the first N values, then puts the rest on the bottom. If no arguments given, N is 1.
             </summary>
         </member>
         <member name="T:Fluency.Execution.Functions.BuiltIn.MergeIf">
