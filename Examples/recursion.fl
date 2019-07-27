@@ -1,13 +1,8 @@
-Def(Main).ParseInt().Countdown()
+Def(Main).ParseInt().Next()
 
-//Def(Countdown, int n).Countdown().Dup().Equals(1).MergeTop().SwitchIn()
-//                              \.Dup().Comment()./       Up()./
-//                                \.Add(-1).Comment("over")./
-
+Def(Next).First().Countdown().MergeTop()
+             \.Next().Com("")./
+        
 Def(Countdown).Dup().Comment("n goes here").First().MergeTop()
                   \.Dup().Equals(0).Not().MergeIf()./
                     \.Add(-1).Countdown()./
-
-Def(SubOne, int n).Dup().Equals(0).MergeTop().First(2).SwitchIn()
-                      \.Dup()./                         Up()./
-                         \.Add(-1).Comment("over here")./

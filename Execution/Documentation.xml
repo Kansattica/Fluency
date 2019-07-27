@@ -103,7 +103,7 @@
         </member>
         <member name="T:Fluency.Execution.Functions.BuiltIn.First">
             <summary>
-            Returns the first N values, then stops.
+            Returns the first N values, then puts the rest on the bottom.
             </summary>
         </member>
         <member name="T:Fluency.Execution.Functions.BuiltIn.MergeIf">
