@@ -23,14 +23,16 @@ namespace Fluency.Execution.Functions
         private ExecutableNode<ITopIn> _topTail;
         private ExecutableNode<ITopIn> _bottomTail;
 
+        private ITopOut _topTailOut;
+        private ITopOut _bottomTailOut;
         public Value Top()
         {
-            return _topTail.Has<ITopOut>().Top();
+            return _topTailOut.Top();
         }
 
         public Value Bottom()
         {
-            return _bottomTail.Has<ITopOut>().Top();
+            return _bottomTailOut.Top();
         }
 
         public UserDefinedFunction(FunctionGraph graph, Value[] arguments, IFunctionResolver linker)
@@ -58,6 +60,9 @@ namespace Fluency.Execution.Functions
             FindHeadTail(_topHead);
             // it's possible that the top and bottom routes never meet
             _bottomTail = PickBetterNode(FindBottoms(_topHead), FindBottoms(_bottomHead));
+
+            _topTailOut = _topTail?.Has<ITopOut>();
+            _bottomTailOut = _bottomTail?.Has<ITopOut>();
         }
 
         private ExecutableNode<T> RecursiveExpand<T>(FunctionNode node, Dictionary<FunctionNode, ExecutableNode> seen, IFunctionResolver linker) where T : IFunction

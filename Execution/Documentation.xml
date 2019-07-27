@@ -116,10 +116,17 @@
             Pass everything from the bottom input to the top output, then everything from the top input to top output.
             </summary>
         </member>
-        <member name="T:Fluency.Execution.Functions.BuiltIn.Switch">
+        <member name="T:Fluency.Execution.Functions.BuiltIn.SwitchIn">
             <summary>
-            If switch(true), put everything from the top input onto the top pipeline.
-            If switch(false), put everything from the top input onto the bottom pipeline.
+            If SwitchIn(true), put everything from the top input onto the top pipeline.
+            If SwitchIn(false), put everything from the bottom input onto the top pipeline.
+            If no argument given, treat the first value seen as if it was passed as the argument.
+            </summary>
+        </member>
+        <member name="T:Fluency.Execution.Functions.BuiltIn.SwitchOut">
+            <summary>
+            If SwitchOut(true), put everything from the top input onto the top pipeline.
+            If SwitchOut(false), put everything from the top input onto the bottom pipeline.
             If no argument given, treat the first value seen as if it was passed as the argument.
             </summary>
         </member>
@@ -210,6 +217,11 @@
         <member name="T:Fluency.Execution.Functions.GetNext">
             <summary>
             A function that, when called, returns the next element in the corresponding pipeline.
+            </summary>
+        </member>
+        <member name="T:Fluency.Execution.Functions.UserFunctionStub">
+            <summary>
+            User-defined functions should "expand" on first use so you can do recursion without overflowing the stack.
             </summary>
         </member>
         <member name="T:Fluency.Execution.Functions.Value">

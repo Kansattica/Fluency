@@ -43,7 +43,7 @@ namespace Fluency.Execution
 
             foreach (var functionGraph in functions)
             {
-                abraham.Register(functionGraph.Name, (args) => new UserDefinedFunction(functionGraph, args, abraham));
+                abraham.Register(functionGraph.Name, (args) => new UserFunctionStub(functionGraph, args, abraham));
             }
 
             IFunction main;
