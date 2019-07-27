@@ -1,8 +1,15 @@
 Def(Main).ParseInt().Next()
 
+// Countdown needs to finish in order to stop recursing, so this:
+// sends one incoming value to Countdown
+// Countdown sends its output out through MergeTop, as well as a Finished that makes MergeTop start reading from the bottom
+// The console or whoever keeps requesting values from MergeTop, which now requests from the bottom
+// The requests go to the recursive call to Next(), which gets expanded and has a Countdown that isn't finished.
+// That Countdown takes a number from input, and the cosmic ballet goes on.
 Def(Next).First().Countdown().MergeTop()
              \.Next().Com("")./
         
-Def(Countdown).Dup().Comment("n goes here").First().MergeTop()
-                  \.Dup().Equals(0).Not().MergeIf()./
-                    \.Add(-1).Countdown()./
+//Countdown takes a number (such as 5) and returns all numbers between that one and zero, inclusive (such as 5 4 3 2 1 0)
+Def(Countdown, int n).Dup().Comment("n goes here").First().MergeTop()
+                          \.Dup().Equals(0).Not().MergeIf()./
+                            \.Add(-1).Countdown()./
