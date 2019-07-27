@@ -7,9 +7,15 @@ namespace Fluency.Execution.Functions.BuiltIn
 {
     public class BuiltInFactory : IFunctionResolver
     {
+
+        private static readonly Value[] _emptyArgs = new Value[0];
+        private static readonly Value[] _false = new Value[] {new Value(false, FluencyType.Bool)};
         public static IReadOnlyDictionary<string, FunctionMaker> BuiltInFunctions = new Dictionary<string, FunctionMaker>()
         {
-            {"Switch", (args) => new Switch(args)},
+            {"SwitchIn", (args) => new SwitchIn(args)},
+            {"SwitchOut", (args) => new SwitchOut(args)},
+            {"Up", (_) => new SwitchIn(_false)},
+            {"Down", (_) => new SwitchOut(_false)},
             {"Const", (args) => new Const(args)},
             {"Com", (_) => new Com()},
             {"Comment", (_) => new Comment()},
@@ -24,9 +30,9 @@ namespace Fluency.Execution.Functions.BuiltIn
             {"Drain", (_) => new Drain()},
             {"Add", (args) => new WrapBinary<int, int, int>((a, b) => a + b, FluencyType.Int, FluencyType.Int,"Add", args )},
             {"Mult", (args) => new WrapBinary<int, int, int>((a, b) => a * b, FluencyType.Int, FluencyType.Int,"Mult", args )},
-            {"Equals", (args) => new WrapBinary<Value, Value, bool>((a, b) => a.Equals(b) , FluencyType.Any, FluencyType.Bool, "Equals", args)},
-            {"And", (_) => new WrapBinary<bool,bool, bool>((a, b) => a && b, FluencyType.Bool, FluencyType.Bool, "And", new Value[0])},
-            {"Or", (_) => new WrapBinary<bool,bool, bool>((a, b) => a || b, FluencyType.Bool, FluencyType.Bool, "Or", new Value[0])},
+            {"Equals", (args) => new WrapBinary<object, object, bool>((a, b) => a.Equals(b) , FluencyType.Any, FluencyType.Bool, "Equals", args)},
+            {"And", (_) => new WrapBinary<bool, bool, bool>((a, b) => a && b, FluencyType.Bool, FluencyType.Bool, "And", _emptyArgs)},
+            {"Or", (_) => new WrapBinary<bool, bool, bool>((a, b) => a || b, FluencyType.Bool, FluencyType.Bool, "Or", _emptyArgs)},
             {"AddDouble", (args) => new WrapBinary<double, double, double>((a, b) => a + b, FluencyType.Double, FluencyType.Double, "AddDouble", args )},
             {"ParseInt", (_) => new WrapUnary<string, int>(int.Parse, FluencyType.Int, "ParseInt")},
             {"Concat", (args) => new WrapBinary<string, string, string>((a, b) => a + b, FluencyType.String, FluencyType.String, "Concat", args )},

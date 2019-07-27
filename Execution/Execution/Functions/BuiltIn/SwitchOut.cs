@@ -7,28 +7,28 @@ using Fluency.Execution.Exceptions;
 namespace Fluency.Execution.Functions.BuiltIn
 {
     /// <summary>
-    /// If switch(true), put everything from the top input onto the top pipeline.
-    /// If switch(false), put everything from the top input onto the bottom pipeline.
+    /// If SwitchOut(true), put everything from the top input onto the top pipeline.
+    /// If SwitchOut(false), put everything from the top input onto the bottom pipeline.
     /// If no argument given, treat the first value seen as if it was passed as the argument.
     /// </summary>
-    public class Switch : ITopIn, ITopOut, IBottomOut
+    public class SwitchOut : ITopIn, ITopOut, IBottomOut
     {
-        public string Name => nameof(Switch);
+        public string Name => nameof(SwitchOut);
 
         public GetNext TopInput { private get; set; }
 
         bool? everythingToTop;
 
-        public Switch(Value[] arguments)
+        public SwitchOut(Value[] arguments)
         {
             if (arguments.Length == 1)
             {
                 everythingToTop = arguments.Single().Get<bool>(FluencyType.Bool,
-                        "Switch takes a boolean. True means everything goes up, false means everything goes down.");
+                        "SwitchOut takes a boolean. True means everything goes up, false means everything goes down.");
             }
             else if (arguments.Length > 1)
             {
-                throw new ExecutionException("Switch takes either zero or one arguments.");
+                throw new ExecutionException("SwitchOut takes either zero or one arguments.");
             }
 
         }
@@ -38,7 +38,7 @@ namespace Fluency.Execution.Functions.BuiltIn
             if (!everythingToTop.HasValue)
             {
                 Value direction = TopInput();
-                everythingToTop = direction.Get<bool>(FluencyType.Bool, "Switch needs a boolean to set which direction it's going.");
+                everythingToTop = direction.Get<bool>(FluencyType.Bool, "SwitchOut needs a boolean to set which direction it's going.");
                 return false;
             }
             return true;

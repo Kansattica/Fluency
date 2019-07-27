@@ -238,7 +238,7 @@ namespace Fluency.Tests.Execution
         [DataRow(2)]
         public void SwitchTop(int sequenceIndex)
         {
-            Switch testSwitch = new Switch(new Value[] { new Value(true, FluencyType.Bool) });
+            SwitchOut testSwitch = new SwitchOut(new Value[] { new Value(true, FluencyType.Bool) });
 
             var topEnumerator = sequences[sequenceIndex].GetEnumerator();
             testSwitch.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
@@ -257,7 +257,7 @@ namespace Fluency.Tests.Execution
         [DataRow(2)]
         public void SwitchBottom(int sequenceIndex)
         {
-            Switch testSwitch = new Switch(new Value[] { new Value(false, FluencyType.Bool) });
+            SwitchOut testSwitch = new SwitchOut(new Value[] { new Value(false, FluencyType.Bool) });
 
             var topEnumerator = sequences[sequenceIndex].GetEnumerator();
             testSwitch.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
@@ -276,7 +276,7 @@ namespace Fluency.Tests.Execution
         [DataRow(2)]
         public void SwitchBottomArg(int sequenceIndex)
         {
-            Switch testSwitch = new Switch(new Value[0]);
+            SwitchOut testSwitch = new SwitchOut(new Value[0]);
 
             var topEnumerator = sequences[sequenceIndex].Prepend(new Value(false, FluencyType.Bool)).GetEnumerator();
             testSwitch.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
@@ -295,7 +295,7 @@ namespace Fluency.Tests.Execution
         [DataRow(2)]
         public void SwitchTopArg(int sequenceIndex)
         {
-            Switch testSwitch = new Switch(new Value[0]);
+            SwitchOut testSwitch = new SwitchOut(new Value[0]);
 
             var topEnumerator = sequences[sequenceIndex].Prepend(new Value(true, FluencyType.Bool)).GetEnumerator();
             testSwitch.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
