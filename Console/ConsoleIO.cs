@@ -15,12 +15,13 @@ namespace Fluency.CLI
         }
 
         private Queue<string> buffer = new Queue<string>();
+
         public Value Read()
         {
             string line;
             if (buffer.Count == 0)
             {
-                if ((line = Console.ReadLine()) != null)
+                if (!string.IsNullOrWhiteSpace(line = Console.ReadLine()))
                 {
                     foreach (string chunk in line.Split(seperator))
                     {

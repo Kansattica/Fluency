@@ -36,4 +36,5 @@ Fluency is currently in a working state, but I'd to do more.
 - A better tutorial
 - Numeric type for ints, floats, decimals, etc.
 - Argument support for user defined functions.
-- Graph printer is really janky and doesn't support all graphs
+- Graph printer is kind of a hack and doesn't do all graphs correctly
+- Add support for graphs with nodes that don't branch off from the head, such as Const

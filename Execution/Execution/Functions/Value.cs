@@ -44,14 +44,17 @@ namespace Fluency.Execution.Functions
         /// <returns></returns>
         public T Get<T>(FluencyType? expected = null, string failMessage = null)
         {
-            if (!(_value is T))
+            try
             {
-                throw new ExecutionException("{3}Expected a value of type {0}, got {1}{2}", typeof(T).Name, _value.GetType().Name,
+                return (T)_value;
+            }
+            catch (InvalidCastException ex)
+            {
+                throw new ExecutionException("{3}Expected a value of type {0}, got {1}{2}", ex, typeof(T).Name, _value.GetType().Name,
                     (expected.HasValue ? ($" (Expected runtime type: {expected.Value}, was {Type}") : ""),
                     (failMessage != null ? failMessage + "\n" : ""));
             }
 
-            return (T)_value;
 
         }
 
