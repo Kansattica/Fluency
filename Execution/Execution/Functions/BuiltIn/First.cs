@@ -8,32 +8,43 @@ namespace Fluency.Execution.Functions.BuiltIn
 {
 
     /// <summary>
-    /// Returns the first N values, then puts the rest on the bottom.
+    /// Returns the first N values, then puts the rest on the bottom. If no arguments given, N is read from the top pipeline.
     /// </summary>
-    public class First : ITopIn, ITopOut, IBottomOut
+    public class FirstN : ITopIn, ITopOut, IBottomOut
     {
-
-        public virtual string Name => nameof(First);
+        public virtual string Name => nameof(FirstN);
 
         public GetNext TopInput { private get; set; }
 
-        private int toAllow = 1;
-        public First(Value[] args)
+        protected int? toAllow;
+        public FirstN(Value[] args)
         {
             if (args.Length == 1)
             {
-                toAllow = args.Single().Get<int>(FluencyType.Int, "First takes one argument- the number of things to allow through, or allow one thing if no arguments.");
+                toAllow = args.Single().Get<int>(FluencyType.Int, "FirstN takes one argument- the number of things to allow through, or no arguments- read an integer from the top pipeline and then take that many.");
             }
             else if (args.Length > 1)
             {
-                throw new ExecutionException("First takes either zero or one argument.");
+                throw new ExecutionException("FirstN takes either zero or one argument.");
             }
+        }
+
+        private bool EnsureAllowSet()
+        {
+            if (!toAllow.HasValue)
+            {
+                Value direction = TopInput();
+                toAllow = direction.Get<int>(FluencyType.Int, "FirstN needs to read an integer to know how many to take.");
+                return false;
+            }
+            return true;
         }
 
         private Queue<Value> topQueue = new Queue<Value>();
         public Value Bottom()
         {
             Value value = null;
+            EnsureAllowSet();
 
             // If we haven't sent enough off the top yet, queue that many up for the top
             while (toAllow > 0 && (value = TopInput()))
@@ -53,6 +64,7 @@ namespace Fluency.Execution.Functions.BuiltIn
 
         public Value Top()
         {
+            EnsureAllowSet();
             if (toAllow > 0)
             {
                 toAllow--;
@@ -65,4 +77,25 @@ namespace Fluency.Execution.Functions.BuiltIn
         }
     }
 
+    /// <summary>
+    /// Returns the first N values, then puts the rest on the bottom. If no arguments given, N is 1.
+    /// </summary>
+    public class First : FirstN
+    {
+        public override string Name => nameof(First);
+
+        public First(Value[] args) : base(new Value[] { new Value(1, FluencyType.Int) })
+        {
+            if (args.Length == 1)
+            {
+                toAllow = args.Single().Get<int>(FluencyType.Int, "First takes one argument- the number of things to allow through, or allow one thing if no arguments.");
+            }
+            else if (args.Length > 1)
+            {
+                throw new ExecutionException("First takes either zero or one argument.");
+            }
+
+        }
+
+    }
 }

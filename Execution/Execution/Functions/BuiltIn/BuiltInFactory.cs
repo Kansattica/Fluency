@@ -23,6 +23,7 @@ namespace Fluency.Execution.Functions.BuiltIn
             {"Dup", (_) => new Dup()},
             {"Duplicate", (_) => new Duplicate()},
             {"First", (args) => new First(args)},
+            {"FirstN", (args) => new FirstN(args)},
             {"MergeTop", (_) => new MergeTop()},
             {"MergeBottom", (_) => new MergeBottom()},
             {"MergeIf", (_) => new MergeIf()},

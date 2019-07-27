@@ -101,7 +101,7 @@
             Reads a value from the top input and puts it on both top and bottom outputs.
             </summary>
         </member>
-        <member name="T:Fluency.Execution.Functions.BuiltIn.First">
+        <member name="T:Fluency.Execution.Functions.BuiltIn.FirstN">
             <summary>
             Returns the first N values, then puts the rest on the bottom.
             </summary>
