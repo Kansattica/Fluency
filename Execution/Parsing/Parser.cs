@@ -90,8 +90,8 @@ namespace Fluency.Execution.Parsing
                     }
                     else
                     {
-                        //Special case for Def, the only function call that doesn't start with . or \.
-                        if (c == 'D') { return GroupWhileAction.In; }
+                        //Function calls start with letters
+                        if (char.IsLetter(c)) { return GroupWhileAction.In; }
                         if (c == '\\' || c == '.') { return GroupWhileAction.In; }
                         return GroupWhileAction.StillOut;
                     }

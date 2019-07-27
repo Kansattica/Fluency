@@ -71,7 +71,6 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
             FunctionNode lastAdded = null;
             foreach (var token in tokens)
             {
-                bool atLeastOneConnection = false;
                 FunctionNode newNode = new FunctionNode(token);
                 processed.Add(new ProcessedFunction { Node = newNode, Token = token });
 
@@ -83,7 +82,6 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
                         throw new ParseException("Could not connect to an input function above.") { FunctionToken = token };
                     connected.Node.BottomOut = newNode;
                     newNode.TopIn = connected.Node;
-                    atLeastOneConnection = true;
                 }
 
                 if (token.ConnectsUpAfter)
@@ -94,7 +92,6 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
                         throw new ParseException("Could not connect to an output function above.") { FunctionToken = token };
                     connected.Node.BottomIn = newNode;
                     newNode.TopOut = connected.Node;
-                    atLeastOneConnection = true;
                 }
 
                 if (token.ConnectsBefore)
@@ -104,11 +101,7 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
 
                     lastAdded.TopOut = newNode;
                     newNode.TopIn = lastAdded;
-                    atLeastOneConnection = true;
                 }
-
-                if (!atLeastOneConnection)
-                    throw new ParseException(@"It doesn't look like this function connects to anything. Did you mean to connect it to a function above it?") { FunctionToken = token };
 
                 lastAdded = newNode;
             }
