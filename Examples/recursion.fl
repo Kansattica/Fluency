@@ -1,0 +1,6 @@
+Def(Main).ParseInt().Countdown()
+
+                                //n in the pipeline twice
+Def(Countdown, int n).Dup().Zip(true).Equals(0).SwitchIn()
+                       \.Dup()./   Up().Countdown()./
+                          \.Add(-1)./
