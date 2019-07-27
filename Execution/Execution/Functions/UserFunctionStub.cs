@@ -14,41 +14,64 @@ namespace Fluency.Execution.Functions
         public GetNext TopInput { private get; set; }
         public GetNext BottomInput { private get; set; }
 
-        private Lazy<UserDefinedFunction> toexpand = null;
+        private Func<UserDefinedFunction> makeNewFunction;
+        private UserDefinedFunction expandedFunction;
 
         private bool topset = false;
         public Value Top()
         {
-            var expanded = toexpand.Value;
+            if (expandedFunction == null)
+            {
+                expandedFunction = makeNewFunction();
+            }
 
             if (!topset)
             {
-                expanded.TopInput = TopInput;
+                expandedFunction.TopInput = TopInput;
                 topset = true;
             }
 
-            return expanded.Top();
+            Value v = expandedFunction.Top();
+            if (v.Done)
+            {
+                bottomset = false;
+                expandedFunction = makeNewFunction();
+                expandedFunction.TopInput = TopInput;
+                v = expandedFunction.Top();
+            }
+            return v;
         }
 
         private bool bottomset = false;
         public Value Bottom()
         {
-            var expanded = toexpand.Value;
+            if (expandedFunction == null)
+            {
+                expandedFunction = makeNewFunction();
+            }
 
             if (!bottomset)
             {
-                expanded.BottomInput = BottomInput;
+                expandedFunction.BottomInput = BottomInput;
                 bottomset = true;
             }
 
-            return expanded.Bottom();
+            Value v = expandedFunction.Bottom();
+            if (v.Done)
+            {
+                topset = false;
+                expandedFunction = makeNewFunction();
+                expandedFunction.BottomInput = BottomInput;
+                v = expandedFunction.Bottom();
+            }
+            return v;
         }
 
 
         public UserFunctionStub(FunctionGraph graph, Value[] arguments, IFunctionResolver linker)
         {
             Name = graph.Name;
-            toexpand = new Lazy<UserDefinedFunction>(() => new UserDefinedFunction(graph, arguments, linker));
+            makeNewFunction = (() => new UserDefinedFunction(graph, arguments, linker));
         }
     }
 }
