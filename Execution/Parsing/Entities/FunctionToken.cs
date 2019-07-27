@@ -80,6 +80,8 @@ namespace Fluency.Execution.Parsing.Entities
             ConnectsBefore = s[0].StartsWith(".");
             ConnectsUpAfter = s[1].EndsWith("./");
             Name = s[0].TrimStart('.', '\\');
+            if (!char.IsUpper(Name[0]))
+                throw new ParseException("Fluency functions must start with a capital letter.") { FunctionToken = this};
             string args = s[1].TrimEnd(')', '.', '/');
             if (!string.IsNullOrWhiteSpace(args))
             {

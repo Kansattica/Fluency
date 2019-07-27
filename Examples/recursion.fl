@@ -1,4 +1,7 @@
-Def(Main).ParseInt().Next()
+Def(Main).ParseInt().IsPrime()
+
+Def(IsPrime, int n).Dup().Comment("A copy of n").DivMod().Drain().SwitchIn(false)
+                    \.Sqrt().Floor().NextCount()./ \.Equals(0).Any()./
 
 // Countdown needs to finish in order to stop recursing, so this:
 // sends one incoming value to Countdown
@@ -6,8 +9,8 @@ Def(Main).ParseInt().Next()
 // The console or whoever keeps requesting values from MergeTop, which now requests from the bottom
 // The requests go to the recursive call to Next(), which gets expanded and has a Countdown that isn't finished.
 // That Countdown takes a number from input, and the cosmic ballet goes on.
-Def(Next).First().Countdown().MergeTop()
-             \.Next().Com("")./
+Def(NextCount).First().Countdown().MergeTop()
+                  \.NextCount().Com("")./
         
 //Countdown takes a number (such as 5) and returns all numbers between that one and zero, inclusive (such as 5 4 3 2 1 0)
 Def(Countdown, int n).Dup().Comment("n goes here").First().MergeTop()

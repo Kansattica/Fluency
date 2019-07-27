@@ -1,4 +1,6 @@
 //Note that this won't make much sense if tabs aren't four spaces wide in your editor
+//I wrote this a long time ago, it is kept mostly for historical reasons.
+//All the other examples besides this and doubledef.fl are actually executable.
 
 Def(IsPrime, n).Dup().First().Sqrt().Floor().Range().MergeBottom().DivBy().Drain().MergeBottom()
 				\.Com("n has to go all the way over here")./           \.Equals(0).Or()./

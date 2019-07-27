@@ -147,6 +147,11 @@
             Wrap a C# function that takes two arguments and returns one value as a Fluency function.
             </summary>
         </member>
+        <member name="T:Fluency.Execution.Functions.BuiltIn.WrapBinaryFold`1">
+            <summary>
+            Wrap a C# function that takes two arguments and returns one value as a Fluency function.
+            </summary>
+        </member>
         <member name="T:Fluency.Execution.Functions.BuiltIn.WrapBinaryStreamOutput`3">
             <summary>
             Wrap a C# function that takes two arguments and returns many values as a Fluency function.

@@ -31,9 +31,13 @@ namespace Fluency.Execution.Functions.BuiltIn
             {"Drain", (_) => new Drain()},
             {"Add", (args) => new WrapBinary<int, int, int>((a, b) => a + b, FluencyType.Int, FluencyType.Int,"Add", args )},
             {"Mult", (args) => new WrapBinary<int, int, int>((a, b) => a * b, FluencyType.Int, FluencyType.Int,"Mult", args )},
+            {"Sqrt", (_) => new WrapUnary<int, double>(a => Math.Sqrt(a), FluencyType.Double, "Sqrt")},
+            {"Floor", (_) => new WrapUnary<double, int>(a => (int)a, FluencyType.Int, "Floor")},
             {"Equals", (args) => new WrapBinary<object, object, bool>((a, b) => a.Equals(b) , FluencyType.Any, FluencyType.Bool, "Equals", args)},
             {"And", (_) => new WrapBinary<bool, bool, bool>((a, b) => a && b, FluencyType.Bool, FluencyType.Bool, "And", _emptyArgs)},
+            {"All", (args) => new WrapBinaryFold<bool>((a, b) => a && b, FluencyType.Bool, "All", args)}, //implement short circuiting later
             {"Or", (_) => new WrapBinary<bool, bool, bool>((a, b) => a || b, FluencyType.Bool, FluencyType.Bool, "Or", _emptyArgs)},
+            {"Any", (args) => new WrapBinaryFold<bool>((a, b) => a || b, FluencyType.Bool, "Any", args)}, //implement short circuiting later
             {"Not", (_) => new WrapUnary<bool, bool>(a => !a, FluencyType.Bool, "Not")},
             {"AddDouble", (args) => new WrapBinary<double, double, double>((a, b) => a + b, FluencyType.Double, FluencyType.Double, "AddDouble", args )},
             {"ParseInt", (_) => new WrapUnary<string, int>(int.Parse, FluencyType.Int, "ParseInt")},
