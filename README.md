@@ -42,7 +42,8 @@ Fluency is currently in a working state, but I'd love to do more.
 - [ ] Better support for all C# types- at the moment, Fluency just calls them "Any".
 - [ ] A better (or any) tutorial
 - [ ] Numeric type for ints, floats, decimals, etc.
-- [ ] Argument support for user defined functions.
+- [X] Argument support for user defined functions.
+- [ ] Top and bottom arguments
 - [ ] Graph printer is kind of a hack and doesn't do all graphs correctly
 - [ ] Add support for graphs with nodes that don't branch off from the head, such as Const
 - [ ] Runtime support for queue-type nodes so they don't have to maintain their own state
