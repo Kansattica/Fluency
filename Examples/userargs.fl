@@ -1,0 +1,23 @@
+
+// Notice here I supply one argument and read the other off the pipeline,
+// partial application style.
+//Def(Main).NCopies(5)
+
+
+//This takes a string like "8 legs" and makes eight copies of the string "legs".
+Def(Main).Split(" ").Unzip(true).ParseInt().Zip(true).NCopies()
+                        \.Comment("tocopy")./
+
+// Arguments can be passed in or read from the incoming pipeline
+// The runtime will type check the arguments from left to right
+// so in this case, you know the first thing in will be an integer, 
+// and the second will be of any type. 
+// After both have been passed in, from wherever, the pipeline will 
+// be marked as Finished.
+// when a finished is returned, the runtime will make a new instance of the function
+// next time it's called.
+Def(NCopies, int n, tocopy).Unzip(true).MergeTop().FirstN()
+                                \.Infinite()./
+
+Def(Infinite).Dup().MergeTop()
+              \.Infinite()./
