@@ -103,6 +103,7 @@ namespace Fluency.Execution.Functions
             Name = graph.Name;
             int? totake = ArgumentsToTake(graph.Arguments);
             makeNewFunction = (() => {
+//                Console.WriteLine("expanding " + graph.Name);
                 toAllowThrough = totake;
                 return new UserDefinedFunction(graph, arguments, linker);
             });

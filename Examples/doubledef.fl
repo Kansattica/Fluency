@@ -1,3 +1,4 @@
+// this is wrong or at best untested! look in prime.pl
 Def(IsPrime, int n).Dup().First().Sqrt().Floor().Range().MergeBottom().DivBy().Drain().MergeBottom()
 					 \.Com("n has to go all the way over here")./          \.Equals(0).Or()./
 Def(DivBy, ..., int n).First().Com("everything").Count().Com().Zip(false).Com("n pairs of [pipeline element, n]").Div()
