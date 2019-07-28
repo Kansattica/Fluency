@@ -39,8 +39,12 @@ namespace Fluency.Execution.Functions.BuiltIn
             }
         }
 
+        private bool done = false;
         public Value Top()
         {
+            if (done)
+                return Value.Finished;
+
             if (stored == null)
                 stored = TopInput();
 
@@ -49,6 +53,7 @@ namespace Fluency.Execution.Functions.BuiltIn
             while (!stored.Done && (value = TopInput()))
                 stored = new Value(function(stored.Get<TReal>(type), value.Get<TReal>(type)), type);
 
+            done = true;
             return stored;
         }
     }

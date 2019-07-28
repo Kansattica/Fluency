@@ -18,7 +18,7 @@ namespace Fluency.CLI
         {
             foreach (var chunk in files.SelectMany(f => File.ReadAllText(f).Split(seperator)))
             {
-                yield return chunk;
+                yield return chunk.Trim('\r', '\n', ' ', '\t');
             }
         }
 

@@ -23,7 +23,10 @@ namespace Fluency.Execution.Functions.BuiltIn
             if (!takeFromBottom.HasValue)
             {
                 Value direction = TopInput();
-                takeFromBottom = direction.Get<bool>(FluencyType.Bool, "MergeIf needs a boolean to set whether it's taking.");
+                if (direction.Done)
+                    takeFromBottom = false;
+                else
+                    takeFromBottom = direction.Get<bool>(FluencyType.Bool, "MergeIf needs a boolean to set whether it's taking.");
             }
         }
 

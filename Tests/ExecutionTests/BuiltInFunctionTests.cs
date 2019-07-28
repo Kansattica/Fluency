@@ -29,9 +29,9 @@ namespace Fluency.Tests.Execution
         [DataRow(0)]
         [DataRow(1)]
         [DataRow(2)]
-        public void Comment(int sequenceIndex)
+        public void I(int sequenceIndex)
         {
-            Comment com = new Comment();
+            I com = new I();
 
             var enumerator = sequences[sequenceIndex].GetEnumerator();
 
@@ -47,9 +47,9 @@ namespace Fluency.Tests.Execution
         [DataRow(0)]
         [DataRow(1)]
         [DataRow(2)]
-        public void Com(int sequenceIndex)
+        public void Comment(int sequenceIndex)
         {
-            Com com = new Com();
+            Comment com = new Comment();
 
             var enumerator = sequences[sequenceIndex].GetEnumerator();
 

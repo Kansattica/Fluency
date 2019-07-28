@@ -71,19 +71,19 @@
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="T:Fluency.Execution.Functions.BuiltIn.Com">
+        <member name="T:Fluency.Execution.Functions.BuiltIn.Comment">
             <summary>
             A Fluency source code comment. Passes input to output.
             </summary>
         </member>
-        <member name="T:Fluency.Execution.Functions.BuiltIn.Comment">
+        <member name="T:Fluency.Execution.Functions.BuiltIn.Com">
             <summary>
-            A Fluency source code comment. Passes input to output. Same as <see cref="T:Fluency.Execution.Functions.BuiltIn.Com"/>
+            A Fluency source code comment. Passes input to output. Same as <see cref="T:Fluency.Execution.Functions.BuiltIn.Comment"/>
             </summary>
         </member>
         <member name="T:Fluency.Execution.Functions.BuiltIn.I">
             <summary>
-            The identity function. Passes input to output. Same as <see cref="T:Fluency.Execution.Functions.BuiltIn.Com"/>
+            The identity function. Passes input to output. Same as <see cref="T:Fluency.Execution.Functions.BuiltIn.Comment"/>
             </summary>
         </member>
         <member name="T:Fluency.Execution.Functions.BuiltIn.Const">
