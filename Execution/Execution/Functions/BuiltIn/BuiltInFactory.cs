@@ -17,8 +17,8 @@ namespace Fluency.Execution.Functions.BuiltIn
             {"Up", (_) => new SwitchIn(_false)},
             {"Down", (_) => new SwitchOut(_false)},
             {"Const", (args) => new Const(args)},
-            {"Com", (_) => new Com()},
             {"Comment", (_) => new Comment()},
+            {"Com", (_) => new Com()},
             {"I", (_) => new I()},
             {"Dup", (_) => new Dup()},
             {"Duplicate", (_) => new Duplicate()},
@@ -42,7 +42,7 @@ namespace Fluency.Execution.Functions.BuiltIn
             {"Not", (_) => new WrapUnary<bool, bool>(a => !a, FluencyType.Bool, "Not")},
             {"AddDouble", (args) => new WrapBinary<double, double, double>((a, b) => a + b, FluencyType.Double, FluencyType.Double, "AddDouble", args )},
             {"ParseInt", (_) => new WrapUnary<string, int>(int.Parse, FluencyType.Int, "ParseInt")},
-            {"Concat", (args) => new WrapBinary<string, string, string>((a, b) => a + b, FluencyType.String, FluencyType.String, "Concat", args )},
+            {"Concat", (args) => new WrapBinary<object, object, object>((a, b) => a.ToString() + b.ToString(), FluencyType.Any, FluencyType.String, "Concat", args )},
             {"Split", (args) => new WrapBinaryStreamOutput<string, string, string>((a, b) =>
                                              a.Split(new string[] {b}, StringSplitOptions.RemoveEmptyEntries), FluencyType.String, FluencyType.String, "Split", args )},
             {"DivMod", (args) => new WrapBinaryTwoOutputs<int, int, int, int>((a, b) => (a/b, a%b) , FluencyType.Int, FluencyType.Int, FluencyType.Int, "DivMod", args )},

@@ -4,10 +4,10 @@ namespace Fluency.Execution.Functions.BuiltIn
     /// <summary>
     /// A Fluency source code comment. Passes input to output.
     /// </summary>
-    public class Com : ITopIn, ITopOut
+    public class Comment : ITopIn, ITopOut
     {
 
-        public virtual string Name => nameof(Com);
+        public virtual string Name => nameof(Comment);
 
         public GetNext TopInput { private get; set; }
 
@@ -15,17 +15,17 @@ namespace Fluency.Execution.Functions.BuiltIn
     }
 
     /// <summary>
-    /// A Fluency source code comment. Passes input to output. Same as <see cref="Com"/>
+    /// A Fluency source code comment. Passes input to output. Same as <see cref="Comment"/>
     /// </summary>
-    public class Comment : Com
+    public class Com : Comment
     {
-        public override string Name => nameof(Comment);
+        public override string Name => nameof(Com);
     }
 
     /// <summary>
-    /// The identity function. Passes input to output. Same as <see cref="Com"/>
+    /// The identity function. Passes input to output. Same as <see cref="Comment"/>
     /// </summary>
-    public class I : Com
+    public class I : Comment
     {
         public override string Name => nameof(I);
     }
