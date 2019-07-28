@@ -25,17 +25,6 @@ namespace Fluency.CLI
                 return;
             }
 
-            if (a.Inspect != null)
-            {
-                foreach (string toInspect in a.Inspect)
-                {
-                    Console.WriteLine(string.Join("\n", toInspect.Select((c, idx) => idx + ": " + c)));
-                    Console.WriteLine(string.Join(", ", toInspect.GroupUntil(x => x == '.').Select(x => $"\"{x.Stringify()}\"")));
-                    Console.WriteLine(string.Join(", ", toInspect.GroupUntil(x => x == '.').Select(x => x.Indexes.ToString())));
-                }
-                return;
-            }
-
             if (a.Autofix)
             {
                 var fixer = new Autofix(a.Autofix, a.TabWidth);
@@ -90,9 +79,8 @@ namespace Fluency.CLI
             foreach (var pair in new[] {
                 ("-h, --help", "You're lookin' at it."),
                 ("-v, --verbose", "Run in verbose mode."),
-                ("-f [filepath], --in-file [filepath]", "Read the next named file as input, not as Fluency source."),
+                ("-i [filepath], --in-file [filepath]", "Read the next named file as input, not as Fluency source."),
                 ("-s [string], --separator [string]", "Use this string as the record separator for all input and output."),
-                ("-i [string], --inspect [string]", "Inspect (print indexes of all characters in, try naive splitting on periods the given string."),
                 ("--no-tab-warn", "Supress warning when tabs appear in source after text."),
                 ("--tab-warn", "Enable warning when tabs appear in source after text. This is the default."),
                 ("--autofix", "Expand tabs after text and write back to input file."),

@@ -17,7 +17,6 @@ namespace Fluency.CLI
         public bool Autofix { get; private set; } = false;
         public List<string> ReadFile { get; private set; } = null;
         public string Separator { get; private set; } = "\n";
-        public List<string> Inspect { get; private set; } = null;
         public List<string> Leftover { get; private set; } = new List<string>();
 
         public ArgumentParser(IEnumerable<string> args)
@@ -25,19 +24,11 @@ namespace Fluency.CLI
             if (!args.Any())
                 Help = true;
 
-            bool inspectNext = false;
             bool widthNext = false;
             bool readNext = false;
             bool readSep = false;
             foreach (string arg in args)
             {
-                if (inspectNext)
-                {
-                    if (Inspect == null) Inspect = new List<string>(1);
-                    Inspect.Add(arg);
-                    continue;
-                }
-
                 if (readNext)
                 {
                     if (ReadFile == null) ReadFile = new List<string>(1);
@@ -67,10 +58,6 @@ namespace Fluency.CLI
                         Verbose = true;
                         break;
                     case "-i":
-                    case "--inspect":
-                        inspectNext = true;
-                        break;
-                    case "-f":
                     case "--in-file":
                         readNext = true;
                         break;
