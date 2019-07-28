@@ -9,7 +9,9 @@ namespace Fluency.Execution.Functions.BuiltIn
     {
 
         private static readonly Value[] _emptyArgs = new Value[0];
-        private static readonly Value[] _false = new Value[] {new Value(false, FluencyType.Bool)};
+
+        private static readonly Value[] _bools = new Value[] { new Value(false, FluencyType.Bool), new Value(true, FluencyType.Bool) };
+        private static readonly Value[] _false = new Value[] { _bools[0] };
         public static IReadOnlyDictionary<string, FunctionMaker> BuiltInFunctions = new Dictionary<string, FunctionMaker>()
         {
             {"SwitchIn", (args) => new SwitchIn(args)},
@@ -36,9 +38,9 @@ namespace Fluency.Execution.Functions.BuiltIn
             {"Floor", (_) => new WrapUnary<double, int>(a => (int)a, FluencyType.Int, "Floor")},
             {"Equals", (args) => new WrapBinary<object, object, bool>((a, b) => a.Equals(b) , FluencyType.Any, FluencyType.Bool, "Equals", args)},
             {"And", (_) => new WrapBinary<bool, bool, bool>((a, b) => a && b, FluencyType.Bool, FluencyType.Bool, "And", _emptyArgs)},
-            {"All", (args) => new WrapBinaryFold<bool>((a, b) => a && b, FluencyType.Bool, "All", args)}, //implement short circuiting later
+            {"All", (args) => new WrapBinaryFold<bool>((a, b) => a && b, FluencyType.Bool, "All", args, _bools[0])}, 
             {"Or", (_) => new WrapBinary<bool, bool, bool>((a, b) => a || b, FluencyType.Bool, FluencyType.Bool, "Or", _emptyArgs)},
-            {"Any", (args) => new WrapBinaryFold<bool>((a, b) => a || b, FluencyType.Bool, "Any", args)}, //implement short circuiting later
+            {"Any", (args) => new WrapBinaryFold<bool>((a, b) => a || b, FluencyType.Bool, "Any", args, _bools[1])}, 
             {"Not", (_) => new WrapUnary<bool, bool>(a => !a, FluencyType.Bool, "Not")},
             {"AddDouble", (args) => new WrapBinary<double, double, double>((a, b) => a + b, FluencyType.Double, FluencyType.Double, "AddDouble", args )},
             {"ParseInt", (_) => new WrapUnary<string, int>(int.Parse, FluencyType.Int, "ParseInt")},

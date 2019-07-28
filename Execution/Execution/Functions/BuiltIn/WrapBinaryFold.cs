@@ -13,6 +13,7 @@ namespace Fluency.Execution.Functions.BuiltIn
     {
         private readonly Func<TReal, TReal, TReal> function;
         private readonly FluencyType type;
+        private readonly Value shortCircuitOn;
         private Value stored;
 
         public string Name { get; private set; }
@@ -20,12 +21,12 @@ namespace Fluency.Execution.Functions.BuiltIn
         public GetNext TopInput { private get; set; }
         public GetNext BottomInput { private get; set; }
 
-        public WrapBinaryFold(Func<TReal, TReal, TReal> function, FluencyType returnType, string name, Value[] arguments)
+        public WrapBinaryFold(Func<TReal, TReal, TReal> function, FluencyType returnType, string name, Value[] arguments, Value shortCircuitOn = null)
         {
             this.function = function;
             this.type = returnType;
+            this.shortCircuitOn = shortCircuitOn;
             Name = name;
-
             if (arguments.Length == 1)
             {
                 stored = arguments[0];
@@ -50,7 +51,7 @@ namespace Fluency.Execution.Functions.BuiltIn
 
             Value value;
 
-            while (!stored.Done && (value = TopInput()))
+            while (!stored.Done && !stored.Equals(shortCircuitOn) && (value = TopInput()))
                 stored = new Value(function(stored.Get<TReal>(type), value.Get<TReal>(type)), type);
 
             done = true;
