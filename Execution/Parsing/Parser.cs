@@ -42,6 +42,7 @@ namespace Fluency.Execution.Parsing
         public IEnumerable<FunctionGraph> Parse(IEnumerable<string> lines)
         {
             return lines.Select(x => x.TrimEnd())
+            .Select(RemoveEndOfLineComments)
             .Select(ProblematicTabWarn)
             .Select(ExpandTabs)
             .Select(Line.Create)
@@ -51,6 +52,15 @@ namespace Fluency.Execution.Parsing
             .Select(x => new FunctionGraph(x))
             .Select(x => { notifyDone(x); return x; });
         }
+
+        private string RemoveEndOfLineComments(string line)
+        {
+            int idx;
+            if ((idx = line.IndexOf("//")) != -1)
+                line = line.Remove(idx);
+            return line;
+        }
+        
 
         private string ExpandTabs(string toExpand) => toExpand.Replace("\t", _spaces);
 
