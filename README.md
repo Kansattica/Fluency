@@ -22,9 +22,16 @@ And type and enter something after it says "Ready!"
 
 or use the long options, like `--help` and `--in-file`.
 
+If you're doing anything that involves a lot of calls (and everything involves a lot of calls), consider passing the --configuration release argument to dotnet run, like so:
+
+`dotnet run --configuration release -- ..\Examples\prime.fl`
+
+This appears to turn on tail call optimization and some other stuff that 
+
 ### Tutorial
 Coming soon, but you can look at the examples folder for now!
 I find it helps to turn on C#-style syntax highlighting.
+prime.fl probably has the most complete program and best example of Fluency.
 
 ### Roadmap
 Fluency is currently in a working state, but I'd love to do more.
