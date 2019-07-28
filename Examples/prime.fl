@@ -1,0 +1,33 @@
+Def(Main).Dup().Concat(": ").Concat()
+            \.ParseInt().IsPrime()./
+            
+Def(IsPrime, int n).Dup().Infinite().Com().DivMod().Comment().SwitchIn(false)
+                    \.CountdownR().Comment("")./ \.Equals(0).Any().Not()./
+
+
+Def(NCopies).Infinite().FirstN()
+
+Def(Infinite).Dup().MergeTop()
+              \.Infinite()./
+
+// Countdown needs to finish in order to stop recursing, so this:
+// sends one incoming value to Countdown
+// Countdown sends its output out through MergeTop, as well as a Finished that makes MergeTop start reading from the bottom
+// The console or whoever keeps requesting values from MergeTop, which now requests from the bottom
+// The requests go to the recursive call to Next(), which gets expanded and has a Countdown that isn't finished.
+// That Countdown takes a number from input, and the cosmic ballet goes on.
+
+// NextCount-type semantics are now implemented in the interpreter for functions with declared arguments, this is obsolete.
+Def(NextCount).First().Countdown().MergeTop()
+                     \.NextCount()./
+        
+//Countdown takes a number (such as 5) and returns all numbers between that number and one, inclusive (such as 5 4 3 2 1)
+Def(Countdown, int n).Dup().Comment("n goes here").I().MergeTop()
+                          \.Dup().Equals(1).Not().MergeIf()./ //note that even when the number here equals one, one will still be returned across the top
+                            \.Add(-1).Countdown()./
+
+// but if we're looking for prime numbers, we want to turn 5 into 4 3 2
+// (really, you want to go from 2 to the square root, but we're not there yet)
+Def(CountdownR, int n).Dup().Comment("n-1").Add(-1).MergeTop(false)
+                          \.Dup().Equals(3).Not().MergeIf()./
+                            \.Add(-1).CountdownR()./
