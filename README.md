@@ -26,7 +26,7 @@ If you're doing anything that involves a lot of calls (and everything involves a
 
 `dotnet run --configuration release -- ..\Examples\prime.fl`
 
-This appears to turn on tail call optimization and some other stuff that 
+This appears to turn on tail call optimization and generally make the code run a lot faster.
 
 ### Tutorial
 Coming soon, but you can look at the examples folder for now!
