@@ -8,7 +8,7 @@ Def(IsPrime, int n).Dup().Infinite().Comment("endless n").DivMod().Com().SwitchI
 // the square root thing doesn't work if the numbers are less than 10 or so, so
 Def(SqrtIfLarge, int n).Dup().LessThan(11).MergeTop().SwitchIn()
                           \.Dup().Com("just n")./  Up()./
-                            \.Sqrt().Floor().Com()./
+                            \.Sqrt().Floor().Add(1)./
 
 Def(NCopies).Infinite().FirstN()
 
