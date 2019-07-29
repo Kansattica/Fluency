@@ -30,6 +30,7 @@ This appears to turn on tail call optimization and generally make the code run a
 Coming soon, but you can look at the examples folder for now!
 I find it helps to turn on C#-style syntax highlighting.
 prime.fl probably has the most complete program and best example of Fluency.
+Documentation is available at <https://kansattica.github.io>.
 
 ### Roadmap
 Fluency is currently in a working state, but I'd love to do more.
