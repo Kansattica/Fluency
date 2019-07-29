@@ -67,7 +67,7 @@ namespace Fluency.CLI
             {
                 readFrom = new FileReader(a.ReadFile, a.Separator).Read;
             }
-            var result = new Interpreter(p).Execute(fileLines, readFrom);
+            var result = new Interpreter(p, printReady: (a.ReadFile == null)).Execute(fileLines, readFrom);
 
             console.Write(result);
         }
