@@ -1,6 +1,6 @@
 # Welcome! To your first program.
 
-You can check out the examples in the [examples folder](https://github.com/Kansattica/Fluency/tree/master/Examples), and I recommend it, but you can do that later. Right now, let's start with the basics. Create yourself a file. Call it anything you like, as long as it ends in `.fl`. I'm going to call mine `coolfile.fl`. It'll be easiest if you put it in the Console folder. Open it with your text editor of choice and put this in it. It's the shortest legal Fluency program.
+You can check out the examples in the [examples folder](https://github.com/Kansattica/Fluency/tree/master/Examples), and I recommend it, but you can do that later. Right now, let's start with the basics. Create yourself a file. Call it anything you like, as long as it ends in `.fl`. I'm going to call mine `coolfile.fl`. It'll be easiest if you put it in the Console folder. Open it with your text editor of choice and put this in it. It's the shortest legal Fluency program. You might have to hit enter to make sure there's a blank line after it.
 
 ```cs
 Def(Main).I()
@@ -14,7 +14,7 @@ Ready!
 
 ```
 
-That Ready! is Fluency telling you it's ready. Feel free to type something in here, hit Enter, and watch Fluency dutifully echo it back at you. When you're done playing, simply hit the enter key twice to add two blank lines. Fluency will say `Done` and exit. Here's the session I just did:
+That Ready! is Fluency telling you it's ready. Fluency tries to be very straightforward when it can. Feel free to type something in here, hit Enter, and watch Fluency dutifully echo it back at you. When you're done playing, simply hit the enter key twice to add two blank lines. Fluency will say `Done` and exit. Here's the session I just did:
 
 ```text
 C:\Users\Grace\Documents\Sauce\Fluency\Console> dotnet run .\coolfile.fl
