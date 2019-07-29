@@ -58,8 +58,11 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
                     lastAdded = Head;
                     first = false;
                 }
+                else
+                {
+                    lastAdded.TopOut = newNode;
+                }
                 processed.Add(new ProcessedFunction { Node = newNode, Token = token });
-                lastAdded.TopOut = newNode;
                 lastAdded = newNode;
             }
             return processed;
