@@ -7,7 +7,7 @@ using Fluency.Execution.Parsing.Entities.FunctionGraph;
 namespace Fluency.Execution.Functions
 {
     /// <summary>
-    /// User-defined functions should "expand" on first use so you can do recursion without overflowing the stack.
+    /// Implements the behavior where user-defined functions "expand" the first time a value is requested.
     /// </summary>
     public class UserFunctionStub : IFunction, ITopIn, ITopOut, IBottomIn, IBottomOut
     {
