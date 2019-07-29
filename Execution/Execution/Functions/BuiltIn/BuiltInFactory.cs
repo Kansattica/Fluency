@@ -37,6 +37,8 @@ namespace Fluency.Execution.Functions.BuiltIn.Factory
             {"Sqrt", (_) => new WrapUnary<int, double>(a => Math.Sqrt(a), FluencyType.Double, "Sqrt")},
             {"Floor", (_) => new WrapUnary<double, int>(a => (int)a, FluencyType.Int, "Floor")},
             {"Equals", (args) => new WrapBinary<object, object, bool>((a, b) => a.Equals(b) , FluencyType.Any, FluencyType.Bool, "Equals", args)},
+            {"LessThan", (args) => new WrapBinary<int, int, bool>((a, b) => a < b, FluencyType.Int, FluencyType.Bool, "LessThan", args)},
+            {"GreaterThan", (args) => new WrapBinary<int, int, bool>((a, b) => a > b, FluencyType.Int, FluencyType.Bool, "GreaterThan", args)},
             {"And", (_) => new WrapBinary<bool, bool, bool>((a, b) => a && b, FluencyType.Bool, FluencyType.Bool, "And", _emptyArgs)},
             {"All", (args) => new WrapBinaryFold<bool>((a, b) => a && b, FluencyType.Bool, "All", args, _bools[0])}, 
             {"Or", (_) => new WrapBinary<bool, bool, bool>((a, b) => a || b, FluencyType.Bool, FluencyType.Bool, "Or", _emptyArgs)},
