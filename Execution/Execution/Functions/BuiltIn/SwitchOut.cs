@@ -38,8 +38,10 @@ namespace Fluency.Execution.Functions.BuiltIn
             if (!everythingToTop.HasValue)
             {
                 Value direction = TopInput();
-                everythingToTop = direction.Get<bool>(FluencyType.Bool, "SwitchOut needs a boolean to set which direction it's going.");
-                return false;
+                if (direction.Done)
+                    return false;
+                else
+                    everythingToTop = direction.Get<bool>(FluencyType.Bool, "SwitchOut needs a boolean to set which direction it's going.");
             }
             return true;
         }
@@ -49,7 +51,8 @@ namespace Fluency.Execution.Functions.BuiltIn
 
         private Value SendTo(bool isTop)
         {
-            EnsureDirectionSet();
+            if(!EnsureDirectionSet())
+                return Value.Finished;
 
             // If we know that we shouldn't be sending stuff this way, return finished
             // before consuming an input.

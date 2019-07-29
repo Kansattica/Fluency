@@ -40,8 +40,9 @@ namespace Fluency.Execution.Functions.BuiltIn
             if (!putOnTop.HasValue)
             {
                 Value direction = TopInput();
+                if (direction.Done)
+                    return false;
                 putOnTop = direction.Get<bool>(FluencyType.Bool, "Unzip needs a boolean to set which direction it's going.");
-                return false;
             }
             return true;
         }
@@ -55,7 +56,9 @@ namespace Fluency.Execution.Functions.BuiltIn
 
         private Value DoQueue(Queue<Value> mine, Queue<Value> yours, bool top)
         {
-            EnsureDirectionSet();
+            if (!EnsureDirectionSet())
+                return Value.Finished;
+
             putOnTop = !putOnTop;
 
             if (mine.TryDequeue(out Value val))

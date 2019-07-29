@@ -39,15 +39,18 @@ namespace Fluency.Execution.Functions.BuiltIn
             if (!everythingFromTop.HasValue)
             {
                 Value direction = TopInput();
-                everythingFromTop = direction.Get<bool>(FluencyType.Bool, "SwitchOut needs a boolean to set which direction it's going.");
-                return false;
+                if (direction.Done)
+                    return false;
+                else
+                    everythingFromTop = direction.Get<bool>(FluencyType.Bool, "SwitchIn needs a boolean to set which direction it's going.");
             }
             return true;
         }
 
         public Value Top()
         {
-            EnsureDirectionSet();
+            if(!EnsureDirectionSet())
+                return Value.Finished;
 
             return everythingFromTop.Value ? TopInput() : BottomInput();
         }

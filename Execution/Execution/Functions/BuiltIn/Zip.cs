@@ -37,15 +37,17 @@ namespace Fluency.Execution.Functions.BuiltIn
             if (!takeFromTop.HasValue)
             {
                 Value direction = TopInput();
+                if (direction.Done)
+                    return false;
                 takeFromTop = direction.Get<bool>(FluencyType.Bool, "Zip needs a boolean to set which direction it's going.");
-                return false;
             }
             return true;
         }
 
         public Value Top()
         {
-            EnsureDirectionSet();
+            if(!EnsureDirectionSet())
+                return Value.Finished;
 
             takeFromTop = !takeFromTop;
             return takeFromTop.Value ? TopInput() : BottomInput();
