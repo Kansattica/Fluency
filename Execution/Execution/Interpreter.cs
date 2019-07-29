@@ -15,13 +15,15 @@ namespace Fluency.Execution
     public class Interpreter
     {
         private readonly Parser parser;
+        private readonly bool printReady;
 
         /// <summary>
         /// Create a new interpreter using the specified parser.
         /// </summary>
-        public Interpreter(Parser parser)
+        public Interpreter(Parser parser, bool printReady = false)
         {
             this.parser = parser;
+            this.printReady = printReady;
         }
 
         /// <summary>
@@ -66,7 +68,10 @@ namespace Fluency.Execution
 
             mainIn.TopInput = input;
             Value next;
-            yield return new Value("Ready!\n", FluencyType.String);
+            
+            if (printReady)
+                yield return new Value("Ready!\n", FluencyType.String);
+
             while (next = mainOut.Top())
             {
                 yield return next;

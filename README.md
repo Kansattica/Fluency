@@ -1,9 +1,7 @@
 # Fluency
 ## Hope you like function calls, buddy.
 
-
 Fluency is a functional programming language inspired by "fluent" APIs like C#'s LINQ. No variables here, only function calls that can branch off each other and merge back in.
-
 
 ### Building and running
 Fluency uses .Net Core 2.2 for the console and .Net Standard 2.0 for everything else. I suspect it would work fine with earlier versions, .Net framework, and the like, but I haven't tested. The entire project is self-contained and pure C#. No external packages. To run, simply do:
@@ -50,7 +48,6 @@ Fluency is currently in a working state, but I'd love to do more.
 - [ ] Optimizations:
     - [ ] Easy ones like "remove comments"
     - [ ] Let nodes signal that they're done and can be removed 
-        - [ ] If a node is in a state where it's just passing values from A to B, it can be removed and the runtime can stitch things up
-        - [ ] That is, if the node B in A -> B -> C knows that all it's doing is passing from A to C (perhaps because it's a MergeBottom that's already done the bottom, or it's a comment, or it's finished and won't be passing anything any more), we can remove the node and save some time and a layer in the call stack.
+        - [ ] If a node is in a state where it's just passing values from A to B, it can be removed and the runtime can stitch things up. That is, if the node B in A -> B -> C knows that all it's doing is passing from A to C (perhaps because it's a MergeBottom that's already done the bottom, or it's a comment, or it's finished and won't be passing anything any more), we can remove the node and save some time and a layer in the call stack.
         - [ ] One big limit on how much computation can be done is the call stack, so anything that can help reduce that is good, especially with recursive calls.
-        - [ ] Finished function pruning is pretty low-hanging fruit, I think. The only hard part is figuring out when the runtime should do it. 
+        - [X] Finished function pruning is done for user-defined functions. They get re-expanded and replaced in place.
