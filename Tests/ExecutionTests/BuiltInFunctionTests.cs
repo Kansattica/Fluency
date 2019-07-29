@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +6,7 @@ using Fluency.Common;
 using Fluency.Execution.Exceptions;
 using Fluency.Execution.Functions;
 using Fluency.Execution.Functions.BuiltIn;
+using Fluency.Execution.Functions.BuiltIn.Factory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [assembly: Parallelize(Workers = 0, Scope = ExecutionScope.MethodLevel)]

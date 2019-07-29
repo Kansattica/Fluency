@@ -4,7 +4,7 @@ using Fluency.Common;
 using Fluency.Execution.Exceptions;
 using Fluency.Execution.Extensions;
 using Fluency.Execution.Functions;
-using Fluency.Execution.Functions.BuiltIn;
+using Fluency.Execution.Functions.BuiltIn.Factory;
 using Fluency.Execution.Parsing;
 
 namespace Fluency.Execution

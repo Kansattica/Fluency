@@ -8,6 +8,10 @@ namespace Fluency.Execution.Functions.BuiltIn
 
     /// <summary>
     /// Wrap a C# function that takes two arguments and returns one value as a Fluency function.
+    /// This is different from <see cref="WrapBinaryFold{TReal}"/> because it implements a fold operation- that is:
+    /// - Read two values from the top. Do the operation on both of them. Store that value.
+    /// - Read new values and do them on the stored value until you either finish or hit the short circuit value and stop.
+    /// This is how All and Any are implemented.
     /// </summary>
     public class WrapBinaryFold<TReal> : ITopIn, ITopOut
     {

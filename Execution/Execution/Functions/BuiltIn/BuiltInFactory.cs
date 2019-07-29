@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Fluency.Common;
 using Fluency.Execution.Parsing.Entities;
 
-namespace Fluency.Execution.Functions.BuiltIn
+namespace Fluency.Execution.Functions.BuiltIn.Factory
 {
     public class BuiltInFactory : IFunctionResolver
     {
