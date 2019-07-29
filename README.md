@@ -27,10 +27,9 @@ If you're doing anything that involves a lot of calls (and everything involves a
 This appears to turn on tail call optimization and generally make the code run a lot faster.
 
 ### Tutorial
-Coming soon, but you can look at the examples folder for now!
-I find it helps to turn on C#-style syntax highlighting.
-prime.fl probably has the most complete program and best example of Fluency.
-Documentation is available at <https://kansattica.github.io>.
+I have the beginnings of a tutorial at <https://kansattica.github.io/articles/intro.html>!
+prime.fl probably has the most complete program and best example of Fluency if you'd like to start that way.
+Code documentation is available at <https://kansattica.github.io>.
 
 ### Roadmap
 Fluency is currently in a working state, but I'd love to do more.
@@ -39,7 +38,8 @@ Fluency is currently in a working state, but I'd love to do more.
 - [X] Real recursion (expand user-defined functions on first request so you can have base cases)
 - [ ] Better support for users bringing their own C# functions
 - [ ] Better support for all C# types- at the moment, Fluency just calls them "Any".
-- [ ] A better (or any) tutorial
+- [X] Any tutorial
+- [ ] A good tutorial
 - [ ] Numeric type for ints, floats, decimals, etc.
 - [X] Argument support for user defined functions.
 - [ ] Top and bottom arguments
