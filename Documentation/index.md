@@ -5,6 +5,8 @@ Fluency is a functional programming language inspired by "fluent" APIs like C#'s
 
 You can find the code on [my github](https://github.com/Kansattica/Fluency).
 
+I'm writing an in-progress tutorial [here](/articles/intro.html), which includes building and running Fluency from source.
+
 ### Building and running
 Fluency uses .Net Core 2.2 for the console and .Net Standard 2.0 for everything else. I suspect it would work fine with earlier versions, .Net framework, and the like, but I haven't tested. The entire project is self-contained and pure C#. No external packages. To run, simply do:
 
