@@ -9,16 +9,22 @@ namespace Fluency.CLI
 {
     public class FileReader
     {
-        public FileReader(IEnumerable<string> files, string seperator = "\n")
+        public FileReader(IEnumerable<string> files, string separator = "\n")
         {
-           _read = ReadFile(files, seperator).GetEnumerator();
+            _read = ReadFile(files, separator).GetEnumerator();
         }
 
-        private IEnumerable<string> ReadFile(IEnumerable<string> files, string seperator)
+        private IEnumerable<string> ReadFile(IEnumerable<string> files, string separator)
         {
-            foreach (var chunk in files.SelectMany(f => File.ReadAllText(f).Split(seperator)))
+            foreach (var stream in files.Select(f => new StreamReader(File.OpenRead(f))))
             {
-                yield return chunk.Trim('\r', '\n', ' ', '\t');
+                while (!stream.EndOfStream)
+                {
+                    foreach (string chunk in stream.ReadLine().Split(separator))
+                    {
+                        yield return chunk.Trim('\r', '\n', ' ', '\t');
+                    }
+                }
             }
         }
 

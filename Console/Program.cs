@@ -61,13 +61,17 @@ namespace Fluency.CLI
 
             var fileLines = a.Leftover.Where(x => x.EndsWith(".fl")).SelectMany(x => File.ReadAllLines(x));
 
-            var console = new ConsoleIO(a.Separator);
+            var console = new ConsoleIO();
             GetNext readFrom = console.Read;
+            if (a.CountFrom != null)
+            {
+                readFrom = new NumberGenerator(a.CountFrom.Value).ReadSequential;
+            }
             if (a.ReadFile != null)
             {
                 readFrom = new FileReader(a.ReadFile, a.Separator).Read;
             }
-            var result = new Interpreter(p, printReady: (a.ReadFile == null)).Execute(fileLines, readFrom);
+            var result = new Interpreter(p, printReady: true).Execute(fileLines, readFrom);
 
             console.Write(result);
         }
@@ -80,6 +84,7 @@ namespace Fluency.CLI
                 ("-h, --help", "You're lookin' at it."),
                 ("-v, --verbose", "Run in verbose mode."),
                 ("-i [filepath], --in-file [filepath]", "Read the next named file as input, not as Fluency source."),
+                ("--count-from [number]", "Feed all numbers starting from [number] to the program."),
                 ("-s [string], --separator [string]", "Use this string as the record separator for all input and output."),
                 ("--no-tab-warn", "Supress warning when tabs appear in source after text."),
                 ("--tab-warn", "Enable warning when tabs appear in source after text. This is the default."),

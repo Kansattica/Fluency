@@ -7,11 +7,11 @@ namespace Fluency.CLI
 {
     public class ConsoleIO
     {
-        private readonly string seperator;
+        private readonly string separator;
 
-        public ConsoleIO(string seperator = "\n")
+        public ConsoleIO(string separator = "\n")
         {
-            this.seperator = seperator;
+            this.separator = separator;
         }
 
         private Queue<string> buffer = new Queue<string>();
@@ -23,7 +23,7 @@ namespace Fluency.CLI
             {
                 if (!string.IsNullOrWhiteSpace(line = Console.ReadLine()))
                 {
-                    foreach (string chunk in line.Split(seperator))
+                    foreach (string chunk in line.Split(separator))
                     {
                         buffer.Enqueue(chunk.Trim('\r', '\n', ' ', '\t'));
                     }
@@ -45,9 +45,8 @@ namespace Fluency.CLI
             foreach (var value in values)
             {
                 Console.Write(value.Type == FluencyType.String ? value.Get<string>() : value.ToString());
-                Console.Write(seperator);
+                Console.Write(separator);
             }
-
         }
     }
 }

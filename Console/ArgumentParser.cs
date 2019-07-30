@@ -15,6 +15,7 @@ namespace Fluency.CLI
         public bool PrintGraph { get; private set; } = false;
         public bool WriteGraph { get; private set; } = false;
         public bool Autofix { get; private set; } = false;
+        public int? CountFrom { get; private set; } = null;
         public List<string> ReadFile { get; private set; } = null;
         public string Separator { get; private set; } = "\n";
         public List<string> Leftover { get; private set; } = new List<string>();
@@ -27,6 +28,7 @@ namespace Fluency.CLI
             bool widthNext = false;
             bool readNext = false;
             bool readSep = false;
+            bool nextCount = false;
             foreach (string arg in args)
             {
                 if (readNext)
@@ -47,6 +49,15 @@ namespace Fluency.CLI
                     if (int.TryParse(arg, out int width))
                     {
                         TabWidth = width;
+                        continue;
+                    }
+                }
+
+                if (nextCount)
+                {
+                    if (int.TryParse(arg, out int count))
+                    {
+                        CountFrom = count;
                         continue;
                     }
                 }
@@ -88,6 +99,9 @@ namespace Fluency.CLI
                     case "--help":
                     case "-h":
                         Help = true;
+                        break;
+                    case "--count-from":
+                        nextCount = true;
                         break;
                     case "--autofix":
                         Autofix = true;
