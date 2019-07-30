@@ -14,7 +14,7 @@ Ready!
 
 ```
 
-That Ready! is Fluency telling you it's ready. Fluency tries to be very straightforward when it can. Feel free to type something in here, hit Enter, and watch Fluency dutifully echo it back at you. When you're done playing, simply hit the enter key twice to add two blank lines. Fluency will say `Done` and exit. Here's the session I just did:
+That Ready! is Fluency telling you it's ready. Fluency tries to be very straightforward when it can. Feel free to type something in here, hit Enter, and watch Fluency dutifully echo it back at you. When you're done playing, simply hit the enter key twice to add two blank lines or type ctrl-C. Fluency will say `Done` and exit. Here's the session I just did:
 
 ```text
 C:\Users\Grace\Documents\Sauce\Fluency\Console> dotnet run .\coolfile.fl
