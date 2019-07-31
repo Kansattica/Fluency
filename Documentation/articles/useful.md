@@ -68,7 +68,7 @@ Unhandled Exception: Fluency.Execution.Exceptions.ExecutionException: Tried to u
 (... other stuff)
 ```
 
-Which is just telling you that "Com doesn't read input from its bottom pipeline, and so you shouldn't be connecting to it." If you want to know which pipelines a built in function reads from, click its name on the list of [builtin functions](~/api/Fluency.Execution.Functions.BuiltIn). For example, [Dup()](~/api/Fluency.Execution.Functions.BuiltIn.Dup) is an ITopIn, ITopOut, and IBottomOut, which means it reads from the top input and writes to both the top output and bottom output. Don't worry too much about the rest, though you will see that `Dup()` has an alias, `Duplicate()`, that does the same thing.
+Which is just telling you that "Com doesn't read input from its bottom pipeline, and so you shouldn't be connecting to it." If you want to know which pipelines a built in function reads from, click its name on the list of [builtin functions](xref:Fluency.Execution.Functions.BuiltIn). For example, [Dup()](xref:Fluency.Execution.Functions.BuiltIn.Dup) is an ITopIn, ITopOut, and IBottomOut, which means it reads from the top input and writes to both the top output and bottom output. Don't worry too much about the rest, though you will see that `Dup()` has an alias, `Duplicate()`, that does the same thing.
 
  You'll see `Dup()` a lot, because a common pattern in Fluency is:
 - Copy the number
