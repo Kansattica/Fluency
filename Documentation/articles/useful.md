@@ -68,7 +68,7 @@ Unhandled Exception: Fluency.Execution.Exceptions.ExecutionException: Tried to u
 (... other stuff)
 ```
 
-Which is just telling you that "Com doesn't read input from its bottom pipeline, and so you shouldn't be connecting to it." If you want to know which pipelines a built in function reads from, click its name on the list of [builtin functions](xref:Fluency.Execution.Functions.BuiltIn). For example, [Dup()](xref:Fluency.Execution.Functions.BuiltIn.Dup) is an ITopIn, ITopOut, and IBottomOut, which means it reads from the top input and writes to both the top output and bottom output. Don't worry too much about the rest, though you will see that `Dup()` has an alias, `Duplicate()`, that does the same thing.
+Which is just telling you that "Com doesn't read input from its bottom pipeline, and so you shouldn't be connecting to it." If you want to know which pipelines a built in function reads from, click its name on the list of [builtin functions](~/api/Fluency.Execution.Functions.BuiltIn). For example, [Dup()](~/api/Fluency.Execution.Functions.BuiltIn.Dup) is an ITopIn, ITopOut, and IBottomOut, which means it reads from the top input and writes to both the top output and bottom output. Don't worry too much about the rest, though you will see that `Dup()` has an alias, `Duplicate()`, that does the same thing.
 
  You'll see `Dup()` a lot, because a common pattern in Fluency is:
 - Copy the number
@@ -81,12 +81,26 @@ You've seen `Com()` before as well, though we called it `I()` last time. `Com()`
 
 The last new function is `Add()`. As you might guess, `Add()` reads something from the top and bottom pipelines, adds them together, and puts the results out on the top. `Add()` can also take an argument, like `Add(1)`. In this case, it reads a number from the top pipeline, adds one to it, and puts it on the top pipeline without touching the bottom at all. 
 
-If you've seen the list of [builtin functions](xref:Fluency.Execution.Functions.BuiltIn), you might know that there's also a `Mult()` function that does multiplication, and this program could also be written as:
+"Hey, wait." I hear you cry. "Can't I get rid of all those comments? It seems like they're just taking up space."
+And you would be correct! A more succinct way to write this program would be:
+
+```cs
+Def(Main).Dup().Add()
+            \.I()./
+```
+
+Notice that you still need something along the bottom to connect `Dup()` to `Add()`. Otherwise, with no argument, `Add()` will try to read from its lower pipeline and not be happy.
+
+Can we do even better?
+
+You probably know that when someone teaching you something asks that, they mean yes.
+
+If you've seen the list of [builtin functions](~/api/Fluency.Execution.Functions.BuiltIn), you might know that there's also a `Mult()` function that does multiplication, and this program could also be written as:
 
 ```cs
 Def(Main).ParseInt().Mult(2)
 ```
 
-Which works just as well (and maybe a touch faster), but I wrote this program before adding `.Mult()` to the language, and you had to learn about the bottom pipeline one way or another.
+Which works just as well (and is even a touch faster), but I wrote this program before adding `.Mult()` to the language, and you had to learn about the bottom pipeline one way or another.
 
 Next time, we'll talk about how to do things conditionally, and why the whole "things are only computed when you need them" trick is useful.
