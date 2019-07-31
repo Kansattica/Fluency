@@ -19,13 +19,26 @@ namespace Fluency.Execution.Functions
         private Func<UserDefinedFunction> makeNewFunction;
         private UserDefinedFunction expandedFunction;
 
+        // basically, when we would expand a new function, if the incoming value is a Done, we instead just pass that forward
+        // but if it isn't, we have to pass that forward
+        private Value buffer = null;
+
         private int? toAllowThrough = null;
         private bool topset = false;
         public Value Top()
         {
             if (expandedFunction == null)
             {
-                expandedFunction = makeNewFunction();
+                Value tmp = TopInput();
+                if (tmp.Done)
+                {
+                    return tmp;
+                }
+                else
+                {
+                    buffer = tmp;
+                    expandedFunction = makeNewFunction();
+                }
             }
 
             if (!topset)
@@ -70,10 +83,23 @@ namespace Fluency.Execution.Functions
             return v;
         }
 
+        private Value GetAndClearBuffer(GetNext input)
+        {
+            if (buffer != null)
+            {
+                Value tmp = buffer;
+                buffer = null;
+                return tmp;
+            }
+            else
+            {
+                return input();
+            }
+        }
+
         private GetNext WrapTopInput(GetNext topInput)
         {
-            // if we're allowing everything, no need to wrap
-            if (!toAllowThrough.HasValue) { return topInput; }
+            if (!toAllowThrough.HasValue) { return () => GetAndClearBuffer(topInput);  }
             return () =>
             {
                 if (toAllowThrough == 0)
@@ -81,7 +107,7 @@ namespace Fluency.Execution.Functions
                 else
                 {
                     toAllowThrough--;
-                    return topInput();
+                    return GetAndClearBuffer(topInput);
                 }
             };
         }
