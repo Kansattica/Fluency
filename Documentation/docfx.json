@@ -4,7 +4,7 @@
       "src": [
         {
           "files": [
-            "Execution/**.cs"
+            "Execution/**.csproj"
           ],
           "cwd": ".."
         }
