@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using Fluency.Execution.Parsing.Entities;
 using System.Text;
 
-[assembly: Parallelize(Workers = 0, Scope = ExecutionScope.MethodLevel)]
-
 namespace Fluency.Tests.Execution.Parsing
 {
     [TestClass]

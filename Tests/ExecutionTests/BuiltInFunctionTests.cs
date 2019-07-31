@@ -9,8 +9,6 @@ using Fluency.Execution.Functions.BuiltIn;
 using Fluency.Execution.Functions.BuiltIn.Factory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-[assembly: Parallelize(Workers = 0, Scope = ExecutionScope.MethodLevel)]
-
 namespace Fluency.Tests.Execution
 {
     [TestClass]
