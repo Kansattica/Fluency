@@ -81,12 +81,26 @@ You've seen `Com()` before as well, though we called it `I()` last time. `Com()`
 
 The last new function is `Add()`. As you might guess, `Add()` reads something from the top and bottom pipelines, adds them together, and puts the results out on the top. `Add()` can also take an argument, like `Add(1)`. In this case, it reads a number from the top pipeline, adds one to it, and puts it on the top pipeline without touching the bottom at all. 
 
+"Hey, wait." I hear you cry. "Can't I get rid of all those comments? It seems like they're just taking up space."
+And you would be correct! A more succinct way to write this program would be:
+
+```cs
+Def(Main).Dup().Add()
+            \.I()./
+```
+
+Notice that you still need something along the bottom to connect `Dup()` to `Add()`. Otherwise, with no argument, `Add()` will try to read from its lower pipeline and not be happy.
+
+Can we do even better?
+
+You probably know that when someone teaching you something asks that, they mean yes.
+
 If you've seen the list of [builtin functions](xref:Fluency.Execution.Functions.BuiltIn), you might know that there's also a `Mult()` function that does multiplication, and this program could also be written as:
 
 ```cs
 Def(Main).ParseInt().Mult(2)
 ```
 
-Which works just as well (and maybe a touch faster), but I wrote this program before adding `.Mult()` to the language, and you had to learn about the bottom pipeline one way or another.
+Which works just as well (and is even a touch faster), but I wrote this program before adding `.Mult()` to the language, and you had to learn about the bottom pipeline one way or another.
 
 Next time, we'll talk about how to do things conditionally, and why the whole "things are only computed when you need them" trick is useful.

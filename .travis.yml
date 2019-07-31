@@ -1,6 +1,22 @@
 language: csharp
 mono: none
+os:
+  - linux
+  - windows
 dotnet: 2.2.300
 script:
   - dotnet restore
   - dotnet test
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install docfx -y  ; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then powershell -command "cd Documentation; docfx"; fi
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  keep_history: true
+  github_token: $push_token
+  local_dir: Documentation/_site
+  repo: Kansattica/Kansattica.github.io
+  on:
+    branch: master
+    condition: $TRAVIS_OS_NAME = "windows" 
