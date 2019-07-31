@@ -18,11 +18,10 @@ script:
 deploy:
   provider: pages
   skip_cleanup: true
-  keep_history: true
   github_token: $push_token
   local_dir: Documentation/_site
-  repo: Kansattica/Kansattica.github.io
-  target-branch: master
+  repo: Kansattica/Fluency
+  target-branch: gh-pages
   verbose: true
   on:
     branch: master
