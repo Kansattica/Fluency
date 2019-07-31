@@ -1,21 +1,21 @@
 language: csharp
-mono: none
 matrix:
   include:
-    - os: linux
-    mono: none
+  - os: linux
+    mono: latest
     dotnet: 2.2.300
-    - os: windows
+  - os: windows
     mono: none
 
 pre_install:
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install dotnetcore-sdk --version 2.2.301 -y; fi
 
 script:
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then export DOTNET_CLI_TELEMETRY_OPTOUT=1; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install dotnetcore-sdk --version 2.2.301 -y; fi
   - dotnet restore
   - dotnet test
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install docfx -y  ; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then powershell -command "cd Documentation; docfx"; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then cd Documentation; wget https://github.com/dotnet/docfx/releases/download/v2.43.3/docfx.zip; mkdir docfx; unzip docfx.zip -d docfx; mono docfx/docfx.exe build; mono docfx/docfx.exe; fi
 
 deploy:
   provider: pages
@@ -24,6 +24,9 @@ deploy:
   github_token: $push_token
   local_dir: Documentation/_site
   repo: Kansattica/Kansattica.github.io
+  target-branch: master
+  verbose: true
+  edge: true
   on:
     branch: master
-    condition: $TRAVIS_OS_NAME = "windows" 
+    condition: $TRAVIS_OS_NAME = "linux" 
