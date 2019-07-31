@@ -1,9 +1,13 @@
 language: csharp
 mono: none
-os:
-  - linux
-  - windows
-dotnet: 2.2.300
+matrix:
+  include:
+    - os: linux
+    mono: none
+    dotnet: 2.2.300
+  include:
+    - os: windows
+    mono: none
 
 pre_install:
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install dotnetcore-sdk --version 2.2.301 -y; fi
