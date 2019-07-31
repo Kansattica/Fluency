@@ -2,8 +2,10 @@
 using System.IO;
 using System.Linq;
 using Fluency.Execution;
+using Fluency.Execution.Exceptions;
 using Fluency.Execution.Functions;
 using Fluency.Execution.Parsing;
+using Fluency.Execution.Parsing.Exceptions;
 
 namespace Fluency.CLI
 {
@@ -73,8 +75,21 @@ namespace Fluency.CLI
                 readFrom = new FileReader(a.ReadFile, a.Separator).Read;
                 printready = false;
             }
+
             var result = new Interpreter(p, printReady: printready).Execute(fileLines, readFrom);
             console.Write(result);
+        }
+
+        private static string UnpackException<T>(T ex) where T : Exception
+        {
+            string toReturn = string.Empty;
+            Exception nextEx = ex;
+            while (ex is T)
+            {
+                toReturn = toReturn + "\n\t" + ex.Message;
+                nextEx = ex.InnerException;
+            }
+            return toReturn;
         }
 
         private static void PrintHelp(string programName)
