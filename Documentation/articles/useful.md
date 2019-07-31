@@ -95,7 +95,7 @@ Can we do even better?
 
 You probably know that when someone teaching you something asks that, they mean yes.
 
-If you've seen the list of [builtin functions](~/api/Fluency.Execution.Functions.BuiltIn), you might know that there's also a `Mult()` function that does multiplication, and this program could also be written as:
+If you've seen the list of [builtin functions](xref:Fluency.Execution.Functions.BuiltIn), you might know that there's also a `Mult()` function that does multiplication, and this program could also be written as:
 
 ```cs
 Def(Main).ParseInt().Mult(2)
