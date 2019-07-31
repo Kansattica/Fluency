@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Fluency.Execution;
@@ -63,16 +62,18 @@ namespace Fluency.CLI
 
             var console = new ConsoleIO();
             GetNext readFrom = console.Read;
+            bool printready = true;
             if (a.CountFrom != null)
             {
                 readFrom = new NumberGenerator(a.CountFrom.Value).ReadSequential;
+                printready = false;
             }
             if (a.ReadFile != null)
             {
                 readFrom = new FileReader(a.ReadFile, a.Separator).Read;
+                printready = false;
             }
-            var result = new Interpreter(p, printReady: true).Execute(fileLines, readFrom);
-
+            var result = new Interpreter(p, printReady: printready).Execute(fileLines, readFrom);
             console.Write(result);
         }
 
