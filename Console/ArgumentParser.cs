@@ -16,6 +16,7 @@ namespace Fluency.CLI
         public bool WriteGraph { get; private set; } = false;
         public bool Autofix { get; private set; } = false;
         public int? CountFrom { get; private set; } = null;
+        public int? CountTo { get; private set; } = null;
         public List<string> ReadFile { get; private set; } = null;
         public string Separator { get; private set; } = "\n";
         public List<string> Leftover { get; private set; } = new List<string>();
@@ -29,18 +30,21 @@ namespace Fluency.CLI
             bool readNext = false;
             bool readSep = false;
             bool nextCount = false;
+            bool nextCountTo = false;
             foreach (string arg in args)
             {
                 if (readNext)
                 {
                     if (ReadFile == null) ReadFile = new List<string>(1);
                     ReadFile.Add(arg);
+                    readNext = false;
                     continue;
                 }
 
                 if (readSep)
                 {
                     Separator = arg;
+                    readNext = false;
                     continue;
                 }
 
@@ -51,6 +55,7 @@ namespace Fluency.CLI
                         TabWidth = width;
                         continue;
                     }
+                    widthNext = false;
                 }
 
                 if (nextCount)
@@ -60,6 +65,18 @@ namespace Fluency.CLI
                         CountFrom = count;
                         continue;
                     }
+                    nextCount = false;
+                }
+
+
+                if (nextCountTo)
+                {
+                    if (int.TryParse(arg, out int count))
+                    {
+                        CountTo = count;
+                        continue;
+                    }
+                    nextCountTo = false;
                 }
 
                 switch (arg)
@@ -102,6 +119,9 @@ namespace Fluency.CLI
                         break;
                     case "--count-from":
                         nextCount = true;
+                        break;
+                    case "--count-to":
+                        nextCountTo = true;
                         break;
                     case "--autofix":
                         Autofix = true;

@@ -65,7 +65,7 @@ namespace Fluency.CLI
             GetNext readFrom = console.Read;
             if (a.CountFrom != null)
             {
-                readFrom = new NumberGenerator(a.CountFrom.Value).ReadSequential;
+                readFrom = new NumberGenerator(a.CountFrom.Value, a.CountTo).ReadSequential;
             }
             if (a.ReadFile != null)
             {
