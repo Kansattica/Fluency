@@ -5,6 +5,7 @@ os:
   - windows
 dotnet: 2.2.300
 script:
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then wget https://dot.net/v1/dotnet-install.ps1; powershell -NoProfile -ExecutionPolicy unrestricted -File dotnet-install.ps1 -Version 2.2.300 ; fi
   - dotnet restore
   - dotnet test
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install docfx -y  ; fi
