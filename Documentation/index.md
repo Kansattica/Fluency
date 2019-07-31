@@ -30,4 +30,4 @@ If you're doing anything that involves a lot of calls (and everything involves a
 
 This appears to turn on tail call optimization and generally make the code run a lot faster.
 
-A real tutorial is coming, but for now, feel free to check out the list of [builtin functions](xref:Fluency.Execution.Functions.BuiltIn) and the [examples](https://github.com/Kansattica/Fluency/tree/master/Examples), especially [prime.fl](https://github.com/Kansattica/Fluency/blob/master/Examples/prime.fl).
+A real tutorial is coming, but for now, feel free to check out the list of [builtin functions](~/api/Fluency.Execution.Functions.BuiltIn) and the [examples](https://github.com/Kansattica/Fluency/tree/master/Examples), especially [prime.fl](https://github.com/Kansattica/Fluency/blob/master/Examples/prime.fl).
