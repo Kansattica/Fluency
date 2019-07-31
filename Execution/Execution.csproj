@@ -7,7 +7,6 @@
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <DocumentationFile>Documentation.xml</DocumentationFile>
 
     <!--Don't yell at me about missing documentation comments for now.-->
     <NoWarn>1591</NoWarn>

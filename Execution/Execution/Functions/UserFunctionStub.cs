@@ -13,9 +13,6 @@ namespace Fluency.Execution.Functions
     {
         public string Name { get; private set; }
 
-
-        // for now, take n arguments from the top
-        // let functions specify that they want to take arguments on the bottom, too, later
         public GetNext TopInput { private get; set; }
         public GetNext BottomInput { private get; set; }
 
@@ -102,8 +99,9 @@ namespace Fluency.Execution.Functions
         {
             Name = graph.Name;
             int? totake = ArgumentsToTake(graph.Arguments);
-            makeNewFunction = (() => {
-//                Console.WriteLine("expanding " + graph.Name);
+            makeNewFunction = (() =>
+            {
+                //                Console.WriteLine("expanding " + graph.Name);
                 toAllowThrough = totake;
                 return new UserDefinedFunction(graph, arguments, linker);
             });
