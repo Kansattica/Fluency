@@ -27,9 +27,9 @@ If you're doing anything that involves a lot of calls (and everything involves a
 This appears to turn on tail call optimization and generally make the code run a lot faster.
 
 ### Tutorial
-I have the beginnings of a tutorial at <https://kansattica.github.io/articles/intro.html>!
-prime.fl probably has the most complete program and best example of Fluency if you'd like to start that way.
-Code documentation is available at <https://kansattica.github.io>.
+- I have the beginnings of a tutorial at <https://kansattica.github.io/Fluency/articles/intro.html>!
+- prime.fl probably has the most complete program and best example of Fluency if you'd like to start that way.
+- Code documentation is available at <https://kansattica.github.io/Fluency>.
 
 ### Roadmap
 Fluency is currently in a working state, but I'd love to do more.
