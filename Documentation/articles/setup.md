@@ -2,7 +2,7 @@
 
 ### Update: You can skip this step!
 
-Feel free to download and compile Fluency yourself if you like, but if you lack the means or you want to try before you buy, you can try Fluency Online here: <https://kansattica.github.io/FluencyOnline/> It's still in beta, and you might run into weird bugs, but it's there!
+Feel free to download and compile Fluency yourself if you like, but if you lack the means or you want to try before you buy, you can try Fluency Online here: <https://kansattica.github.io/FluencyOnline/> It's the exact same program as here, just compiled to run in your browser. It's still in beta, and you might run into weird bugs, but it's there!
 
 Otherwise, the first thing you have to do is get and build Fluency. You'll need:
 
