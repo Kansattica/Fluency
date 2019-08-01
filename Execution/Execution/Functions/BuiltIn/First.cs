@@ -34,8 +34,14 @@ namespace Fluency.Execution.Functions.BuiltIn
             if (!toAllow.HasValue)
             {
                 Value direction = TopInput();
-                toAllow = direction.Get<int>(FluencyType.Int, "FirstN needs to read an integer to know how many to take.");
-                return false;
+                if (direction.Done)
+                {
+                    return false;
+                }
+                else
+                {
+                    toAllow = direction.Get<int>(FluencyType.Int, "FirstN needs to read an integer to know how many to take.");
+                }
             }
             return true;
         }
@@ -43,9 +49,12 @@ namespace Fluency.Execution.Functions.BuiltIn
         private Queue<Value> topQueue = new Queue<Value>();
         public Value Bottom()
         {
-            Value value = null;
-            EnsureAllowSet();
+            if (!EnsureAllowSet())
+            {
+                return Value.Finished;
+            }
 
+            Value value = null;
             // If we haven't sent enough off the top yet, queue that many up for the top
             while (toAllow > 0 && (value = TopInput()))
             {
@@ -64,7 +73,11 @@ namespace Fluency.Execution.Functions.BuiltIn
 
         public Value Top()
         {
-            EnsureAllowSet();
+            if (!EnsureAllowSet())
+            {
+                return Value.Finished;
+            }
+
             if (toAllow > 0)
             {
                 toAllow--;
