@@ -101,10 +101,12 @@ namespace Fluency.Execution.Functions
 
             var seen = new Dictionary<FunctionNode, ExecutableNode>();
 
-            if (head.TopOut != null)
+            if (head.TopOut == null)
             {
-                _topHead = RecursiveExpand<ITopIn>(head.TopOut, seen, linker);
+                head.TopOut = new FunctionNode("I", head.Tiebreaker + 4) { TopIn = head };
             }
+
+            _topHead = RecursiveExpand<ITopIn>(head.TopOut, seen, linker);
 
             if (head.BottomOut != null)
             {

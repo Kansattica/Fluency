@@ -61,6 +61,13 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
             Tiebreaker = tok.Range.Max;
         }
 
+        public FunctionNode(string name, int tiebreaker, Argument[] arguments = null)
+        {
+            Name = name;
+            Arguments = arguments ?? new Argument[0];
+            Tiebreaker = tiebreaker;
+        }
+
         public override int GetHashCode()
         {
             return Id;
