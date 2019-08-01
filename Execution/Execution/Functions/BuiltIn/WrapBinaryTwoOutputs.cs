@@ -56,7 +56,8 @@ namespace Fluency.Execution.Functions.BuiltIn
             if (queue.Count == 0)
             {
                 Value nextTop = TopInput();
-                Value nextBottom = (stored ?? BottomInput());
+
+                Value nextBottom = (stored ?? (BottomInput != null ? BottomInput() : throw new ExecutionException("{0} tried to read from a bottom input that doesn't exist. Are you missing a pipeline?", Name)));
 
                 if (nextTop.Done || nextBottom.Done)
                 {

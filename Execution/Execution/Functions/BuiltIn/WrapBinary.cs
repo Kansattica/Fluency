@@ -45,7 +45,7 @@ namespace Fluency.Execution.Functions.BuiltIn
         public Value Top()
         {
             Value top = TopInput();
-            Value bottom = stored ?? BottomInput();
+            Value bottom = stored ?? (BottomInput != null ? BottomInput() : throw new ExecutionException("{0} tried to read from a bottom input that doesn't exist. Are you missing a pipeline?", Name));
 
             if (top && bottom)
                 return new Value(function(top.Get<TRealTop>(type), bottom.Get<TRealBottom>(type)), type);
