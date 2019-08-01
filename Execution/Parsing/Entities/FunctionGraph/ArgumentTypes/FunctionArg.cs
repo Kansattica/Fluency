@@ -79,6 +79,8 @@ namespace Fluency.Execution.Parsing.Entities.ArgumentTypes
                 case "string":
                 case "str":
                     return FluencyType.String;
+                case "bool":
+                    return FluencyType.Bool;
                 case "any":
                     return FluencyType.Any;
                 default:
