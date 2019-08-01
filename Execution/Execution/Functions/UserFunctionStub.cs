@@ -24,7 +24,7 @@ namespace Fluency.Execution.Functions
         private Value buffer = null;
 
         private int? toAllowThrough = null;
-        private bool topset = false;
+        private bool inputsSet = false;
         public Value Top()
         {
             if (expandedFunction == null)
@@ -41,24 +41,32 @@ namespace Fluency.Execution.Functions
                 }
             }
 
-            if (!topset)
-            {
-                expandedFunction.TopInput = WrapTopInput(TopInput);
-                topset = true;
-            }
+            EnsureInputsSet();
 
             Value v = expandedFunction.Top();
             if (v.Done)
             {
-                bottomset = false;
                 expandedFunction = makeNewFunction();
-                expandedFunction.TopInput = WrapTopInput(TopInput);
+                inputsSet = false;
+                EnsureInputsSet();
                 v = expandedFunction.Top();
             }
             return v;
         }
 
-        private bool bottomset = false;
+        private void EnsureInputsSet()
+        {
+            if (!inputsSet)
+            {
+                if (TopInput != null)
+                    expandedFunction.TopInput = WrapTopInput(TopInput);
+
+                if (BottomInput != null)
+                    expandedFunction.BottomInput = BottomInput;
+                inputsSet = true;
+            }
+        }
+
         public Value Bottom()
         {
             if (expandedFunction == null)
@@ -66,18 +74,14 @@ namespace Fluency.Execution.Functions
                 expandedFunction = makeNewFunction();
             }
 
-            if (!bottomset)
-            {
-                expandedFunction.BottomInput = BottomInput;
-                bottomset = true;
-            }
+            EnsureInputsSet();
 
             Value v = expandedFunction.Bottom();
             if (v.Done)
             {
-                topset = false;
                 expandedFunction = makeNewFunction();
-                expandedFunction.BottomInput = BottomInput;
+                inputsSet = false;
+                EnsureInputsSet();
                 v = expandedFunction.Bottom();
             }
             return v;
@@ -99,7 +103,7 @@ namespace Fluency.Execution.Functions
 
         private GetNext WrapTopInput(GetNext topInput)
         {
-            if (!toAllowThrough.HasValue) { return () => GetAndClearBuffer(topInput);  }
+            if (!toAllowThrough.HasValue) { return () => GetAndClearBuffer(topInput); }
             return () =>
             {
                 if (toAllowThrough == 0)

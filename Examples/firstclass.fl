@@ -1,0 +1,21 @@
+Def(Main).ParseInt().Dup().IsEven().Zip(true).AllowIf()
+                        \.Comment()./
+
+// Takes a function and then the rest of the pipeline. Only returns the values for which f returns true.
+//Def(Filter, fun f, ...).First().MergeTop().Expand().Down().Com().Up()
+                         //\.Dup()./                   \.AllowIf()./
+                               //\.Comment("values go here")./
+
+Def(Filter, fun f, ...).First().MergeTop().Expand().AllowIf()
+                            \.Dup()./   Up().Comment()./
+                                \.Com()./
+
+Def(AllowIfBottom, bool b).MergeIf()
+                \.First()./
+
+Def(AllowIf, bool b, value).SwitchOut()
+                                \.Drain()
+                                    
+
+Def(IsEven, int n).DivMod(2).Up()
+                   \.Equals(0)./

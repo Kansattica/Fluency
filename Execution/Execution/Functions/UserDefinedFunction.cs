@@ -15,7 +15,7 @@ namespace Fluency.Execution.Functions
 
 
         public GetNext TopInput { set => _topHead.TypedFunction.TopInput = WrapInput(value); }
-        public GetNext BottomInput { set => _bottomHead.TypedFunction.TopInput = value; }
+        public GetNext BottomInput { set { if (_bottomHead != null) { _bottomHead.TypedFunction.TopInput = value; } } }
 
         private ExecutableNode<ITopIn> _topHead;
         private ExecutableNode<ITopIn> _bottomHead;
@@ -48,12 +48,12 @@ namespace Fluency.Execution.Functions
         {
             if (Arguments.Length == 0 || _runtimeArgs.Length == 0 || Arguments.Any(x => x.Type == FluencyType.Function && x.GetAs<string>() == "..."))
                 return topinput;
-            
+
             if (_runtimeArgs.Length > Arguments.Length)
                 throw new ExecutionException("Too many arguments passed to {0}. Expected {1}, got {2}.", Name, Arguments.Length, _runtimeArgs.Length);
-            
+
             var argumentsValid = Arguments.Zip(_runtimeArgs, (a, v) => (a, v, valid: ValidateArgument(a, v))).Where(x => !x.valid)
-                .Aggregate("", 
+                .Aggregate("",
                 (acc, curr) => $"Invalid argument. Function {Name} expects an argument of type {curr.a.Type} and got {curr.v.ToString()}, which is of type {curr.v.Type}.\n" + acc);
 
             if (!string.IsNullOrWhiteSpace(argumentsValid))
@@ -70,7 +70,7 @@ namespace Fluency.Execution.Functions
                 {
                     Value v = topinput();
                     if (!ValidateArgument(Arguments[argIndex++], v))
-                        throw new ExecutionException("Function {0} tried to take value {1} (type {2}) from the pipeline, when it declares type {3}.", 
+                        throw new ExecutionException("Function {0} tried to take value {1} (type {2}) from the pipeline, when it declares type {3}.",
                             Name, v, v.Type, Arguments[argIndex].DeclaredType);
 
                     return v;
@@ -83,7 +83,7 @@ namespace Fluency.Execution.Functions
         {
             if (argument.DeclaredType == FluencyType.Any)
                 return true;
-            
+
             return argument.DeclaredType == value.Type;
         }
 
