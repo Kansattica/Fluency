@@ -1,6 +1,10 @@
 # Welcome! To installing dependencies.
 
-The first thing you have to do is get and build Fluency. You'll need:
+### Update: You can skip this step!
+
+Feel free to download and compile Fluency yourself if you like, but if you lack the means or you want to try before you buy, you can try Fluency Online here: <https://kansattica.github.io/FluencyOnline/> It's still in beta, and you might run into weird bugs, but it's there!
+
+Otherwise, the first thing you have to do is get and build Fluency. You'll need:
 
 - `git` to download the source code. I'll have ready-made binary releases someday, but not while it's still in active development. If you're comfortable with the command line, you can download and install git [here](https://git-scm.com/downloads), and find links to easier-to-use graphical clients. There's gonna be some command line work no matter what, so keep that in mind.
 - Some kind of text editor. I usually use [Visual Studio Code](https://code.visualstudio.com/) for this, but you can write your code in Notepad if you like. VS Code gives you some nice syntax highlighting, so that's what I use.

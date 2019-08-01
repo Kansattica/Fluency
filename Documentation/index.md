@@ -7,6 +7,9 @@ You can find the code on [my github](https://github.com/Kansattica/Fluency).
 
 I'm writing an in-progress tutorial [here](articles/intro.md), which includes building and running Fluency from source.
 
+### You can try Fluency right now in your browser! <https://kansattica.github.io/FluencyOnline/>
+Note that Fluency Online is still in beta. If something doesn't work, please let me know and try the download and run version.
+
 ### Building and running
 Fluency uses .Net Core 2.2 for the console and .Net Standard 2.0 for everything else. I suspect it would work fine with earlier versions, .Net framework, and the like, but I haven't tested. The entire project is self-contained and pure C#. No external packages. To run, simply do:
 
