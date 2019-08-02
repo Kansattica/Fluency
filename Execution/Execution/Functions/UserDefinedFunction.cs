@@ -62,19 +62,12 @@ namespace Fluency.Execution.Functions
             int argIndex = 0;
             return () =>
             {
-                if (argIndex < _runtimeArgs.Length)
-                    return _runtimeArgs[argIndex++];
-                else if (argIndex == Arguments.Length)
-                    return Value.Finished;
-                else
-                {
-                    Value v = topinput();
-                    if (!ValidateArgument(Arguments[argIndex++], v))
-                        throw new ExecutionException("Function {0} tried to take value {1} (type {2}) from the pipeline, when it declares type {3}.",
-                            Name, v, v.Type, Arguments[argIndex].DeclaredType);
+                Value v = topinput();
+                if (!ValidateArgument(Arguments[argIndex++], v))
+                    throw new ExecutionException("Function {0} tried to take value {1} (type {2}) from the pipeline, when it declares type {3}.",
+                        Name, v, v.Type, Arguments[argIndex].DeclaredType);
 
-                    return v;
-                }
+                return v;
             };
 
         }

@@ -14,8 +14,6 @@ Def(AllowIfBottom, bool b).MergeIf()
                 \.First()./
 
 Def(AllowIf, bool b, value).SwitchOut()
-                                \.Drain()
-                                    
 
 Def(IsEven, int n).DivMod(2).Up()
                    \.Equals(0)./
