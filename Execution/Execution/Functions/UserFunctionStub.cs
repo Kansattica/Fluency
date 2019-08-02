@@ -18,7 +18,7 @@ namespace Fluency.Execution.Functions
         public GetNext TopInput { private get; set; }
         public GetNext BottomInput { private get; set; }
 
-        private Func<UserDefinedFunction> makeNewFunction;
+        private Func<bool, UserDefinedFunction> makeNewFunction;
         private UserDefinedFunction expandedFunction;
 
         // basically, when we would expand a new function, if the incoming value is a Done, we instead just pass that forward
@@ -38,7 +38,7 @@ namespace Fluency.Execution.Functions
                 }
                 else
                 {
-                    expandedFunction = makeNewFunction();
+                    expandedFunction = makeNewFunction(true);
                     buffer.Enqueue(tmp);
                     inputsSet = false;
                 }
@@ -50,7 +50,7 @@ namespace Fluency.Execution.Functions
             if (v.Done)
             {
                 buffer.Clear();
-                expandedFunction = makeNewFunction();
+                expandedFunction = makeNewFunction(false);
                 inputsSet = false;
                 EnsureInputsSet();
                 v = expandedFunction.Top();
@@ -74,7 +74,7 @@ namespace Fluency.Execution.Functions
         {
             if (expandedFunction == null)
             {
-                expandedFunction = makeNewFunction();
+                expandedFunction = makeNewFunction(false);
             }
 
             EnsureInputsSet();
@@ -82,7 +82,7 @@ namespace Fluency.Execution.Functions
             Value v = expandedFunction.Bottom();
             if (v.Done)
             {
-                expandedFunction = makeNewFunction();
+                expandedFunction = makeNewFunction(false);
                 inputsSet = false;
                 EnsureInputsSet();
                 v = expandedFunction.Bottom();
@@ -150,12 +150,15 @@ namespace Fluency.Execution.Functions
         {
             Name = graph.Name;
             int? totake = ArgumentsToTake(graph.Arguments);
-            makeNewFunction = (() =>
+            makeNewFunction = ((bool oneBuffered) =>
             {
                 //                Console.WriteLine("expanding " + graph.Name);
                 toAllowThrough = totake;
                 if (totake.HasValue)
+                {
+                    if (oneBuffered) { totake--; }
                     BufferArguments(totake.Value, arguments, TopInput);
+                }
                 return new UserDefinedFunction(graph, arguments, linker);
             });
         }
