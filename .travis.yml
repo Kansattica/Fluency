@@ -3,7 +3,7 @@ matrix:
   include:
   - os: linux
     mono: latest
-    dotnet: 2.2.300
+    dotnet: 2.2.301
   - os: windows
     mono: none
 

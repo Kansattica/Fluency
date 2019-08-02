@@ -1,0 +1,14 @@
+Def(Main).ParseInt().Down().Filter(IsEven)
+                         \.I()./
+
+Def(Filter, fun f).MergeTop().Expand().Zip(true).AllowIf()
+               \.Dup()./  Up().Comment()./
+                    \.I()./ 
+
+Def(AllowIfBottom, bool b).MergeIf()
+                \.First()./
+
+Def(AllowIf, bool b, value).SwitchOut()
+
+Def(IsEven, int n).DivMod(2).Up()
+                   \.Equals(0)./

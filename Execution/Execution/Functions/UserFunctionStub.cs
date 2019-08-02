@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Fluency.Common;
+using Fluency.Execution.Extensions;
 using Fluency.Execution.Parsing.Entities;
 using Fluency.Execution.Parsing.Entities.FunctionGraph;
 
@@ -21,10 +23,10 @@ namespace Fluency.Execution.Functions
 
         // basically, when we would expand a new function, if the incoming value is a Done, we instead just pass that forward
         // but if it isn't, we have to pass that forward
-        private Value buffer = null;
+        private Queue<Value> buffer = new Queue<Value>();
 
         private int? toAllowThrough = null;
-        private bool topset = false;
+        private bool inputsSet = false;
         public Value Top()
         {
             if (expandedFunction == null)
@@ -36,29 +38,38 @@ namespace Fluency.Execution.Functions
                 }
                 else
                 {
-                    buffer = tmp;
                     expandedFunction = makeNewFunction();
+                    buffer.Enqueue(tmp);
+                    inputsSet = false;
                 }
             }
 
-            if (!topset)
-            {
-                expandedFunction.TopInput = WrapTopInput(TopInput);
-                topset = true;
-            }
+            EnsureInputsSet();
 
             Value v = expandedFunction.Top();
             if (v.Done)
             {
-                bottomset = false;
+                buffer.Clear();
                 expandedFunction = makeNewFunction();
-                expandedFunction.TopInput = WrapTopInput(TopInput);
+                inputsSet = false;
+                EnsureInputsSet();
                 v = expandedFunction.Top();
             }
             return v;
         }
 
-        private bool bottomset = false;
+        private void EnsureInputsSet()
+        {
+            if (!inputsSet)
+            {
+                expandedFunction.TopInput = WrapTopInput(TopInput);
+
+                expandedFunction.BottomInput = BottomInput;
+
+                inputsSet = true;
+            }
+        }
+
         public Value Bottom()
         {
             if (expandedFunction == null)
@@ -66,29 +77,23 @@ namespace Fluency.Execution.Functions
                 expandedFunction = makeNewFunction();
             }
 
-            if (!bottomset)
-            {
-                expandedFunction.BottomInput = BottomInput;
-                bottomset = true;
-            }
+            EnsureInputsSet();
 
             Value v = expandedFunction.Bottom();
             if (v.Done)
             {
-                topset = false;
                 expandedFunction = makeNewFunction();
-                expandedFunction.BottomInput = BottomInput;
+                inputsSet = false;
+                EnsureInputsSet();
                 v = expandedFunction.Bottom();
             }
             return v;
         }
 
-        private Value GetAndClearBuffer(GetNext input)
+        private Value TryTakeBuffer(GetNext input)
         {
-            if (buffer != null)
+            if (buffer.TryDequeue(out Value tmp))
             {
-                Value tmp = buffer;
-                buffer = null;
                 return tmp;
             }
             else
@@ -99,7 +104,7 @@ namespace Fluency.Execution.Functions
 
         private GetNext WrapTopInput(GetNext topInput)
         {
-            if (!toAllowThrough.HasValue) { return () => GetAndClearBuffer(topInput);  }
+            if (!toAllowThrough.HasValue) { return () => TryTakeBuffer(topInput); }
             return () =>
             {
                 if (toAllowThrough == 0)
@@ -107,7 +112,7 @@ namespace Fluency.Execution.Functions
                 else
                 {
                     toAllowThrough--;
-                    return GetAndClearBuffer(topInput);
+                    return TryTakeBuffer(topInput);
                 }
             };
         }
@@ -121,6 +126,26 @@ namespace Fluency.Execution.Functions
                 return arguments.Length;
         }
 
+        private bool BufferArguments(int toTake, Value[] arguments, GetNext top)
+        {
+            buffer.EnqueueRange(arguments);
+
+            while (buffer.Count < toTake)
+            {
+                Value v = top();
+                if (v.Done)
+                {
+                    return false;
+                }
+                else
+                {
+                    buffer.Enqueue(v);
+                }
+            }
+
+            return true;
+        }
+
         public UserFunctionStub(FunctionGraph graph, Value[] arguments, IFunctionResolver linker)
         {
             Name = graph.Name;
@@ -129,6 +154,8 @@ namespace Fluency.Execution.Functions
             {
                 //                Console.WriteLine("expanding " + graph.Name);
                 toAllowThrough = totake;
+                if (totake.HasValue)
+                    BufferArguments(totake.Value, arguments, TopInput);
                 return new UserDefinedFunction(graph, arguments, linker);
             });
         }

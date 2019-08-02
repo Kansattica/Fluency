@@ -15,7 +15,7 @@ namespace Fluency.Execution.Functions
 
 
         public GetNext TopInput { set => _topHead.TypedFunction.TopInput = WrapInput(value); }
-        public GetNext BottomInput { set => _bottomHead.TypedFunction.TopInput = value; }
+        public GetNext BottomInput { set { if (_bottomHead != null) { _bottomHead.TypedFunction.TopInput = value; } } }
 
         private ExecutableNode<ITopIn> _topHead;
         private ExecutableNode<ITopIn> _bottomHead;
@@ -44,16 +44,18 @@ namespace Fluency.Execution.Functions
         // also validate the arguments in the ctor, make sure the types match up
         // we should also validate incoming args too, of course
         private Value[] _runtimeArgs;
+        private bool shouldValidate = true;
+
         private GetNext WrapInput(GetNext topinput)
         {
             if (Arguments.Length == 0 || _runtimeArgs.Length == 0 || Arguments.Any(x => x.Type == FluencyType.Function && x.GetAs<string>() == "..."))
                 return topinput;
-            
+
             if (_runtimeArgs.Length > Arguments.Length)
                 throw new ExecutionException("Too many arguments passed to {0}. Expected {1}, got {2}.", Name, Arguments.Length, _runtimeArgs.Length);
-            
+
             var argumentsValid = Arguments.Zip(_runtimeArgs, (a, v) => (a, v, valid: ValidateArgument(a, v))).Where(x => !x.valid)
-                .Aggregate("", 
+                .Aggregate("",
                 (acc, curr) => $"Invalid argument. Function {Name} expects an argument of type {curr.a.Type} and got {curr.v.ToString()}, which is of type {curr.v.Type}.\n" + acc);
 
             if (!string.IsNullOrWhiteSpace(argumentsValid))
@@ -62,19 +64,17 @@ namespace Fluency.Execution.Functions
             int argIndex = 0;
             return () =>
             {
-                if (argIndex < _runtimeArgs.Length)
-                    return _runtimeArgs[argIndex++];
-                else if (argIndex == Arguments.Length)
-                    return Value.Finished;
-                else
-                {
-                    Value v = topinput();
-                    if (!ValidateArgument(Arguments[argIndex++], v))
-                        throw new ExecutionException("Function {0} tried to take value {1} (type {2}) from the pipeline, when it declares type {3}.", 
-                            Name, v, v.Type, Arguments[argIndex].DeclaredType);
+                Value v = topinput();
+                if (shouldValidate && !ValidateArgument(Arguments[argIndex], v))
+                    throw new ExecutionException("Function {0} tried to take value {1} (type {2}) from the pipeline, when it declares type {3}.",
+                        Name, v, v.Type, Arguments[argIndex].DeclaredType);
+                argIndex++;
 
-                    return v;
+                if (argIndex >= Arguments.Length)
+                {
+                    shouldValidate = false;
                 }
+                return v;
             };
 
         }
@@ -83,7 +83,7 @@ namespace Fluency.Execution.Functions
         {
             if (argument.DeclaredType == FluencyType.Any)
                 return true;
-            
+
             return argument.DeclaredType == value.Type;
         }
 
