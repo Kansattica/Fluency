@@ -38,8 +38,8 @@ namespace Fluency.Execution.Functions
                 }
                 else
                 {
-                    buffer.Enqueue(tmp);
                     expandedFunction = makeNewFunction();
+                    buffer.Enqueue(tmp);
                     inputsSet = false;
                 }
             }
