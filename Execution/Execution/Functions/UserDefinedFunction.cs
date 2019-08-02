@@ -44,6 +44,8 @@ namespace Fluency.Execution.Functions
         // also validate the arguments in the ctor, make sure the types match up
         // we should also validate incoming args too, of course
         private Value[] _runtimeArgs;
+        private bool shouldValidate = true;
+
         private GetNext WrapInput(GetNext topinput)
         {
             if (Arguments.Length == 0 || _runtimeArgs.Length == 0 || Arguments.Any(x => x.Type == FluencyType.Function && x.GetAs<string>() == "..."))
@@ -63,10 +65,15 @@ namespace Fluency.Execution.Functions
             return () =>
             {
                 Value v = topinput();
-                if (!ValidateArgument(Arguments[argIndex++], v))
+                if (shouldValidate && !ValidateArgument(Arguments[argIndex], v))
                     throw new ExecutionException("Function {0} tried to take value {1} (type {2}) from the pipeline, when it declares type {3}.",
                         Name, v, v.Type, Arguments[argIndex].DeclaredType);
+                argIndex++;
 
+                if (argIndex >= Arguments.Length)
+                {
+                    shouldValidate = false;
+                }
                 return v;
             };
 
