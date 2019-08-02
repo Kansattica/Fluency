@@ -1,3 +1,4 @@
 - [X] Functions should always consume their arguments (AllowIf(bool b, value) should always consume two arguments!)
+- [ ] Make ellipsis args work (are currently ignored)
 - [ ] Allow user to declare bottom arguments
 - [ ] Declared function args can have arguments (declare that you take a func(int) -> bool or whatever)
