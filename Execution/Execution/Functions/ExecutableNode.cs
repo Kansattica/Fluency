@@ -32,4 +32,9 @@ namespace Fluency.Execution.Functions
         }
 
     }
+
+    public interface ICanTieBreak
+    {
+        int Tiebreaker { get; }
+    }
 }

@@ -106,22 +106,18 @@ namespace Fluency.Execution.Functions
                 head.TopOut = new FunctionNode("I", head.Tiebreaker + 4) { TopIn = head };
             }
 
-            _topHead = RecursiveExpand<ITopIn>(head.TopOut, seen, linker);
+            _topHead = RecursiveExpand<ITopIn>(head.TopOut, seen, linker, 0);
 
             if (head.BottomOut != null)
             {
-                _bottomHead = RecursiveExpand<ITopIn>(head.BottomOut, seen, linker);
+                _bottomHead = RecursiveExpand<ITopIn>(head.BottomOut, seen, linker, 1);
             }
-
-            FindHeadTail(_topHead);
-            // it's possible that the top and bottom routes never meet
-            _bottomTail = PickBetterNode(FindBottoms(_topHead), FindBottoms(_bottomHead));
 
             _topTailOut = _topTail?.Has<ITopOut>();
             _bottomTailOut = _bottomTail?.Has<ITopOut>();
         }
 
-        private ExecutableNode<T> RecursiveExpand<T>(FunctionNode node, Dictionary<FunctionNode, ExecutableNode> seen, IFunctionResolver linker) where T : IFunction
+        private ExecutableNode<T> RecursiveExpand<T>(FunctionNode node, Dictionary<FunctionNode, ExecutableNode> seen, IFunctionResolver linker, int level) where T : IFunction
         {
             if (!seen.ContainsKey(node))
             {
@@ -132,7 +128,7 @@ namespace Fluency.Execution.Functions
 
                 if (node.TopOut != null)
                 {
-                    var nextTop = RecursiveExpand<ITopIn>(node.TopOut, seen, linker);
+                    var nextTop = RecursiveExpand<ITopIn>(node.TopOut, seen, linker, level);
                     resolved.TopAfter = nextTop;
 
                     if (node.TopOut.BottomIn == node) //If I'm giving to them from below.
@@ -144,18 +140,28 @@ namespace Fluency.Execution.Functions
                         nextTop.TypedFunction.TopInput = resolved.Has<ITopOut>().Top;
                     }
                 }
+                else
+                {
+                    // if we don't have any top outputs, we might be a tail
+                    // if we're on level 0, we might be a top tail
+                    if (level == 0)
+                        _topTail = PickBetterNode(_topTail, resolved) as ExecutableNode<ITopIn>;
+
+                    // if we're on level 1, we might be a bottom tail
+                    else if (level == 1)
+                        _bottomTail = PickBetterNode(_bottomTail, resolved) as ExecutableNode<ITopIn>;
+                }
 
                 if (node.BottomOut != null)
                 {
                     // I expect the person below me to be able to take from the top
                     // because I'm handing them that from the bottom.
-                    var nextBottom = RecursiveExpand<ITopIn>(node.BottomOut, seen, linker);
+                    var nextBottom = RecursiveExpand<ITopIn>(node.BottomOut, seen, linker, level + 1);
                     resolved.BottomAfter = nextBottom;
 
                     nextBottom.TypedFunction.TopInput = resolved.Has<IBottomOut>().Bottom;
                 }
 
-                //maybe detect here if you're a tail?
             }
 
 
@@ -163,49 +169,7 @@ namespace Fluency.Execution.Functions
         }
 
 
-        private void FindHeadTail(ExecutableNode<ITopIn> thisNode)
-        {
-            // Top is easy- follow it until there's no more head.
-            var next = thisNode.TopAfter;
-
-            if (next == null)
-            {
-                //you're the last one
-                _topTail = thisNode;
-                return;
-            }
-
-            FindHeadTail(next);
-        }
-
-        private ExecutableNode<ITopIn> FindBottoms(ExecutableNode<ITopIn> thisNode)
-        {
-            // We want to find all the non-_topTail tail nodes we can from here and return the best one
-
-            if (thisNode == null) { return null; }
-
-
-            ExecutableNode<ITopIn> nextTop = thisNode.TopAfter, nextBottom = thisNode.BottomAfter;
-
-            if (nextTop == null && nextBottom == null)
-            {
-                // We found a tail node!
-                if (object.ReferenceEquals(thisNode, _topTail))
-                {
-                    return null; // we found the top tail
-                }
-                else
-                {
-                    return thisNode;
-                }
-            }
-            else
-            {
-                return PickBetterNode(FindBottoms(nextTop), FindBottoms(nextBottom));
-            }
-        }
-
-        private ExecutableNode<T> PickBetterNode<T>(ExecutableNode<T> a, ExecutableNode<T> b) where T : IFunction
+        private ExecutableNode PickBetterNode(ExecutableNode a, ExecutableNode b)
         {
             if (a == null) { return b; }
             if (b == null) { return a; }
