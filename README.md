@@ -38,7 +38,7 @@ This appears to turn on tail call optimization and generally make the code run a
 ### Roadmap
 Fluency is currently in a working state, but I'd love to do more.
 - [ ] The design makes it very amenable to being parallelized, so I'd like to do more with that. Currently, each function is lazily evaluated. A parallel Fluency could have each node on its own thread, or even on its own computer, exchanging messages through queues.
-- [X] First-class function support.
+- [ ] First-class function support.
 - [X] Real recursion (expand user-defined functions on first request so you can have base cases)
 - [ ] Better support for users bringing their own C# functions.
 - [ ] Better support for all C# types- at the moment, Fluency just calls them "Any".
