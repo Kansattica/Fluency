@@ -16,7 +16,7 @@ namespace Fluency.CLI
 
         public Value ReadSequential()
         {
-            if (next < countTo.GetValueOrDefault(int.MaxValue))
+            if (next <= countTo.GetValueOrDefault(int.MaxValue))
                 return new Value((next++).ToString(), FluencyType.Int);
             else
                 return Value.Finished;

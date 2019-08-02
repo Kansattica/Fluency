@@ -101,6 +101,7 @@ namespace Fluency.CLI
                 ("-v, --verbose", "Run in verbose mode."),
                 ("-i [filepath], --in-file [filepath]", "Read the next named file as input, not as Fluency source."),
                 ("--count-from [number]", "Feed all numbers starting from [number] to the program."),
+                ("--count-to [number]", "When specified with --count-from, stop after [number]."),
                 ("-s [string], --separator [string]", "Use this string as the record separator for all input and output."),
                 ("--no-tab-warn", "Supress warning when tabs appear in source after text."),
                 ("--tab-warn", "Enable warning when tabs appear in source after text. This is the default."),
