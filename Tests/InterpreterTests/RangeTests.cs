@@ -10,17 +10,9 @@ namespace Fluency.Tests.Execution.Parsing
     [TestClass]
     public class RangeTests
     {
-        private static Random _initRand = new Random();
-        ThreadLocal<Random> rand = new ThreadLocal<Random>(() =>
-        {
-            lock (_initRand)
-            {
-                return new Random(_initRand.Next());
-            }
-        });
+        private Random rand = new Random();
 
-
-        private int NextRand() => rand.Value.Next(int.MinValue, int.MaxValue);
+        private int NextRand() => rand.Next(int.MinValue, int.MaxValue);
 
         private Range RandomRange()
         {
@@ -36,12 +28,12 @@ namespace Fluency.Tests.Execution.Parsing
             return new Range(min, max);
         }
 
-        private const int numberoftrials = 9000000; //make bigger for more thorough tests
+        private const int numberoftrials = 10000; //make bigger for more thorough tests
 
         [TestMethod]
         public void Equality()
         {
-            Parallel.For(0, numberoftrials, (i, _) =>
+            for (int i = 0; i < numberoftrials; i++)
             {
                 Range a = RandomRange();
                 Range b = new Range(a.Min, a.Max);
@@ -50,7 +42,7 @@ namespace Fluency.Tests.Execution.Parsing
                 Assert.AreEqual(a, b);
                 Assert.IsFalse(a != b);
                 Assert.AreNotSame(a, b);
-            });
+            }
         }
 
         [TestMethod]
@@ -76,10 +68,9 @@ namespace Fluency.Tests.Execution.Parsing
         }
 
         [TestMethod]
-        [DoNotParallelize]
         public void Contains()
         {
-            Parallel.For(0, numberoftrials, (i, _) =>
+            for (int i = 0; i < numberoftrials; i++)
             {
                 Range a = RandomRange();
 
@@ -91,14 +82,13 @@ namespace Fluency.Tests.Execution.Parsing
 
                 int r = NextRand();
                 Assert.AreEqual(r >= a.Min && r <= a.Max, a.Contains(r));
-            });
+            };
         }
 
         [TestMethod]
-        [DoNotParallelize]
         public void Single()
         {
-            Parallel.For(0, numberoftrials, (i, _) =>
+            for (int i = 0; i < numberoftrials; i++)
             {
                 Range a = new Range(i, i);
                 Assert.IsTrue(a.Contains(i));
@@ -107,7 +97,7 @@ namespace Fluency.Tests.Execution.Parsing
 
                 int r = NextRand();
                 Assert.AreEqual(r == i, a.Contains(r));
-            });
+            }
         }
 
     }

@@ -4,6 +4,7 @@ using Fluency.Common;
 using Fluency.Execution.Exceptions;
 using Fluency.Execution.Extensions;
 using Fluency.Execution.Functions;
+using Fluency.Execution.Functions.BuiltIn;
 using Fluency.Execution.Functions.BuiltIn.Factory;
 using Fluency.Execution.Parsing;
 
@@ -48,6 +49,8 @@ namespace Fluency.Execution
                 abraham.Register(functionGraph.Name, (args) => new UserFunctionStub(functionGraph, args, abraham));
             }
 
+            abraham.Register("Expand", (args) => new Expand(args, abraham));
+
             IFunction main;
             try
             {
@@ -68,7 +71,7 @@ namespace Fluency.Execution
 
             mainIn.TopInput = input;
             Value next;
-            
+
             if (printReady)
                 yield return new Value("Ready!\n", FluencyType.String);
 
