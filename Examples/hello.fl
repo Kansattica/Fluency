@@ -1,2 +1,2 @@
-Def(Main).Switch(false).Const("Hello, ").Concat()
-                \.Com("input string goes")./
+Def(Main).Down().Const("Hello, ").Concat()
+               \.Com("input string")./
