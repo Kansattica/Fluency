@@ -1,5 +1,5 @@
-Def(Main).ParseInt().Down().Filter(IsEven)
-                         \.I()./
+Def(Main).ParseInt().Dup().IsEven().Zip(true).AllowIf()
+                        \.Comment()./
 
 Def(Filter, fun f).MergeTop().Expand().Zip(true).AllowIf()
                \.Dup()./  Up().Comment()./

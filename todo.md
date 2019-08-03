@@ -2,4 +2,4 @@
 - [ ] Make ellipsis args work (are currently ignored)
 - [ ] Allow user to declare bottom arguments
 - [ ] Declared function args can have arguments (declare that you take a func(int) -> bool or whatever)
-- [ ] Fix argument buffering- prime eats every other value?
+- [X] Fix argument buffering- prime eats every other value?
