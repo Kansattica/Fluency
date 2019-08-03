@@ -156,8 +156,7 @@ namespace Fluency.Execution.Functions
                 toAllowThrough = totake;
                 if (totake.HasValue)
                 {
-                    if (oneBuffered) { totake--; }
-                    BufferArguments(totake.Value, arguments, TopInput);
+                    BufferArguments(totake.Value - (oneBuffered ? 1 : 0), arguments, TopInput);
                 }
                 return new UserDefinedFunction(graph, arguments, linker);
             });
