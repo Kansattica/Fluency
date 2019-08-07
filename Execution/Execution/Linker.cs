@@ -37,13 +37,14 @@ namespace Fluency.Execution
         /// Create a new instance of the function with the specified name.
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="arguments"></param>
+        /// <param name="topArguments"></param>
+        /// <param name="bottomArguments"></param>
         /// <returns></returns>
-        public IFunction Resolve(string name, Value[] arguments)
+        public IFunction Resolve(string name, Value[] topArguments, Value[] bottomArguments)
         {
             if (_namesToFunctions.TryGetValue(name, out var func))
             {
-                return func(arguments);
+                return func(topArguments, bottomArguments);
             }
 
             throw new ExecutionException("Could not find a definition for function {0}.{1}", name,
@@ -52,6 +53,6 @@ namespace Fluency.Execution
     }
 
     //naming things is hard
-    public delegate IFunction FunctionMaker(Value[] arguments);
+    public delegate IFunction FunctionMaker(Value[] topArguments, Value[] bottomArguments);
 
 }

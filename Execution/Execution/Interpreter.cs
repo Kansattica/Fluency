@@ -46,15 +46,15 @@ namespace Fluency.Execution
 
             foreach (var functionGraph in functions)
             {
-                abraham.Register(functionGraph.Name, (args) => new UserFunctionStub(functionGraph, args, abraham));
+                abraham.Register(functionGraph.Name, (topArgs, bottomArgs) => new UserFunctionStub(functionGraph, topArgs, bottomArgs, abraham));
             }
 
-            abraham.Register("Expand", (args) => new Expand(args, abraham));
+            abraham.Register("Expand", (topArgs, bottomArgs) => new Expand(topArgs, bottomArgs, abraham));
 
             IFunction main;
             try
             {
-                main = abraham.Resolve("Main", new Value[0]);
+                main = abraham.Resolve("Main", new Value[0], new Value[0]);
             }
             catch (ExecutionException ex)
             {

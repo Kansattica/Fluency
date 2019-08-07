@@ -7,6 +7,6 @@ namespace Fluency.Execution
     /// </summary>
     public interface IFunctionResolver
     {
-        IFunction Resolve(string name, Value[] arguments);
+        IFunction Resolve(string name, Value[] topArguments, Value[] bottomArguments);
     }
 }

@@ -1,0 +1,9 @@
+Def(Main).ParseInt().DivMod(|3).UnDivMod(3)
+                            \.I()./
+
+Def(Flip, a | b).Zip(true).Unzip(false)
+            \.I()./                \.I()
+
+Def(UnDivMod, int divisor, int quotient | int remainder).Unzip(true).Mult().Add()
+                                                  \.Down()        \.I()./ Up()./
+                                                       \.Comment("add this")./
