@@ -89,7 +89,8 @@ namespace Fluency.Execution.Parsing.Entities
             Name = s[0].TrimStart('.', '\\');
             if (!char.IsUpper(Name[0]))
                 throw new ParseException("Fluency functions must start with a capital letter.") { FunctionToken = this };
-            string args = s[1].TrimEnd(')', '.', '/');
+            string args = TrimTrailingFromArguments(s[1]);
+
             if (!string.IsNullOrWhiteSpace(args))
             {
                 var topbottom = args.Split(_pipe, 2);
@@ -101,6 +102,21 @@ namespace Fluency.Execution.Parsing.Entities
                     BottomArguments = ParseArguments(SplitArgument(topbottom[1]).Select(x => x.Trim())).ToArray();
             }
         }
+
+        private string TrimTrailingFromArguments(string args)
+        {
+            // remove the patterns:
+            // )
+            // )./
+            // ).
+            // without removing the same with a ... in front
+            int ellipses = args.IndexOf("...");
+            if (ellipses == -1)
+                return args.TrimEnd(')', '.', '/');
+            
+            return args.Remove(ellipses + 3); //3 is the length of the ...
+        }
+
 
         private IEnumerable<Argument> ParseArguments(IEnumerable<string> args)
         {
