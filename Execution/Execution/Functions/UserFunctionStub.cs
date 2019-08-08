@@ -106,13 +106,14 @@ namespace Fluency.Execution.Functions
 
         private GetNext WrapInput(GetNext input, Queue<Value> buffer, bool allowMoreThanBuffered)
         {
+            if (input == null) { return null; }
             return () => TryTakeBuffer(input, buffer, allowMoreThanBuffered); 
         }
 
         private static readonly Value ellipses = new Value("...", FluencyType.Function);
         private int? ArgumentsToTake(Argument[] arguments)
         {
-            if (arguments.Length == 0 || arguments.Any(x => x.Equals(ellipses)))
+            if (arguments.Any(x => x.Equals(ellipses)))
                 return null;
             else
                 return arguments.Length;
@@ -146,8 +147,8 @@ namespace Fluency.Execution.Functions
             int? takeBottom = ArgumentsToTake(graph.BottomArguments);
             makeNewFunction = () =>
             {
-                topEllipsis = takeTop.HasValue;
-                bottomEllipsis = takeBottom.HasValue;
+                topEllipsis = !takeTop.HasValue;
+                bottomEllipsis = !takeBottom.HasValue;
                 if (takeTop.HasValue)
                 {
                     if (!BufferArguments(takeTop.Value, topArgumentBuffer, topArguments, TopInput))
