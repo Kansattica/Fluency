@@ -79,7 +79,7 @@ We'll see later that this isn't wasteful and values are only computed when you a
 
 You've seen `Com()` before as well, though we called it `I()` last time. `Com()` is short for `Comment()`, and it simply passes things from its input to its output without changing them. Comments are often used to denote what's in the pipeline at a given time (though you can also use regular old lines that start with `//`), and when you need to line things up. For example, here, `Com("n")` is simply passing `Dup()`'s lower output to `Add()`'s lower input, and the `Com()` on top is making sure the spacing works out. You might wonder what the `"n"` is doing in there. It's called an argument, and it's a way of making sure things get put on the function's pipeline. `Comment()` simply ignores its arguments so you can put whatever you want in there- but I suggest putting it in double quotes so the interpreter can still make sense of it!
 
-The last new function is `Add()`. As you might guess, `Add()` reads something from the top and bottom pipelines, adds them together, and puts the results out on the top. `Add()` can also take an argument, like `Add(1)`. In this case, it reads a number from the top pipeline, adds one to it, and puts it on the top pipeline without touching the bottom at all. 
+The last new function is `Add()`. As you might guess, `Add()` reads something from the top and bottom pipelines, adds them together, and puts the results out on the top. `Add()` can also take an argument, like `Add(|1)`. In this case, it reads a number from the top pipeline, adds one to it, and puts it on the top pipeline without touching the bottom at all. Notice the pipe character- I'll talk more about this later, but for now, you can simply read it as "instead of reading from the bottom pipeline, use a 1.".
 
 "Hey, wait." I hear you cry. "Can't I get rid of all those comments? It seems like they're just taking up space."
 And you would be correct! A more succinct way to write this program would be:
@@ -98,9 +98,9 @@ You probably know that when someone teaching you something asks that, they mean 
 If you've seen the list of [builtin functions](xref:Fluency.Execution.Functions.BuiltIn), you might know that there's also a `Mult()` function that does multiplication, and this program could also be written as:
 
 ```cs
-Def(Main).ParseInt().Mult(2)
+Def(Main).ParseInt().Mult(|2)
 ```
 
-Which works just as well (and is even a touch faster), but I wrote this program before adding `.Mult()` to the language, and you had to learn about the bottom pipeline one way or another.
+Which works just as well (and is even a touch faster), but I wrote this program before adding `.Mult()` to the language, and you had to learn about the bottom pipeline one way or another. Notice the pipe character because we want to get a 2 every time instead of trying to read from a bottom pipeline that doesn't exist!
 
-Next time, we'll talk about how to do things conditionally, and why the whole "things are only computed when you need them" trick is useful.
+Next time, we'll talk about function arguments, how to do things conditionally, and why the whole "things are only computed when you need them" trick is useful.
