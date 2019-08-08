@@ -26,7 +26,8 @@ namespace Fluency.Execution.Functions
         private Queue<Value> topArgumentBuffer = new Queue<Value>();
         private Queue<Value> bottomArgumentBuffer = new Queue<Value>();
 
-        private int? toAllowThrough = null;
+        private bool topEllipsis;
+        private bool bottomEllipsis;
         private bool inputsSet = false;
         public Value Top()
         {
@@ -58,9 +59,9 @@ namespace Fluency.Execution.Functions
         {
             if (!inputsSet)
             {
-                expandedFunction.TopInput = WrapInput(TopInput, topArgumentBuffer);
+                expandedFunction.TopInput = WrapInput(TopInput, topArgumentBuffer, topEllipsis);
 
-                expandedFunction.BottomInput = WrapInput(BottomInput, bottomArgumentBuffer);
+                expandedFunction.BottomInput = WrapInput(BottomInput, bottomArgumentBuffer, bottomEllipsis);
 
                 inputsSet = true;
             }
@@ -91,7 +92,7 @@ namespace Fluency.Execution.Functions
             return v;
         }
 
-        private Value TryTakeBuffer(GetNext input, Queue<Value> buffer)
+        private Value TryTakeBuffer(GetNext input, Queue<Value> buffer, bool readIfEmpty)
         {
             if (buffer.TryDequeue(out Value tmp))
             {
@@ -99,23 +100,13 @@ namespace Fluency.Execution.Functions
             }
             else
             {
-                return input();
+                return readIfEmpty ? input() : Value.Finished;
             }
         }
 
-        private GetNext WrapInput(GetNext input, Queue<Value> buffer)
+        private GetNext WrapInput(GetNext input, Queue<Value> buffer, bool allowMoreThanBuffered)
         {
-            if (!toAllowThrough.HasValue) { return () => TryTakeBuffer(input, buffer); }
-            return () =>
-            {
-                if (toAllowThrough == 0)
-                    return Value.Finished;
-                else
-                {
-                    toAllowThrough--;
-                    return TryTakeBuffer(input, buffer);
-                }
-            };
+            return () => TryTakeBuffer(input, buffer, allowMoreThanBuffered); 
         }
 
         private static readonly Value ellipses = new Value("...", FluencyType.Function);
@@ -155,8 +146,8 @@ namespace Fluency.Execution.Functions
             int? takeBottom = ArgumentsToTake(graph.BottomArguments);
             makeNewFunction = () =>
             {
-                //                Console.WriteLine("expanding " + graph.Name);
-                toAllowThrough = takeTop;
+                topEllipsis = takeTop.HasValue;
+                bottomEllipsis = takeBottom.HasValue;
                 if (takeTop.HasValue)
                 {
                     if (!BufferArguments(takeTop.Value, topArgumentBuffer, topArguments, TopInput))
