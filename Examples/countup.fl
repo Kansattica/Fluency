@@ -1,5 +1,5 @@
 Def(Main).Const(3).Increment()
 
 
-Def(Increment, int n).Add(1).Dup().MergeTop()
+Def(Increment, int n).Add(|1).Dup().MergeTop()
                              \.Increment()./

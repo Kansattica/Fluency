@@ -1,11 +1,11 @@
 Def(Main).ParseDouble().Newton()
 
 Def(Newton, double n).Dup().Comment().MergeTop().NewtonRound().NewtonRound().NewtonRound().First()
-                        \.MultDouble(0.25)./ //inital guess
+                        \.MultDouble(|0.25)./ //inital guess
 
-Def(NewtonRound, double n, double guess).Unzip(true).MultDouble(-1.0).AddDouble().Comment().DivDouble().MultDouble(-1.0).AddDouble().MergeTop()
-                                         \.Dup().Square().Comment("g")./ Up().Dup().MultDouble(2.0)./ Up().Dup().Comment("Guess")./ Up()./
-                                            \.Com("Guess goes over here")./       \.Comment("Guess ")./      \.Comment("Also guess")./
+Def(NewtonRound, double n, double guess).Unzip(true).MultDouble(|-1.0).AddDouble().Comment().DivDouble().MultDouble(|-1.0).AddDouble().MergeTop()
+                                         \.Dup().Square().Comment("g")./ Up().Dup().MultDouble(|2.0)./ Up().Dup().Comment("Guess")./ Up()./
+                                            \.Com("Guess goes over here")./       \.Comment("Guess!!")./      \.Comment("Also guess")./
 
 
 Def(Square, double n).Dup().MultDouble()
