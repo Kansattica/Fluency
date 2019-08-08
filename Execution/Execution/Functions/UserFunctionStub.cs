@@ -111,12 +111,9 @@ namespace Fluency.Execution.Functions
         }
 
         private static readonly Value ellipses = new Value("...", FluencyType.Function);
-        private int? ArgumentsToTake(Argument[] arguments)
+        private int ArgumentsToTake(Argument[] arguments)
         {
-            if (arguments.Any(x => x.Equals(ellipses)))
-                return null;
-            else
-                return arguments.Length;
+            return arguments.Where(x => !x.Equals(ellipses)).Count();
         }
 
         private bool BufferArguments(int ensureBufferHas, Queue<Value> bufferInto, Value[] arguments, GetNext next)
@@ -143,20 +140,20 @@ namespace Fluency.Execution.Functions
         public UserFunctionStub(FunctionGraph graph, Value[] topArguments, Value[] bottomArguments, IFunctionResolver linker)
         {
             Name = graph.Name;
-            int? takeTop = ArgumentsToTake(graph.TopArguments);
-            int? takeBottom = ArgumentsToTake(graph.BottomArguments);
+            int takeTop = ArgumentsToTake(graph.TopArguments);
+            int takeBottom = ArgumentsToTake(graph.BottomArguments);
             makeNewFunction = () =>
             {
-                topEllipsis = !takeTop.HasValue;
-                bottomEllipsis = !takeBottom.HasValue;
-                if (takeTop.HasValue)
+                topEllipsis = topArguments.Any(x => x.Equals(ellipses));
+                bottomEllipsis = bottomArguments.Any(x => x.Equals(ellipses));
+                if (takeTop > 0)
                 {
-                    if (!BufferArguments(takeTop.Value, topArgumentBuffer, topArguments, TopInput))
+                    if (!BufferArguments(takeTop, topArgumentBuffer, topArguments, TopInput))
                         return null;
                 }
-                if (takeBottom.HasValue)
+                if (takeBottom > 0)
                 {
-                    if (!BufferArguments(takeBottom.Value, bottomArgumentBuffer, bottomArguments, BottomInput))
+                    if (!BufferArguments(takeBottom, bottomArgumentBuffer, bottomArguments, BottomInput))
                         return null;
                 }
                 return new UserDefinedFunction(graph, topArguments, bottomArguments, linker);
