@@ -7,9 +7,11 @@ matrix:
   - os: windows
     mono: none
 
+before_install:
+  - export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
+  - export DOTNET_CLI_TELEMETRY_OPTOUT=1
+
 script:
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then export DOTNET_CLI_TELEMETRY_OPTOUT=1; fi
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install dotnetcore-sdk --version 2.2.301 -y; fi
   - dotnet test
   - dotnet test --configuration Release
