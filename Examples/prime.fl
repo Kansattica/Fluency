@@ -28,8 +28,8 @@ Def(NextCount).First().Countdown().MergeTop()
         
 //Countdown takes a number (such as 5) and returns all numbers between that number and one, inclusive (such as 5 4 3 2 1)
 Def(Countdown, int n).Dup().Comment("n goes here").I().MergeTop()
-                          \.Dup().Equals(1).Not().MergeIf()./ //note that even when the number here equals one, one will still be returned across the top
-                            \.Add(-1).Countdown()./
+                          \.Dup().Equals(|1).Not().MergeIf()./ //note that even when the number here equals one, one will still be returned across the top
+                            \.Add(|-1).Countdown()./
 
 // but if we're looking for prime numbers, we want to turn 5 into 4 3 2
 // (really, you want to go from 2 to the square root, but we're not there yet)
