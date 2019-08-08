@@ -13,7 +13,7 @@ namespace Fluency.Execution.Functions.BuiltIn
     /// - If no arguments given, read something from the top and the bottom and do the operation on them, returning something on top and something on the bottom.
     /// - If one top argument given, read something from the bottom and do the operation with that and the argument.
     /// - If one bottom argument given, read something from the top and do the operation with that and the argument.
-    /// This is how DivMod is implemented.
+    /// - This is how DivMod is implemented.
     /// </summary>
     public class WrapBinaryTwoOutputs<TRealTop, TRealBottom, TRealTopOut, TRealBottomOut> : ITopIn, IBottomIn, ITopOut, IBottomOut
     {

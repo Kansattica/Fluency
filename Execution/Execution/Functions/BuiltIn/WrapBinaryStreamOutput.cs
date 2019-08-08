@@ -13,7 +13,7 @@ namespace Fluency.Execution.Functions.BuiltIn
     /// Works just like <see cref="WrapBinary{TRealTop, TRealBottom, TRealOut}"/>, except it wraps something that returns more than one value.
     /// - If no arguments given, read something from the top and the bottom and do the operation on them.
     /// - If one argument given, read something from the top and do the operation with that and the argument.
-    /// This is how Split is implemented.
+    /// - This is how Split is implemented.
     /// </summary>
     public class WrapBinaryStreamOutput<TRealTop, TRealBottom, TRealOut> : ITopIn, IBottomIn, ITopOut
     {
