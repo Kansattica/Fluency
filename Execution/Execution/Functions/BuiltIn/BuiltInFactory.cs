@@ -45,7 +45,7 @@ namespace Fluency.Execution.Functions.BuiltIn.Factory
             {"Or", (_, __) => new WrapBinary<bool, bool, bool>((a, b) => a || b, FluencyType.Bool, FluencyType.Bool, "Or", _emptyArgs)},
             {"Any", (topArgs, _) => new WrapBinaryFold<bool>((a, b) => a || b, FluencyType.Bool, "Any", topArgs, _bools[1])},
             {"Not", (_, __) => new WrapUnary<bool, bool>(a => !a, FluencyType.Bool, "Not")},
-            {"AddDouble", (topArgs, _) => new WrapBinary<double, double, double>((a, b) => a + b, FluencyType.Double, FluencyType.Double, "AddDouble", topArgs )},
+            {"AddDouble", (topArgs, bottomArgs) => new WrapBinary<double, double, double>((a, b) => a + b, FluencyType.Double, FluencyType.Double, "AddDouble", topArgs, bottomArgs )},
             {"ParseInt", (_, __) => new WrapUnary<string, int>(int.Parse, FluencyType.Int, "ParseInt")},
             {"ParseDouble", (_, __) => new WrapUnary<string, double>(double.Parse, FluencyType.Double, "ParseDouble")},
             {"Concat", (topArgs, bottomArgs) => new WrapBinary<object, object, object>((a, b) => a.ToString() + b.ToString(), FluencyType.Any, FluencyType.String, "Concat", topArgs, bottomArgs )},
