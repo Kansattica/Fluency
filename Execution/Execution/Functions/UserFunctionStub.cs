@@ -32,19 +32,10 @@ namespace Fluency.Execution.Functions
         {
             if (expandedFunction == null)
             {
-                Value tmp = TopInput();
-                if (tmp.Done)
-                {
-                    return tmp;
-                }
-                else
-                {
-                    topArgumentBuffer.Enqueue(tmp);
-                    expandedFunction = makeNewFunction();
-                    if (expandedFunction == null)
-                        return Value.Finished;
-                    inputsSet = false;
-                }
+                expandedFunction = makeNewFunction();
+                if (expandedFunction == null)
+                    return Value.Finished;
+                inputsSet = false;
             }
 
             EnsureInputsSet();
@@ -82,6 +73,7 @@ namespace Fluency.Execution.Functions
                 expandedFunction = makeNewFunction();
                 if (expandedFunction == null)
                     return Value.Finished;
+                inputsSet = false;
             }
 
             EnsureInputsSet();
