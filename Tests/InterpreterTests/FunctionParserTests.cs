@@ -45,10 +45,12 @@ namespace Fluency.Tests.Execution.Parsing
 
             var topargs = f.TopArguments.Cast<FunctionArg>().ToArray();
             var bottomargs = f.BottomArguments.Cast<FunctionArg>().ToArray();
-            Assert.AreEqual(1, f.TopArguments.Length);
+            Assert.AreEqual(2, f.TopArguments.Length);
             Assert.AreEqual(2, f.BottomArguments.Length);
-            Assert.AreEqual(FluencyType.Int, topargs[0].DeclaredType);
-            Assert.AreEqual("n", topargs[0].FunctionName);
+            Assert.AreEqual(FluencyType.Any, topargs[0].DeclaredType);
+            Assert.AreEqual("Main", topargs[0].FunctionName);
+            Assert.AreEqual(FluencyType.Int, topargs[1].DeclaredType);
+            Assert.AreEqual("n", topargs[1].FunctionName);
             Assert.AreEqual(FluencyType.Function, bottomargs[0].DeclaredType);
             Assert.AreEqual("y", bottomargs[0].FunctionName);
             Assert.AreEqual(FluencyType.Bool, bottomargs[1].DeclaredType);
