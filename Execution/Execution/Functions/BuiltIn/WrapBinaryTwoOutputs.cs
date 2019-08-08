@@ -11,7 +11,8 @@ namespace Fluency.Execution.Functions.BuiltIn
     /// Wrap a C# function that takes two arguments and returns two values as a Fluency function.
     /// Works just like <see cref="WrapBinary{TRealTop, TRealBottom, TRealOut}"/>, except it wraps something that returns exactly two values.
     /// - If no arguments given, read something from the top and the bottom and do the operation on them, returning something on top and something on the bottom.
-    /// - If one argument given, read something from the top and do the operation with that and the argument.
+    /// - If one top argument given, read something from the bottom and do the operation with that and the argument.
+    /// - If one bottom argument given, read something from the top and do the operation with that and the argument.
     /// This is how DivMod is implemented.
     /// </summary>
     public class WrapBinaryTwoOutputs<TRealTop, TRealBottom, TRealTopOut, TRealBottomOut> : ITopIn, IBottomIn, ITopOut, IBottomOut

@@ -9,7 +9,8 @@ namespace Fluency.Execution.Functions.BuiltIn
     /// <summary>
     /// Wrap a C# function that takes two arguments and returns one value as a Fluency function that:
     /// - If no arguments given, read something from the top and the bottom and do the operation on them.
-    /// - If one argument given, read something from the top and do the operation with that and the argument.
+    /// - If one top argument given, read something from the bottom and do the operation with that and the argument.
+    /// - If one bottom argument given, read something from the top and do the operation with that and the argument.
     /// This is how Add, Mult, Equals, And, Or, AddDouble, and Concat are implemented.
     /// </summary>
     public class WrapBinary<TRealTop, TRealBottom, TRealOut> : ITopIn, IBottomIn, ITopOut
