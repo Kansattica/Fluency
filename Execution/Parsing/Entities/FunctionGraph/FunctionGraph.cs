@@ -136,7 +136,7 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
                 throw new ParseException("Function definitions must have at leat one argument- the name: " + example)
                 { FunctionToken = def };
 
-            foreach (Argument arg in def.TopArguments)
+            foreach (Argument arg in def.TopArguments.Concat(def.BottomArguments))
             {
                 if (!(arg is FunctionArg))
                     throw new ParseException("Incorrect formal parameter declaration {0}. All parameters must have alphabetic names and no quotes.", arg) { FunctionToken = def };
