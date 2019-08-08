@@ -1,5 +1,5 @@
-Def(Main, ...).Dup().Concat(|": ").Concat()
-                \.ParseInt().IsPrime()./
+Def(Main).Dup().Concat(|": ").Concat()
+           \.ParseInt().IsPrime()./
             
 Def(IsPrime, int n).Dup().Infinite().Comment("endless n").DivMod().Com( ).SwitchIn(false)
                     \.SqrtIfLarge().CountupR().Comment("")./ \.Equals(|0).Any().Not()./

@@ -156,6 +156,12 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
             {
                 Name = functionName;
             }
+
+            // if Main doesn't have any arguments
+            if (Name == "Main" && TopArguments.Length == 0)
+            {
+                TopArguments = new FunctionArg[] { FunctionArg.TryParseArg("...") };
+            }
         }
 
     }
