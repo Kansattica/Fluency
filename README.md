@@ -18,9 +18,9 @@ from inside the Console directory. For something more interesting, try:
 
 And type and enter something after it says "Ready!"
 
-`dotnet run` will eat some command line flags (I know it likes to eat `-h` and `-f`). In that case, simply add two dashes after the `dotnet run` part, like this:
+`dotnet run` will eat some command line flags (I know it likes to eat `-h`). In that case, simply add two dashes after the `dotnet run` part, like this:
 
-`dotnet run -- ..\Examples\hello.fl -f .\Console.csproj`
+`dotnet run -- ..\Examples\hello.fl -h`
 
 or use the long options, like `--help` and `--in-file`.
 
