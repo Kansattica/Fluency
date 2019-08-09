@@ -46,7 +46,7 @@ namespace Fluency.CLI
                 {
                     var writer = new GraphWriter();
                     writer.WalkFunctionGraph(graph.Head);
-                    writer.Serialize("../Graphs/" + graph.Name + ".dgml");
+                    writer.Serialize(graph.Name + ".dgml");
                 });
             }
 
