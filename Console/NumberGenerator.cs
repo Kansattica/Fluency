@@ -6,9 +6,9 @@ namespace Fluency.CLI
     class NumberGenerator
     {
         private int next;
-        private readonly int? countTo;
+        private readonly int countTo;
 
-        public NumberGenerator(int startAt = 0, int? countTo = null)
+        public NumberGenerator(int startAt = 0, int countTo = int.MaxValue)
         {
             next = startAt;
             this.countTo = countTo;
@@ -16,7 +16,7 @@ namespace Fluency.CLI
 
         public Value ReadSequential()
         {
-            if (next <= countTo.GetValueOrDefault(int.MaxValue))
+            if (next <= countTo)
                 return new Value((next++).ToString(), FluencyType.String);
             else
                 return Value.Finished;

@@ -67,7 +67,7 @@ namespace Fluency.CLI
             bool printready = true;
             if (a.CountFrom != null)
             {
-                readFrom = new NumberGenerator(a.CountFrom.Value, a.CountTo).ReadSequential;
+                readFrom = new NumberGenerator(a.CountFrom.Value, a.CountTo ?? int.MaxValue).ReadSequential;
                 printready = false;
             }
             if (a.ReadFile != null)
