@@ -18,10 +18,16 @@ namespace Fluency.Execution.Parsing.Entities
         public string Name { get; private set; }
 
         /// <summary>
-        /// The arguments the function takes.
+        /// The top arguments the function takes.
         /// </summary>
         /// <value></value>
-        public Argument[] Arguments { get; private set; } = new Argument[0];
+        public Argument[] TopArguments { get; private set; } = new Argument[0];
+
+        /// <summary>
+        /// The bottom arguments the function takes.
+        /// </summary>
+        /// <value></value>
+        public Argument[] BottomArguments { get; private set; } = new Argument[0];
 
         /// <summary>
         /// The line number this function was on. Not available when constructed, has to be set from the outside for better metadata and error location.
@@ -72,6 +78,7 @@ namespace Fluency.Execution.Parsing.Entities
         }
 
         private static readonly char[] _leftp = new[] { '(' }; //gotta give split arguments as arrays
+        private static readonly char[] _pipe = new[] { '|' }; //gotta give split arguments as arrays
         private void ParseNameAndArgs(string func)
         {
             Original = func;
@@ -81,13 +88,35 @@ namespace Fluency.Execution.Parsing.Entities
             ConnectsUpAfter = s[1].EndsWith("./");
             Name = s[0].TrimStart('.', '\\');
             if (!char.IsUpper(Name[0]))
-                throw new ParseException("Fluency functions must start with a capital letter.") { FunctionToken = this};
-            string args = s[1].TrimEnd(')', '.', '/');
+                throw new ParseException("Fluency functions must start with a capital letter.") { FunctionToken = this };
+            string args = TrimTrailingFromArguments(s[1]);
+
             if (!string.IsNullOrWhiteSpace(args))
             {
-                Arguments = ParseArguments(SplitArgument(args).Select(x => x.Trim())).ToArray();
+                var topbottom = args.Split(_pipe, 2);
+
+                if (!string.IsNullOrWhiteSpace(topbottom[0]))
+                    TopArguments = ParseArguments(SplitArgument(topbottom[0]).Select(x => x.Trim())).ToArray();
+
+                if (topbottom.Length == 2 && !string.IsNullOrWhiteSpace(topbottom[1])) //if there are bottom arguments
+                    BottomArguments = ParseArguments(SplitArgument(topbottom[1]).Select(x => x.Trim())).ToArray();
             }
         }
+
+        private string TrimTrailingFromArguments(string args)
+        {
+            // remove the patterns:
+            // )
+            // )./
+            // ).
+            // without removing the same with a ... in front
+            int ellipses = args.IndexOf("...");
+            if (ellipses == -1)
+                return args.TrimEnd(')', '.', '/');
+            
+            return args.Remove(ellipses + 3); //3 is the length of the ...
+        }
+
 
         private IEnumerable<Argument> ParseArguments(IEnumerable<string> args)
         {
@@ -125,7 +154,7 @@ namespace Fluency.Execution.Parsing.Entities
         /// <returns></returns>
         public override string ToString()
         {
-            return $"Name: {Name}, Args: {Arguments.Stringify()}, LineNumber: {Line}, Range: {Range}, Connects Before: {ConnectsUpBefore} After: {ConnectsUpAfter}";
+            return $"Name: {Name}, Args: {TopArguments.Stringify()}, LineNumber: {Line}, Range: {Range}, Connects Before: {ConnectsUpBefore} After: {ConnectsUpAfter}";
         }
     }
 }

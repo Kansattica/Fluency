@@ -14,9 +14,14 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
         public string Name;
 
         /// <summary>
-        /// The function's declared arguments.
+        /// The function's declared top arguments.
         /// </summary>
-        public Argument[] Arguments;
+        public Argument[] TopArguments;
+
+        /// <summary>
+        /// The function's declared bottom arguments.
+        /// </summary>
+        public Argument[] BottomArguments;
 
         /// <summary>
         /// The function that this reads from on top ("top" can be above or immediately before on the same level).
@@ -41,7 +46,7 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
         /// <summary>
         /// In the case where there are multiple outgoing bottom pipelines, the one that's furthest to the right wins.
         /// </summary>
-        public int Tiebreaker {get; private set;}
+        public int Tiebreaker { get; private set; }
 
         /// <summary>
         /// A unique integer ID for this function. Two function calls with the same name have different IDs.
@@ -57,14 +62,16 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
         public FunctionNode(FunctionToken tok)
         {
             Name = tok.Name;
-            Arguments = tok.Arguments;
+            TopArguments = tok.TopArguments;
+            BottomArguments = tok.BottomArguments;
             Tiebreaker = tok.Range.Max;
         }
 
-        public FunctionNode(string name, int tiebreaker, Argument[] arguments = null)
+        public FunctionNode(string name, int tiebreaker, Argument[] topArguments = null, Argument[] bottomArguments = null)
         {
             Name = name;
-            Arguments = arguments ?? new Argument[0];
+            TopArguments = topArguments ?? new Argument[0];
+            BottomArguments = bottomArguments ?? new Argument[0];
             Tiebreaker = tiebreaker;
         }
 
@@ -77,6 +84,6 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
         /// Return a string that looks like Name(arguments, like this)
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => $"{Name}({Arguments.Stringify()})";
+        public override string ToString() => $"{Name}({TopArguments.Stringify()})";
     }
 }

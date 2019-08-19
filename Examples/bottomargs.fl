@@ -1,0 +1,12 @@
+Def(Main, ...).ParseInt().Down().OneUp()
+                            \.I()./
+
+Def(OneUp | int n).Add(1)
+               \.I()./
+
+Def(Flip, a | b).Zip(true).Unzip(false)
+            \.I()./                \.I()
+
+Def(UnDivMod, int divisor, int quotient | int remainder).Unzip(true).Mult().Add()
+                                                  \.Down()        \.I()./ Up()./
+                                                       \.Comment("add this")./

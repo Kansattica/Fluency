@@ -23,27 +23,20 @@ namespace Fluency.Execution.Functions
 
         // basically, when we would expand a new function, if the incoming value is a Done, we instead just pass that forward
         // but if it isn't, we have to pass that forward
-        private Queue<Value> argumentBuffer = new Queue<Value>();
+        private Queue<Value> topArgumentBuffer = new Queue<Value>();
+        private Queue<Value> bottomArgumentBuffer = new Queue<Value>();
 
-        private int? toAllowThrough = null;
+        private bool topEllipsis;
+        private bool bottomEllipsis;
         private bool inputsSet = false;
         public Value Top()
         {
             if (expandedFunction == null)
             {
-                Value tmp = TopInput();
-                if (tmp.Done)
-                {
-                    return tmp;
-                }
-                else
-                {
-                    argumentBuffer.Enqueue(tmp);
-                    expandedFunction = makeNewFunction();
-                    if (expandedFunction == null)
-                        return Value.Finished;
-                    inputsSet = false;
-                }
+                expandedFunction = makeNewFunction();
+                if (expandedFunction == null)
+                    return Value.Finished;
+                inputsSet = false;
             }
 
             EnsureInputsSet();
@@ -51,7 +44,7 @@ namespace Fluency.Execution.Functions
             Value v = expandedFunction.Top();
             if (v.Done)
             {
-                argumentBuffer.Clear();
+                topArgumentBuffer.Clear();
                 expandedFunction = makeNewFunction();
                 if (expandedFunction == null)
                     return Value.Finished;
@@ -66,9 +59,9 @@ namespace Fluency.Execution.Functions
         {
             if (!inputsSet)
             {
-                expandedFunction.TopInput = WrapTopInput(TopInput);
+                expandedFunction.TopInput = WrapInput(TopInput, topArgumentBuffer, topEllipsis);
 
-                expandedFunction.BottomInput = BottomInput;
+                expandedFunction.BottomInput = WrapInput(BottomInput, bottomArgumentBuffer, bottomEllipsis);
 
                 inputsSet = true;
             }
@@ -81,6 +74,7 @@ namespace Fluency.Execution.Functions
                 expandedFunction = makeNewFunction();
                 if (expandedFunction == null)
                     return Value.Finished;
+                inputsSet = false;
             }
 
             EnsureInputsSet();
@@ -98,77 +92,71 @@ namespace Fluency.Execution.Functions
             return v;
         }
 
-        private Value TryTakeBuffer(GetNext input)
+        private Value TryTakeBuffer(GetNext input, Queue<Value> buffer, bool readIfEmpty)
         {
-            if (argumentBuffer.TryDequeue(out Value tmp))
+            if (buffer.TryDequeue(out Value tmp))
             {
                 return tmp;
             }
             else
             {
-                return input();
+                return readIfEmpty ? input() : Value.Finished;
             }
         }
 
-        private GetNext WrapTopInput(GetNext topInput)
+        private GetNext WrapInput(GetNext input, Queue<Value> buffer, bool allowMoreThanBuffered)
         {
-            if (!toAllowThrough.HasValue) { return () => TryTakeBuffer(topInput); }
-            return () =>
-            {
-                if (toAllowThrough == 0)
-                    return Value.Finished;
-                else
-                {
-                    toAllowThrough--;
-                    return TryTakeBuffer(topInput);
-                }
-            };
+            if (input == null) { return null; }
+            return () => TryTakeBuffer(input, buffer, allowMoreThanBuffered); 
         }
 
         private static readonly Value ellipses = new Value("...", FluencyType.Function);
-        private int? ArgumentsToTake(Argument[] arguments)
+        private int ArgumentsToTake(Argument[] arguments)
         {
-            if (arguments.Length == 0 || arguments.Any(x => x.Equals(ellipses)))
-                return null;
-            else
-                return arguments.Length;
+            return arguments.Where(x => !x.Equals(ellipses)).Count();
         }
 
-        private bool BufferArguments(int ensureBufferHas, Value[] arguments, GetNext top)
+        private bool BufferArguments(int ensureBufferHas, Queue<Value> bufferInto, Value[] arguments, GetNext next)
         {
-            argumentBuffer.EnqueueRange(arguments);
+            bufferInto.EnqueueRange(arguments);
 
-            while (argumentBuffer.Count < ensureBufferHas)
+            while (bufferInto.Count < ensureBufferHas)
             {
-                Value v = top();
+                Value v = next();
                 if (v.Done)
                 {
-                    argumentBuffer.Clear();
+                    bufferInto.Clear();
                     return false;
                 }
                 else
                 {
-                    argumentBuffer.Enqueue(v);
+                    bufferInto.Enqueue(v);
                 }
             }
 
             return true;
         }
 
-        public UserFunctionStub(FunctionGraph graph, Value[] arguments, IFunctionResolver linker)
+        public UserFunctionStub(FunctionGraph graph, Value[] topArguments, Value[] bottomArguments, IFunctionResolver linker)
         {
             Name = graph.Name;
-            int? totake = ArgumentsToTake(graph.Arguments);
+            int takeTop = ArgumentsToTake(graph.TopArguments);
+            int takeBottom = ArgumentsToTake(graph.BottomArguments);
             makeNewFunction = () =>
             {
-                //                Console.WriteLine("expanding " + graph.Name);
-                toAllowThrough = totake;
-                if (totake.HasValue)
+                topEllipsis = topArguments.Any(x => x.Equals(ellipses));
+                bottomEllipsis = bottomArguments.Any(x => x.Equals(ellipses));
+                if (takeTop > 0)
                 {
-                    if (!BufferArguments(totake.Value, arguments, TopInput))
+                    if (!BufferArguments(takeTop, topArgumentBuffer, topArguments, TopInput))
                         return null;
                 }
-                return new UserDefinedFunction(graph, arguments, linker);
+                if (takeBottom > 0)
+                {
+                    if (!BufferArguments(takeBottom, bottomArgumentBuffer, bottomArguments, BottomInput))
+                        return null;
+                }
+                return new UserDefinedFunction(graph, topArguments, bottomArguments, linker);
             };
         }
     }

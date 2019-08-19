@@ -6,9 +6,9 @@ Feel free to download and compile Fluency yourself if you like, but if you lack 
 
 Otherwise, the first thing you have to do is get and build Fluency. You'll need:
 
-- `git` to download the source code. I'll have ready-made binary releases someday, but not while it's still in active development. If you're comfortable with the command line, you can download and install git [here](https://git-scm.com/downloads), and find links to easier-to-use graphical clients. There's gonna be some command line work no matter what, so keep that in mind.
+- Either download and extract the zipped source code from [Github here](https://github.com/Kansattica/Fluency/archive/master.zip) or use `git` to download the source code. I'll have ready-made binary releases someday, but not while it's still in active development. If you're comfortable with the command line, you can download and install git [here](https://git-scm.com/downloads), and find links to easier-to-use graphical clients. There's gonna be some command line work no matter what, so keep that in mind.
 - Some kind of text editor. I usually use [Visual Studio Code](https://code.visualstudio.com/) for this, but you can write your code in Notepad if you like. VS Code gives you some nice syntax highlighting, so that's what I use.
-- The `dotnet core 2.2 SDK`- <https://dotnet.microsoft.com/download>. Look at the the column on the left. You don't want the .NET framework for this. Make sure you get the SDK, because you will be compiling code.
+- The `dotnet core 2.2 SDK`- <https://dotnet.microsoft.com/download>. Look at the the column on the left. You don't want the full, non-core .NET framework for this. Make sure you get the SDK, because you will be compiling code.
 - A song in your heart. I can't tell you where to get this, it has to come from within.
 ![Which button to click](/images/netcoresdk.png)
 
@@ -29,16 +29,17 @@ C:\Users\Grace\Documents\Sauce\Fluency [master ↑2 +3 ~2 -0 !]> ls
 
 Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
-d-----        7/25/2019  10:45 PM                .vscode
-d-----        7/28/2019   3:11 PM                Console
-d-----        7/28/2019   9:24 PM                Documentation
-d-----        7/28/2019   2:56 PM                Examples
-d-----        7/28/2019   3:11 PM                Execution
-d-----        7/25/2019   1:48 AM                Graphs
-d-----        7/25/2019   1:48 AM                Tests
--a----        7/25/2019   1:48 AM             17 .gitignore
--a----        7/25/2019  10:44 PM           6598 Fluency.sln
--a----        7/28/2019   9:41 PM           3537 README.md
+d-----         8/7/2019   6:10 PM                .vscode
+d-----         8/7/2019   6:04 PM                Console
+d-----         8/7/2019   6:04 PM                Documentation
+d-----         8/8/2019   5:02 PM                Examples
+d-----        7/31/2019   4:24 PM                Execution
+d-----        7/31/2019   4:24 PM                Tests
+-a----        7/31/2019   4:24 PM             17 .gitignore
+-a----         8/8/2019   5:02 PM            865 .travis.yml
+-a----        7/31/2019   4:24 PM           6598 Fluency.sln
+-a----         8/8/2019   5:14 PM           4080 README.md
+-a----         8/8/2019   5:02 PM            382 todo.md
 ```
 
 Yours will, of course, probably have your own directory and not have my git history. That's fine. `cd Console` to enter the console project. This is where you'll be running your Fluency code from. If you're using Visual Studio Code, you can bring up a nice built-in powershell window to use while you edit your code up top. Do a `dotnet build` to make sure everything works, and a `dotnet test ..` (note the double dots afterwards- you want to tell it to run from the top directory) if you want to be really sure.

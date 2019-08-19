@@ -6,6 +6,8 @@ using System.Linq;
 using System.Collections.Generic;
 using Fluency.Execution.Parsing.Entities;
 using System.Text;
+using Fluency.Execution.Parsing.Entities.ArgumentTypes;
+using Fluency.Common;
 
 namespace Fluency.Tests.Execution.Parsing
 {
@@ -29,8 +31,30 @@ namespace Fluency.Tests.Execution.Parsing
                 FunctionToken f = new FunctionToken(teststr, 0, teststr.Length);
 
                 Assert.AreEqual(name, f.Name);
-                Assert.AreEqual(argCount, f.Arguments.Length);
+                Assert.AreEqual(argCount, f.TopArguments.Length);
             }
+        }
+
+        [TestMethod]
+        public void ParseTopAndBottomArguments()
+        {
+            string teststr = "Def(Main, int n | func y, bool q)";
+            FunctionToken f = new FunctionToken(teststr, 0, teststr.Length);
+
+            Assert.AreEqual("Def", f.Name);
+
+            var topargs = f.TopArguments.Cast<FunctionArg>().ToArray();
+            var bottomargs = f.BottomArguments.Cast<FunctionArg>().ToArray();
+            Assert.AreEqual(2, f.TopArguments.Length);
+            Assert.AreEqual(2, f.BottomArguments.Length);
+            Assert.AreEqual(FluencyType.Any, topargs[0].DeclaredType);
+            Assert.AreEqual("Main", topargs[0].FunctionName);
+            Assert.AreEqual(FluencyType.Int, topargs[1].DeclaredType);
+            Assert.AreEqual("n", topargs[1].FunctionName);
+            Assert.AreEqual(FluencyType.Function, bottomargs[0].DeclaredType);
+            Assert.AreEqual("y", bottomargs[0].FunctionName);
+            Assert.AreEqual(FluencyType.Bool, bottomargs[1].DeclaredType);
+            Assert.AreEqual("q", bottomargs[1].FunctionName);
         }
 
         [TestMethod]

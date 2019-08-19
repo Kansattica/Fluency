@@ -3,6 +3,7 @@ using System.Linq;
 using Fluency.Common;
 using Fluency.Execution.Exceptions;
 using Fluency.Execution.Extensions;
+using Fluency.Execution.Parsing.Entities;
 using Fluency.Execution.Parsing.Entities.ArgumentTypes;
 using Fluency.Execution.Parsing.Entities.FunctionGraph;
 
@@ -11,11 +12,12 @@ namespace Fluency.Execution.Functions
     public class UserDefinedFunction : IFunction, ITopIn, ITopOut, IBottomIn, IBottomOut
     {
         public string Name { get; private set; }
-        public FunctionArg[] Arguments { get; private set; }
+        public FunctionArg[] TopArguments { get; private set; }
+        public FunctionArg[] BottomArguments { get; private set; }
 
 
-        public GetNext TopInput { set => _topHead.TypedFunction.TopInput = WrapInput(value); }
-        public GetNext BottomInput { set { if (_bottomHead != null) { _bottomHead.TypedFunction.TopInput = value; } } }
+        public GetNext TopInput { set => _topHead.TypedFunction.TopInput = WrapInput(value, TopArguments, _topRuntimeArgs); }
+        public GetNext BottomInput { set { if (_bottomHead != null) { _bottomHead.TypedFunction.TopInput = WrapInput(value, BottomArguments, _bottomRuntimeArgs); } } }
 
         private ExecutableNode<ITopIn> _topHead;
         private ExecutableNode<ITopIn> _bottomHead;
@@ -38,23 +40,19 @@ namespace Fluency.Execution.Functions
             return _bottomTailOut.Top();
         }
 
-        //idea for runtime arguments:
-        //if you got arguments in the constructor, store them, for the first [number of arguments given], do the function on them instead
-        // probably hook into TopInput for this
-        // also validate the arguments in the ctor, make sure the types match up
-        // we should also validate incoming args too, of course
-        private Value[] _runtimeArgs;
+        private Value[] _topRuntimeArgs;
+        private Value[] _bottomRuntimeArgs;
         private bool shouldValidate = true;
 
-        private GetNext WrapInput(GetNext topinput)
+        private GetNext WrapInput(GetNext thisinput, FunctionArg[] arguments, Value[] runtimeArgs)
         {
-            if (Arguments.Length == 0 || _runtimeArgs.Length == 0 || Arguments.Any(x => x.Type == FluencyType.Function && x.GetAs<string>() == "..."))
-                return topinput;
+            if (arguments.Length == 0 || runtimeArgs.Length == 0 || arguments.Any(x => x.Type == FluencyType.Function && x.GetAs<string>() == "..."))
+                return thisinput;
 
-            if (_runtimeArgs.Length > Arguments.Length)
-                throw new ExecutionException("Too many arguments passed to {0}. Expected {1}, got {2}.", Name, Arguments.Length, _runtimeArgs.Length);
+            if (runtimeArgs.Length > arguments.Length)
+                throw new ExecutionException("Too many arguments passed to {0}. Expected {1}, got {2}.", Name, arguments.Length, runtimeArgs.Length);
 
-            var argumentsValid = Arguments.Zip(_runtimeArgs, (a, v) => (a, v, valid: ValidateArgument(a, v))).Where(x => !x.valid)
+            var argumentsValid = arguments.Zip(runtimeArgs, (a, v) => (a, v, valid: ValidateArgument(a, v))).Where(x => !x.valid)
                 .Aggregate("",
                 (acc, curr) => $"Invalid argument. Function {Name} expects an argument of type {curr.a.Type} and got {curr.v.ToString()}, which is of type {curr.v.Type}.\n" + acc);
 
@@ -64,13 +62,13 @@ namespace Fluency.Execution.Functions
             int argIndex = 0;
             return () =>
             {
-                Value v = topinput();
-                if (shouldValidate && !ValidateArgument(Arguments[argIndex], v))
+                Value v = thisinput();
+                if (shouldValidate && !ValidateArgument(arguments[argIndex], v))
                     throw new ExecutionException("Function {0} tried to take value {1} (type {2}) from the pipeline, when it declares type {3}.",
-                        Name, v, v.Type, Arguments[argIndex].DeclaredType);
+                        Name, v, v.Type, arguments[argIndex].DeclaredType);
                 argIndex++;
 
-                if (argIndex >= Arguments.Length)
+                if (argIndex >= arguments.Length)
                 {
                     shouldValidate = false;
                 }
@@ -87,11 +85,13 @@ namespace Fluency.Execution.Functions
             return argument.DeclaredType == value.Type;
         }
 
-        public UserDefinedFunction(FunctionGraph graph, Value[] arguments, IFunctionResolver linker)
+        public UserDefinedFunction(FunctionGraph graph, Value[] topArguments, Value[] bottomArguments, IFunctionResolver linker)
         {
             Name = graph.Name;
-            Arguments = graph.Arguments;
-            _runtimeArgs = arguments;
+            TopArguments = graph.TopArguments;
+            BottomArguments = graph.BottomArguments;
+            _topRuntimeArgs = topArguments;
+            _bottomRuntimeArgs = bottomArguments;
             Expand(graph.Head, linker);
         }
 
@@ -117,13 +117,18 @@ namespace Fluency.Execution.Functions
             _bottomTailOut = _bottomTail?.Has<ITopOut>();
         }
 
+        private Value[] ArgumentsToValues(IEnumerable<Argument> args)
+        {
+            return args.Select(x => new Value(x)).ToArray();
+        }
+
         private ExecutableNode<T> RecursiveExpand<T>(FunctionNode node, Dictionary<FunctionNode, ExecutableNode> seen, IFunctionResolver linker, int level) where T : IFunction
         {
             if (!seen.ContainsKey(node))
             {
                 ExecutableNode<T> resolved = new ExecutableNode<T>();
                 resolved.Tiebreaker = node.Tiebreaker;
-                resolved.Function = linker.Resolve(node.Name, node.Arguments.Select(x => new Value(x)).ToArray()).Is<T>();
+                resolved.Function = linker.Resolve(node.Name, ArgumentsToValues(node.TopArguments), ArgumentsToValues(node.BottomArguments)).Is<T>();
                 seen.Add(node, resolved);
 
                 if (node.TopOut != null)
@@ -163,7 +168,6 @@ namespace Fluency.Execution.Functions
                 }
 
             }
-
 
             return (ExecutableNode<T>)seen[node];
         }

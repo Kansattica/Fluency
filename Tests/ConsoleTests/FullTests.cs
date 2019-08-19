@@ -42,6 +42,7 @@ namespace Fluency.Tests.Console
 
                 lastNumber = number;
             }
+            Assert.AreEqual(lastNumber, countTo);
         }
 
         private bool IsPrime(int n)

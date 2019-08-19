@@ -10,7 +10,8 @@ namespace Fluency.Execution.Functions.BuiltIn
     /// </summary>
     public class Expand : IFunction, ITopIn, ITopOut, IBottomIn, IBottomOut
     {
-        private readonly Value[] arguments;
+        private readonly Value[] topArguments;
+        private readonly Value[] bottomArguments;
         private readonly IFunctionResolver linker;
         private Func<Value> wrapTop;
         private Func<Value> wrapBottom;
@@ -20,9 +21,10 @@ namespace Fluency.Execution.Functions.BuiltIn
         public GetNext TopInput { private get; set; }
         public GetNext BottomInput { private get; set; }
 
-        public Expand(Value[] arguments, IFunctionResolver linker)
+        public Expand(Value[] topArguments, Value[] bottomArguments, IFunctionResolver linker)
         {
-            this.arguments = arguments;
+            this.topArguments = topArguments;
+            this.bottomArguments = bottomArguments;
             this.linker = linker;
         }
 
@@ -35,7 +37,7 @@ namespace Fluency.Execution.Functions.BuiltIn
 
             if (v.Type == FluencyType.Function)
             {
-                IFunction stored = linker.Resolve(v.Get<string>(), arguments);
+                IFunction stored = linker.Resolve(v.Get<string>(), topArguments, bottomArguments);
 
                 if (stored is ITopIn)
                 {

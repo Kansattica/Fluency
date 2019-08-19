@@ -345,7 +345,7 @@ namespace Fluency.Tests.Execution
         [DataRow(3)]
         public void ParseInt(int sequenceIndex)
         {
-            WrapUnary<string, int> parseInt = (WrapUnary<string, int>)BuiltInFactory.BuiltInFunctions["ParseInt"](new Value[0]);
+            WrapUnary<string, int> parseInt = (WrapUnary<string, int>)(new BuiltInFactory()).Resolve("ParseInt", new Value[0]);
 
             var topEnumerator = sequences[sequenceIndex].GetEnumerator();
             parseInt.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
@@ -361,7 +361,7 @@ namespace Fluency.Tests.Execution
         {
             int take = new Random().Next(10000);
 
-            Const cons = BuiltInFactory.BuiltInFunctions["Const"](new Value[] { new Value("hi", FluencyType.String) }) as Const;
+            Const cons = (new BuiltInFactory()).Resolve("Const", new Value[] { new Value("hi", FluencyType.String) }) as Const;
 
             var topEnumerator = sequences[0].GetEnumerator();
             cons.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
@@ -377,7 +377,7 @@ namespace Fluency.Tests.Execution
         {
             int take = new Random().Next(10000);
 
-            Const cons = BuiltInFactory.BuiltInFunctions["Const"](new Value[] { new Value("hi", FluencyType.String), new Value(3, FluencyType.Int) }) as Const;
+            Const cons = (new BuiltInFactory()).Resolve("Const", (new Value[] { new Value("hi", FluencyType.String), new Value(3, FluencyType.Int) })) as Const;
 
             var topEnumerator = sequences[0].GetEnumerator();
             cons.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
@@ -391,7 +391,7 @@ namespace Fluency.Tests.Execution
         [TestMethod]
         public void DivMod()
         {
-            WrapBinaryTwoOutputs<int, int, int, int> divmod = BuiltInFactory.BuiltInFunctions["DivMod"](new Value[0]) as WrapBinaryTwoOutputs<int, int, int, int>;
+            WrapBinaryTwoOutputs<int, int, int, int> divmod = (new BuiltInFactory()).Resolve("DivMod", new Value[0]) as WrapBinaryTwoOutputs<int, int, int, int>;
 
             var topEnumerator = sequences[1].GetEnumerator();
             divmod.TopInput = () => { while (topEnumerator.MoveNext()) { return topEnumerator.Current; } return Value.Finished; };
@@ -418,7 +418,7 @@ namespace Fluency.Tests.Execution
             var topresult = ReadOutput(zip.Top).ToArray();
 
             Assert.AreEqual(sequences[0].Count() + sequences[1].Count() + 1, topresult.Length);
-            EqualEnumerables(sequences[0].Zip(sequences[1], (a, b) => new [] {a, b}).SelectMany(x => x), topresult.TakeWhile(x => !x.Done));
+            EqualEnumerables(sequences[0].Zip(sequences[1], (a, b) => new[] { a, b }).SelectMany(x => x), topresult.TakeWhile(x => !x.Done));
         }
 
         public IEnumerable<Value> EndlessStream(params Value[] v)

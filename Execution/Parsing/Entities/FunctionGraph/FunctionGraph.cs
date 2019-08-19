@@ -23,10 +23,16 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
         public string Name { get; private set; }
 
         /// <summary>
-        /// The arguments this function has declared.
+        /// The top arguments this function has declared.
         /// </summary>
         /// <value></value>
-        public FunctionArg[] Arguments { get; private set; }
+        public FunctionArg[] TopArguments { get; private set; }
+
+        /// <summary>
+        /// The bottom arguments this function has declared.
+        /// </summary>
+        /// <value></value>
+        public FunctionArg[] BottomArguments { get; private set; }
 
         /// <summary>
         /// Create a new function graph. This takes an IEnumerable of tokenized lines (which are themselves IEnumerables of tokens).
@@ -126,20 +132,21 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
                 throw new ParseException("Function definitions must start with a call named Def, like this: " + example)
                 { FunctionToken = def };
 
-            if (def.Arguments.Length == 0)
+            if (def.TopArguments.Length == 0)
                 throw new ParseException("Function definitions must have at leat one argument- the name: " + example)
                 { FunctionToken = def };
 
-            foreach (Argument arg in def.Arguments)
+            foreach (Argument arg in def.TopArguments.Concat(def.BottomArguments))
             {
                 if (!(arg is FunctionArg))
                     throw new ParseException("Incorrect formal parameter declaration {0}. All parameters must have alphabetic names and no quotes.", arg) { FunctionToken = def };
 
             }
 
-            Arguments = def.Arguments.Skip(1).Cast<FunctionArg>().ToArray();
+            TopArguments = def.TopArguments.Skip(1).Cast<FunctionArg>().ToArray();
+            BottomArguments = def.BottomArguments.Cast<FunctionArg>().ToArray();
 
-            string functionName = def.Arguments[0].GetAs<string>();
+            string functionName = def.TopArguments[0].GetAs<string>();
 
             if (functionName == "...")
             {
@@ -148,6 +155,12 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
             else
             {
                 Name = functionName;
+            }
+
+            // if Main doesn't have any arguments
+            if (Name == "Main" && TopArguments.Length == 0)
+            {
+                TopArguments = new FunctionArg[] { FunctionArg.TryParseArg("...") };
             }
         }
 

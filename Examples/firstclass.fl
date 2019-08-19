@@ -10,5 +10,5 @@ Def(AllowIfBottom, bool b).MergeIf()
 
 Def(AllowIf, bool b, value).SwitchOut()
 
-Def(IsEven, int n).DivMod(2).Up()
-                   \.Equals(0)./
+Def(IsEven, int n).DivMod(|2).Up()
+                   \.Equals(|0)./

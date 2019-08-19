@@ -9,7 +9,7 @@ namespace Fluency.Execution.Functions.BuiltIn
     /// If Zip(false), same, but take from the bottom pipeline first.
     /// If no argument given, treat the first value seen as if it was passed as the argument.
     /// </summary>
-    public class Zip: ITopIn, IBottomIn, ITopOut
+    public class Zip : ITopIn, IBottomIn, ITopOut
     {
         public string Name => nameof(Zip);
 
@@ -23,7 +23,7 @@ namespace Fluency.Execution.Functions.BuiltIn
             if (arguments.Length == 1)
             {
                 takeFromTop = !arguments.Single().Get<bool>(FluencyType.Bool, //invert here because we'll invert it back before getting the first element
-                        "Zip takes a boolean. True means the first element comes from the top, false, false means the first element comes from the.");
+                        "Zip takes a boolean. True means the first element comes from the top, false, false means the first element comes from the bottom.");
             }
             else if (arguments.Length > 1)
             {
@@ -46,7 +46,7 @@ namespace Fluency.Execution.Functions.BuiltIn
 
         public Value Top()
         {
-            if(!EnsureDirectionSet())
+            if (!EnsureDirectionSet())
                 return Value.Finished;
 
             takeFromTop = !takeFromTop;

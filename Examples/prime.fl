@@ -1,19 +1,19 @@
-Def(Main).Dup().Concat(": ").Concat()
-            \.ParseInt().IsPrime()./
+Def(Main).Dup().Concat(|": ").Concat()
+           \.ParseInt().IsPrime()./
             
-Def(IsPrime, int n).Dup().Infinite().Comment("endless n").DivMod().Com().SwitchIn(false)
-                    \.SqrtIfLarge().CountupR().Comment("")./ \.Equals(0).Any().Not()./
+Def(IsPrime, int n).Dup().Infinite().Comment("endless n").DivMod().Com( ).SwitchIn(false)
+                    \.SqrtIfLarge().CountupR().Comment("")./ \.Equals(|0).Any().Not()./
 
 
 // the square root thing doesn't work if the numbers are less than 10 or so, so
 Def(SqrtIfLarge, int n).Dup().LessThan(11).MergeTop().SwitchIn()
                           \.Dup().Com("just n")./  Up()./
-                            \.Sqrt().Floor().Add(1)./
+                            \.Sqrt().Floor().Add(|1)./
 
-Def(NCopies).Infinite().FirstN()
+Def(NCopies, int n).Infinite().FirstN()
 
-Def(Infinite).Dup().MergeTop()
-              \.Infinite()./
+Def(Infinite, n).Dup().MergeTop()
+                 \.Infinite()./
 
 // Countdown needs to finish in order to stop recursing, so this:
 // sends one incoming value to Countdown
@@ -28,18 +28,18 @@ Def(NextCount).First().Countdown().MergeTop()
         
 //Countdown takes a number (such as 5) and returns all numbers between that number and one, inclusive (such as 5 4 3 2 1)
 Def(Countdown, int n).Dup().Comment("n goes here").I().MergeTop()
-                          \.Dup().Equals(1).Not().MergeIf()./ //note that even when the number here equals one, one will still be returned across the top
-                            \.Add(-1).Countdown()./
+                          \.Dup().Equals(|1).Not().MergeIf()./ //note that even when the number here equals one, one will still be returned across the top
+                            \.Add(|-1).Countdown()./
 
 // but if we're looking for prime numbers, we want to turn 5 into 4 3 2
 // (really, you want to go from 2 to the square root, but we're not there yet)
-Def(CountdownR, int n).Dup().Comment("n-1").Add(-1).MergeTop() 
-                          \.Dup().Equals(3).Not().MergeIf()./
-                            \.Add(-1).CountdownR()./
+Def(CountdownR, int n).Dup().Comment("n-1").Add(|-1).MergeTop() 
+                          \.Dup().Equals(|3).Not().MergeIf()./
+                            \.Add(|-1).CountdownR()./
 
 
-Def(CountupR, int n).Add(-1).Dup().Comment("n-1     ").MergeBottom() //Notice that the only difference is using Bottom instead of Top!
-                             \.Dup().LessThan(3).Not().MergeIf()./
+Def(CountupR, int n).Add(|-1).Dup().Comment("n-1     ").MergeBottom() //Notice that the only difference is using Bottom instead of Top!
+                              \.Dup().LessThan(3).Not().MergeIf()./
                                    \.CountupR().Comment()./
 
 // these were supposed to be named CountdownRestricted and CountupRestricted, since they returna subset of the "full" count

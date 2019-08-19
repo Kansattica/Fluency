@@ -8,7 +8,7 @@ namespace Fluency.Execution.Functions.BuiltIn
 
     /// <summary>
     /// Wrap a C# function that takes one argument and returns one value as a Fluency function.
-    /// This is how Sqrt, Floor, Not, and ParseInt are implemented.
+    /// - This is how Sqrt, Floor, Not, and ParseInt are implemented.
     /// </summary>
     public class WrapUnary<TRealIn, TRealOut> : ITopIn, ITopOut
     {

@@ -19,5 +19,5 @@ Def(Main).Split(" ").Unzip(true).ParseInt().Zip(true).NCopies()
 Def(NCopies, int n, tocopy).Unzip(true).MergeTop().FirstN()
                                 \.Infinite()./
 
-Def(Infinite).Dup().MergeTop()
-              \.Infinite()./
+Def(Infinite, any).Dup().MergeTop()
+                   \.Infinite()./

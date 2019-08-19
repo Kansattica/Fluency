@@ -18,9 +18,9 @@ from inside the Console directory. For something more interesting, try:
 
 And type and enter something after it says "Ready!"
 
-`dotnet run` will eat some command line flags (I know it likes to eat `-h` and `-f`). In that case, simply add two dashes after the `dotnet run` part, like this:
+`dotnet run` will eat some command line flags (I know it likes to eat `-h`). In that case, simply add two dashes after the `dotnet run` part, like this:
 
-`dotnet run -- ..\Examples\hello.fl -f .\Console.csproj`
+`dotnet run -- ..\Examples\hello.fl -h`
 
 or use the long options, like `--help` and `--in-file`.
 
@@ -47,10 +47,10 @@ Fluency is currently in a working state, but I'd love to do more.
 - [ ] Numeric type for ints, floats, decimals, etc.
 - [ ] Function overloading, at least for things like Add.
 - [X] Argument support for user defined functions.
-- [ ] Top and bottom arguments.
+- [X] Top and bottom arguments.
 - [ ] Graph printer is a hack and doesn't do all graphs correctly.
 - [ ] Add support for graphs with nodes that don't branch off from the head, such as Const.
-- [ ] Add support for graphs with heads that don't go straight across the top
+- [X] Add support for graphs with heads that don't go straight across the top
 - [ ] Runtime support for queue-type nodes so they don't have to maintain their own state.
 - [X] [A website where you can enter Fluency code and have it executed without building the code yourself!](https://kansattica.github.io/FluencyOnline)
 - [ ] Optimizations:
