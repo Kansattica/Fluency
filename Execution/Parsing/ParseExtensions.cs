@@ -210,7 +210,7 @@ namespace Fluency.Execution.Parsing
         /// The inclusive range of indexes this group was taken from.
         /// </summary>
         /// <value></value>
-        public Range Indexes { get; set; } = null;
+        public SourceRange Indexes { get; set; } = null;
         private List<TSource> GroupList { get; set; }
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
@@ -231,7 +231,7 @@ namespace Fluency.Execution.Parsing
         public Grouped(List<TSource> source, int startIndex, int endIndex)
         {
             GroupList = source;
-            Indexes = new Range(startIndex, endIndex);
+            Indexes = new SourceRange(startIndex, endIndex);
         }
     }
 

@@ -39,7 +39,7 @@ namespace Fluency.Execution.Parsing.Entities
         /// The inclusive range of indexes this was in its original line.
         /// </summary>
         /// <value></value>
-        public Range Range { get; private set; }
+        public SourceRange Range { get; private set; }
 
         /// <summary>
         /// What the function looked like before it got spaces, periods, and slashes trimmed.
@@ -73,7 +73,7 @@ namespace Fluency.Execution.Parsing.Entities
         /// <param name="end">The last index into the line containing this function.</param>
         public FunctionToken(string toparse, int start, int end)
         {
-            Range = new Range(start, end);
+            Range = new SourceRange(start, end);
             ParseNameAndArgs(toparse);
         }
 

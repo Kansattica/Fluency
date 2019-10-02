@@ -122,7 +122,7 @@ namespace Fluency.Execution.Parsing.Entities.FunctionGraph
         {
             public FunctionToken Token;
             public FunctionNode Node;
-            public Range Range { get { return Token.Range; } }
+            public SourceRange Range { get { return Token.Range; } }
         }
 
         private const string example = "\"Def(FunctionName)\" or \"Def(FunctionName, int some, any arguments)\"";
