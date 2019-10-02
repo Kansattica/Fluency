@@ -3,7 +3,7 @@ matrix:
   include:
   - os: linux
     mono: latest
-    dotnet: 2.2.301
+    dotnet: 3.0.100
   - os: windows
     mono: none
 
@@ -12,19 +12,39 @@ before_install:
   - export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 script:
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install dotnetcore-sdk --version 2.2.301 -y; fi
-  - dotnet test
-  - dotnet test --configuration Release
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install dotnetcore-sdk --version 3.0.100 -y; fi
+  - dotnet test Tests/ConsoleTests
+  - dotnet test Tests/ExecutionTests
+  - dotnet test Tests/InterpreterTests
+  - mkdir UploadThis
+  - cd Console
+  - mkdir BuildTo
+  - pwd
+  - dotnet build
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then dotnet publish --configuration Release -p:PublishSingleFile=true -r linux-x64 -o BuildTo ; mv BuildTo/Console ../UploadThis/fluency-linux64; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then dotnet publish --configuration Release -p:PublishSingleFile=true -r win-x64 -o BuildTo ; mv BuildTo/Console.exe ../UploadThis/fluency-win64.exe; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then dotnet publish --configuration Release -p:PublishSingleFile=true -r win-x86 -o BuildTo ; mv BuildTo/Console.exe ../UploadThis/fluency-win32.exe; fi
+  - cd ..
+  - ls UploadThis
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then cd Documentation; wget https://github.com/dotnet/docfx/releases/download/v2.43.3/docfx.zip; mkdir docfx; unzip docfx.zip -d docfx; mono docfx/docfx.exe; fi
 
 deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $push_token
-  local_dir: Documentation/_site
-  repo: Kansattica/Fluency
-  target-branch: gh-pages
-  verbose: true
-  on:
-    branch: master
-    condition: $TRAVIS_OS_NAME = "linux" 
+  - provider: pages
+    skip_cleanup: true
+    github_token: $push_token
+    local_dir: Documentation/_site
+    repo: Kansattica/Fluency
+    target-branch: gh-pages
+    verbose: true
+    on:
+      branch: master
+      condition: $TRAVIS_OS_NAME = "linux" 
+
+  - provider: releases
+    skip_cleanup: true
+    api_key:
+      secure: $push_token
+    file: UploadThis/*
+    draft: true
+    on:
+      branch: master

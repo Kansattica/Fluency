@@ -173,7 +173,7 @@ namespace Fluency.Tests.Execution.Parsing
             int doublequotes = 0;
             var result = arr.GroupWhile((x, infunc) => FunctionParse(x, infunc, ref doublequotes));
 
-            EqualEnumerables(new Range[] { (4, 19), (20, 60), (61, 62), (67, 79), (80, 81) },
+            EqualEnumerables(new SourceRange[] { (4, 19), (20, 60), (61, 62), (67, 79), (80, 81) },
                 result.Select(x => x.Indexes));
             EqualEnumerables(new[] { @"\.FunctionCall()", ".AnotherFunctionCall(with, \"argum)(ents\")", "./", @"\.ThirdCall()", "./" },
              result.Select(x => x.Stringify()));
@@ -188,7 +188,7 @@ namespace Fluency.Tests.Execution.Parsing
             int doublequotes = 0;
             var result = arr.GroupWhile((x, infunc) => FunctionParse(x, infunc, ref doublequotes));
 
-            EqualEnumerables(new Range[] { (0, 14), (15, 20), (21, 28), (29, 35), (36, 43), (44, 51), (52, 65), (66, 73), (74, 81), (82, 95) },
+            EqualEnumerables(new SourceRange[] { (0, 14), (15, 20), (21, 28), (29, 35), (36, 43), (44, 51), (52, 65), (66, 73), (74, 81), (82, 95) },
                 result.Select(x => x.Indexes));
             EqualEnumerables(new[] { "Def(IsPrime, n)", ".Dup()", ".First()", ".Sqrt()", ".Floor()", ".Range()", ".MergeBottom()", ".DivBy()", ".Drain()", ".MergeBottom()" },
              result.Select(x => x.Stringify()));
@@ -203,7 +203,7 @@ namespace Fluency.Tests.Execution.Parsing
             int doublequotes = 0;
             var result = arr.GroupWhile((x, infunc) => FunctionParse(x, infunc, ref doublequotes));
 
-            EqualEnumerables(new Range[] { (5, 19), (20, 25), (26, 33), (34, 40), (41, 48), (49, 56), (57, 70), (71, 78), (79, 86), (87, 100) },
+            EqualEnumerables(new SourceRange[] { (5, 19), (20, 25), (26, 33), (34, 40), (41, 48), (49, 56), (57, 70), (71, 78), (79, 86), (87, 100) },
                 result.Select(x => x.Indexes));
             EqualEnumerables(new[] { "Def(IsPrime, n)", ".Dup()", ".First()", ".Sqrt()", ".Floor()", ".Range()", ".MergeBottom()", ".DivBy()", ".Drain()", ".MergeBottom()" },
              result.Select(x => x.Stringify()));
@@ -218,7 +218,7 @@ namespace Fluency.Tests.Execution.Parsing
             int doublequotes = 0;
             var result = arr.GroupWhile((x, infunc) => FunctionParse(x, infunc, ref doublequotes));
 
-            var expectedRanges = new Range[] { (48, 62), (71, 82), (83, 89), (90, 91), (116, 134) };
+            var expectedRanges = new SourceRange[] { (48, 62), (71, 82), (83, 89), (90, 91), (116, 134) };
             var expectedStrings = new[] { @"\.Switch(false)", @"\.MergeTop()", ".DupN()", "./", @"\.Com(""remainders"")" };
             EqualEnumerables(expectedRanges, result.Select(x => x.Indexes));
             EqualEnumerables(expectedStrings, result.Select(x => x.Stringify()));
@@ -237,7 +237,7 @@ namespace Fluency.Tests.Execution.Parsing
             int doublequotes = 0;
             var result = arr.GroupWhile((x, infunc) => FunctionParse(x, infunc, ref doublequotes));
 
-            EqualEnumerables(new Range[] { (0, 7) },
+            EqualEnumerables(new SourceRange[] { (0, 7) },
                 result.Select(x => x.Indexes));
             EqualEnumerables(new[] { @"\.Func()" },
              result.Select(x => x.Stringify()));
@@ -274,7 +274,7 @@ namespace Fluency.Tests.Execution.Parsing
             EqualEnumerables(new[] { 1, 2, 3 }, result.Single());
         }
 
-        private static string IndexedSubstring(string str, Range range)
+        private static string IndexedSubstring(string str, SourceRange range)
         {
             return str.Substring(range.Min, 1 + range.Max - range.Min);
         }

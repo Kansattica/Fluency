@@ -10,7 +10,7 @@ namespace Fluency.Execution.Parsing.Exceptions
     {
         public int LineNumber { get; set; }
         public int? Position { get; set; }
-        public Range Range { get; set; }
+        public SourceRange Range { get; set; }
         public string Snippet { get; set; }
 
         public FunctionToken FunctionToken { set { Range = value.Range; Snippet = value.Original; LineNumber = value.Line ?? LineNumber; } }

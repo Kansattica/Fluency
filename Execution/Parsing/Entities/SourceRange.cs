@@ -5,7 +5,7 @@ namespace Fluency.Execution.Parsing.Entities
     /// <summary>
     /// Represents an inclusive range.
     /// </summary>
-    public class Range : IEquatable<Range>
+    public class SourceRange : IEquatable<SourceRange>
     {
         /// <summary>
         /// The lower bound.
@@ -25,7 +25,7 @@ namespace Fluency.Execution.Parsing.Entities
         /// <param name="min"></param>
         /// <param name="max"></param>
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown if min is greater than max.</exception>
-        public Range(int min, int max)
+        public SourceRange(int min, int max)
         {
             if (min > max)
                 throw new ArgumentOutOfRangeException("min", min, $"Beginning of range must be less than or equal to the end. Attempted to create ({min},{max}).");
@@ -45,13 +45,13 @@ namespace Fluency.Execution.Parsing.Entities
         /// </summary>
         /// <param name="that"></param>
         /// <returns></returns>
-        public bool Equals(Range that) => !(that is null) && Min == that.Min && Max == that.Max;
+        public bool Equals(SourceRange that) => !(that is null) && Min == that.Min && Max == that.Max;
 
         /// <summary>
         /// Two ranges are equal if they represent the same range- that is, they have the same minimum and maximum.
         /// </summary>
         /// <returns></returns>
-        public override bool Equals(object obj) => !(obj is null) && (obj is Range) && Equals((Range)obj);
+        public override bool Equals(object obj) => !(obj is null) && (obj is SourceRange) && Equals((SourceRange)obj);
 
         /// <summary>
         /// Gets a hash code by xoring the min and max's hash codes.
@@ -63,7 +63,7 @@ namespace Fluency.Execution.Parsing.Entities
         /// Two ranges are equal if they represent the same range- that is, they have the same minimum and maximum.
         /// </summary>
         /// <returns></returns>
-        public static bool operator ==(Range a, Range b)
+        public static bool operator ==(SourceRange a, SourceRange b)
         {
             if (a is null && b is null) { return true; }
             return !(a is null) && a.Equals(b);
@@ -73,13 +73,13 @@ namespace Fluency.Execution.Parsing.Entities
         /// Two ranges are equal if and only if they represent the same range- that is, they have the same minimum and maximum.
         /// </summary>
         /// <returns></returns>
-        public static bool operator !=(Range a, Range b) => !(a == b);
+        public static bool operator !=(SourceRange a, SourceRange b) => !(a == b);
 
         /// <summary>
         /// A Range can be implicitly constructed from a tuple of two ints. 
         /// </summary>
         /// <param name="pair"></param>
-        public static implicit operator Range(ValueTuple<int, int> pair) => new Range(pair.Item1, pair.Item2);
+        public static implicit operator SourceRange(ValueTuple<int, int> pair) => new SourceRange(pair.Item1, pair.Item2);
 
         /// <summary>
         /// Returns a nice string representation like (Min, Max)

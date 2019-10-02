@@ -8,13 +8,13 @@ using Fluency.Execution.Parsing.Entities;
 namespace Fluency.Tests.Execution.Parsing
 {
     [TestClass]
-    public class RangeTests
+    public class SourceRangeTests
     {
         private Random rand = new Random();
 
         private int NextRand() => rand.Next(int.MinValue, int.MaxValue);
 
-        private Range RandomRange()
+        private SourceRange RandomSourceRange()
         {
             int min, max;
             do
@@ -25,7 +25,7 @@ namespace Fluency.Tests.Execution.Parsing
 
             if (min > max) { int tmp = min; min = max; max = tmp; }
 
-            return new Range(min, max);
+            return new SourceRange(min, max);
         }
 
         private const int numberoftrials = 10000; //make bigger for more thorough tests
@@ -35,8 +35,8 @@ namespace Fluency.Tests.Execution.Parsing
         {
             for (int i = 0; i < numberoftrials; i++)
             {
-                Range a = RandomRange();
-                Range b = new Range(a.Min, a.Max);
+                SourceRange a = RandomSourceRange();
+                SourceRange b = new SourceRange(a.Min, a.Max);
                 Assert.IsTrue(a == b);
                 Assert.IsTrue(a.Equals(b));
                 Assert.AreEqual(a, b);
@@ -48,8 +48,8 @@ namespace Fluency.Tests.Execution.Parsing
         [TestMethod]
         public void NullEquality()
         {
-            Range a = RandomRange();
-            Range b = null;
+            SourceRange a = RandomSourceRange();
+            SourceRange b = null;
 
             Assert.AreNotEqual(a, b);
             Assert.IsFalse(a == b);
@@ -72,7 +72,7 @@ namespace Fluency.Tests.Execution.Parsing
         {
             for (int i = 0; i < numberoftrials; i++)
             {
-                Range a = RandomRange();
+                SourceRange a = RandomSourceRange();
 
                 Assert.IsTrue(a.Contains(Midpoint(a.Min, a.Max)));
                 Assert.IsTrue(a.Contains(a.Min));
@@ -90,7 +90,7 @@ namespace Fluency.Tests.Execution.Parsing
         {
             for (int i = 0; i < numberoftrials; i++)
             {
-                Range a = new Range(i, i);
+                SourceRange a = new SourceRange(i, i);
                 Assert.IsTrue(a.Contains(i));
                 Assert.IsFalse(a.Contains(i + 1));
                 Assert.IsFalse(a.Contains(i - 1));
