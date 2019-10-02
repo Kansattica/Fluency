@@ -19,7 +19,6 @@ script:
   - mkdir UploadThis
   - cd Console
   - mkdir BuildTo
-  - pwd
   - dotnet build
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then dotnet publish --configuration Release -p:PublishSingleFile=true -r linux-x64 -o BuildTo ; mv BuildTo/Console ../UploadThis/fluency-linux64; fi
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then dotnet publish --configuration Release -p:PublishSingleFile=true -r win-x64 -o BuildTo ; mv BuildTo/Console.exe ../UploadThis/fluency-win64.exe; fi
@@ -50,3 +49,4 @@ deploy:
     draft: true
     on:
       branch: master
+      tags: true
