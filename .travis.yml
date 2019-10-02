@@ -42,11 +42,9 @@ deploy:
 
   - provider: releases
     skip_cleanup: true
-    api_key:
-      secure: $push_token
+    api_key: $push_token
     file_glob: true
     file: UploadThis/*
     draft: true
     on:
-      branch: master
       tags: true
