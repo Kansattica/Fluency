@@ -44,6 +44,7 @@ deploy:
     skip_cleanup: true
     api_key:
       secure: $push_token
+    file_glob: true
     file: UploadThis/*
     draft: true
     on:
