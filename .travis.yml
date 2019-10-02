@@ -13,7 +13,9 @@ before_install:
 
 script:
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install dotnetcore-sdk --version 3.0.100 -y; fi
-  - dotnet test -v normal --configuration Release
+  - dotnet test Tests/ConsoleTests
+  - dotnet test Tests/ExecutionTests
+  - dotnet test Tests/InterpreterTests
   - mkdir UploadThis
   - cd Console
   - mkdir BuildTo
