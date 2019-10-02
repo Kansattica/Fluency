@@ -10,7 +10,7 @@ Otherwise, the first thing you have to do is get and build Fluency. You'll need:
 - Some kind of text editor. I usually use [Visual Studio Code](https://code.visualstudio.com/) for this, but you can write your code in Notepad if you like. VS Code gives you some nice syntax highlighting, so that's what I use.
 - The `dotnet core 3.0 SDK`- <https://dotnet.microsoft.com/download>. Look at the the column on the left. You do not want the full, non-core .NET framework for this. Make sure you get the SDK, because you will be compiling code.
 - A song in your heart. I can't tell you where to get this, it has to come from within.
-![Which button to click](/images/netcoresdk.png)
+![Which button to click](/Fluency/images/netcoresdk.png)
 
 Once you have this all set up, head on over to the [Fluency repo](https://github.com/Kansattica/Fluency) and clone the source code. You'll probably end up copying and pasting a link that looks like this: <https://github.com/Kansattica/Fluency.git> into something on your git client that says "clone" or "clone new" or some such. On the command line, it's:
 
