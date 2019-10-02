@@ -8,7 +8,7 @@ Note that Fluency Online is still in beta. If something doesn't work, please let
 
 ### Building and running
 
-Fluency uses .Net Core 2.2 for the console and .Net Standard 2.0 for everything else. I suspect it would work fine with earlier versions, .Net framework, and the like, but I haven't tested. The entire project is self-contained and pure C#. No external packages. To run, simply do:
+Fluency uses .Net Core 3.0 for the console and .Net Standard 2.1 for everything else. I suspect it would work fine with earlier versions, .Net framework, and the like with some tweaking, but I haven't tested. The entire project is self-contained and pure C#. No external packages. To run, simply do:
 
 `dotnet run`
 
