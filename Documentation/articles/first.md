@@ -6,7 +6,7 @@ You can check out the examples in the [examples folder](https://github.com/Kansa
 Def(Main).I()
 ```
 
-That's it! Go ahead and `dotnet run coolfile.fl` (or whatever you called it) from the Console folder. Your computer will make you wait a while while it compiles Fluency and processes the source code into something it can use, but soon, you'll see something like this:
+That's it! Go ahead and `dotnet run coolfile.fl` (or whatever you called it) from the Console folder if you're compiling yourself, or `./fluency coolfile.fl` if you downloaded a release. Your computer will make you wait a while while it compiles Fluency and processes the source code into something it can use, but soon, you'll see something like this:
 
 ```text
 C:\Users\Grace\Documents\Sauce\Fluency\Console> dotnet run .\coolfile.fl

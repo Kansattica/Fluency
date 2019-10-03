@@ -4,7 +4,9 @@
 
 Feel free to download and compile Fluency yourself if you like, but if you lack the means or you want to try before you buy, you can try Fluency Online here: <https://kansattica.github.io/FluencyOnline/> It's the exact same program as here, just compiled to run in your browser. It's still in beta, and you might run into weird bugs, but it's there!
 
-Otherwise, the first thing you have to do is get and build Fluency. You'll need:
+Or you can download a precompiled release at <https://github.com/Kansattica/Fluency/releases>! This is the recommended option- no compiling needed. Once you've downloaded Fluency, you're ready to go! I suggest renaming the file to `fluency` or `fluency.exe` so it's easier to type.
+
+If you really want to compile the code yourself, here you go. You'll need:
 
 - Either download and extract the zipped source code from [Github here](https://github.com/Kansattica/Fluency/archive/master.zip) or use `git` to download the source code. I'll have ready-made binary releases someday, but not while it's still in active development. If you're comfortable with the command line, you can download and install git [here](https://git-scm.com/downloads), and find links to easier-to-use graphical clients. There's gonna be some command line work no matter what, so keep that in mind.
 - Some kind of text editor. I usually use [Visual Studio Code](https://code.visualstudio.com/) for this, but you can write your code in Notepad if you like. VS Code gives you some nice syntax highlighting, so that's what I use.

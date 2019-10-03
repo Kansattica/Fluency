@@ -31,6 +31,12 @@ Here's a diagram, because I don't like writing big walls of text without somethi
 I wrote this one myself, but if you find these little graphs helpful, you can generate your own by passing the `--print-graph` flag to Fluency, like this:
 
 ```text
+./fluency --print-graph .\coolfile.fl
+```
+
+or 
+
+```text
 dotnet run --print-graph .\coolfile.fl
 ```
 
