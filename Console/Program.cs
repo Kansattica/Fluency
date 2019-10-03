@@ -95,7 +95,7 @@ namespace Fluency.CLI
         private static void PrintHelp(string programName)
         {
             Console.WriteLine("Welcome to Fluency, a functional programming language.");
-            Console.WriteLine("Usage: {0} [flags] [paths to files ending in .fl]", programName);
+            Console.WriteLine("Usage: fluency [flags] [paths to files ending in .fl]", programName);
             foreach (var pair in new[] {
                 ("-h, --help", "You're lookin' at it."),
                 ("-v, --verbose", "Run in verbose mode."),
