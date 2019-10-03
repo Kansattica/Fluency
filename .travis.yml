@@ -2,7 +2,7 @@ language: csharp
 matrix:
   include:
   - os: linux
-    mono: none
+    mono: latest
     dotnet: 3.0.100
   - os: windows
     mono: none
@@ -13,7 +13,6 @@ before_install:
 
 script:
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install dotnetcore-sdk --version 3.0.100 -y; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install docfx rsync -y; fi
   - dotnet test Tests/ConsoleTests
   - dotnet test Tests/ExecutionTests
   - dotnet test Tests/InterpreterTests
@@ -26,7 +25,7 @@ script:
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then dotnet publish --configuration Release -p:PublishSingleFile=true -r win-x86 -o BuildTo ; mv BuildTo/Console.exe ../UploadThis/fluency-win32.exe; fi
   - cd ..
   - ls UploadThis
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then cd Documentation; docfx.exe; cd ..; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then cd Documentation; wget https://github.com/dotnet/docfx/releases/download/v2.43.3/docfx.zip; mkdir docfx; unzip docfx.zip -d docfx; mono docfx/docfx.exe; cd ..; fi
   - cd "$TRAVIS_BUILD_DIR"
 
 deploy:
@@ -39,7 +38,7 @@ deploy:
     verbose: true
     on:
       branch: master
-      condition: $TRAVIS_OS_NAME = "windows" 
+      condition: $TRAVIS_OS_NAME = "linux" 
 
   - provider: releases
     skip_cleanup: true
