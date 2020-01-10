@@ -20,9 +20,9 @@ script:
   - cd Console
   - mkdir BuildTo
   - dotnet build
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then dotnet publish --configuration Release -p:PublishSingleFile=true -r linux-x64 -o BuildTo ; mv BuildTo/Console ../UploadThis/fluency-linux64; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then dotnet publish --configuration Release -p:PublishSingleFile=true -r win-x64 -o BuildTo ; mv BuildTo/Console.exe ../UploadThis/fluency-win64.exe; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then dotnet publish --configuration Release -p:PublishSingleFile=true -r win-x86 -o BuildTo ; mv BuildTo/Console.exe ../UploadThis/fluency-win32.exe; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then dotnet publish --configuration Release -p:PublishSingleFile=true -p:PublishTrimmed=true -r linux-x64 -o BuildTo ; mv BuildTo/Console ../UploadThis/fluency-linux64; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then dotnet publish --configuration Release -p:PublishSingleFile=true -p:PublishTrimmed=true -r win-x64 -o BuildTo ; mv BuildTo/Console.exe ../UploadThis/fluency-win64.exe; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then dotnet publish --configuration release -p:PublishSingleFile=true -p:PublishTrimmed=true -r win-x86 -o BuildTo ; mv BuildTo/Console.exe ../UploadThis/fluency-win32.exe; fi
   - cd ..
   - ls UploadThis
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then cd Documentation; wget https://github.com/dotnet/docfx/releases/download/v2.43.3/docfx.zip; mkdir docfx; unzip docfx.zip -d docfx; mono docfx/docfx.exe; cd ..; fi
