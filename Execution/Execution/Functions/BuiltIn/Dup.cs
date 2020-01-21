@@ -37,6 +37,9 @@ namespace Fluency.Execution.Functions.BuiltIn
 
     }
 
+    /// <summary>
+    /// Reads a value from the top input and puts it on both top and bottom outputs. Same as <see cref="Dup"/>
+    /// </summary>
     public class Duplicate : Dup
     {
         public override string Name => nameof(Duplicate);
