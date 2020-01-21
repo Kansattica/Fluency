@@ -43,7 +43,7 @@ Def(CountupR, int n).Add(|-1).Dup().Comment("n-1     ").MergeBottom() //Notice t
                               \.Dup().LessThan(|3).Not().MergeIf()./
                                    \.CountupR().Comment()./
 
-// these were supposed to be named CountdownRestricted and CountupRestricted, since they returna subset of the "full" count
+// these were supposed to be named CountdownRestricted and CountupRestricted, since they return a subset of the "full" count
 // but naming is an art in Fluency, because the names have to be long enough to be useful to the human and connect to things in the program
 // but a function name that's too long is literally unwieldy to use
 
