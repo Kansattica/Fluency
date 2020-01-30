@@ -10,7 +10,7 @@ If you really want to compile the code yourself, here you go. You'll need:
 
 - Either download and extract the zipped source code from [Github here](https://github.com/Kansattica/Fluency/archive/master.zip) or use `git` to download the source code. I'll have ready-made binary releases someday, but not while it's still in active development. If you're comfortable with the command line, you can download and install git [here](https://git-scm.com/downloads), and find links to easier-to-use graphical clients. There's gonna be some command line work no matter what, so keep that in mind.
 - Some kind of text editor. I usually use [Visual Studio Code](https://code.visualstudio.com/) for this, but you can write your code in Notepad if you like. VS Code gives you some nice syntax highlighting, so that's what I use.
-- The `dotnet core 3.0 SDK`- <https://dotnet.microsoft.com/download>. Look at the the column on the left. You do not want the full, non-core .NET framework for this. Make sure you get the SDK, because you will be compiling code.
+- The `dotnet core 3.1 SDK`- <https://dotnet.microsoft.com/download>. Look at the the column on the left. You do not want the full, non-core .NET framework for this. Make sure you get the SDK, because you will be compiling code.
 - A song in your heart. I can't tell you where to get this, it has to come from within.
 ![Which button to click](/Fluency/images/netcoresdk.png)
 
