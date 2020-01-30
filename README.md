@@ -14,7 +14,7 @@ Simply download the correct binary for your system and run it from the command l
 
 If you want to build it yourself and mess with the code, the instructions are below.
 
-Fluency uses .Net Core 3.0 for the console and .Net Standard 2.1 for everything else. I suspect it would work fine with earlier versions, .Net framework, and the like with some tweaking, but I haven't tested. The entire project is self-contained and pure C#. No external packages. To run, simply do:
+Fluency uses .Net Core 3.1 for the console and .Net Standard 2.1 for everything else. I suspect it would work fine with earlier versions, .Net framework, and the like with some tweaking, but I haven't tested. The entire project is self-contained and pure C#. No external packages. To run, simply do:
 
 `dotnet run`
 
