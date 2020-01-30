@@ -1,0 +1,335 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class WrapUnary&lt;TRealIn, TRealOut&gt;
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class WrapUnary&lt;TRealIn, TRealOut&gt;
+   ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Fluency.Execution.Functions.BuiltIn.WrapUnary`2">
+  
+  
+  <h1 id="Fluency_Execution_Functions_BuiltIn_WrapUnary_2" data-uid="Fluency.Execution.Functions.BuiltIn.WrapUnary`2" class="text-break">Class WrapUnary&lt;TRealIn, TRealOut&gt;
+  </h1>
+  <div class="markdown level0 summary"><p>Wrap a C# function that takes one argument and returns one value as a Fluency function.</p>
+<ul>
+<li>This is how Sqrt, Floor, Not, and ParseInt are implemented.</li>
+</ul>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">WrapUnary&lt;TRealIn, TRealOut&gt;</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Fluency.Execution.Functions.ITopIn.html">ITopIn</a></div>
+    <div><a class="xref" href="Fluency.Execution.Functions.ITopOut.html">ITopOut</a></div>
+    <div><a class="xref" href="Fluency.Execution.Functions.IFunction.html">IFunction</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Fluency.Execution.Functions.BuiltIn.html">Fluency.Execution.Functions.BuiltIn</a></h6>
+  <h6><strong>Assembly</strong>: Execution.dll</h6>
+  <h5 id="Fluency_Execution_Functions_BuiltIn_WrapUnary_2_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class WrapUnary&lt;TRealIn, TRealOut&gt; : ITopIn, ITopOut, IFunction</code></pre>
+  </div>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TRealIn</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TRealOut</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Kansattica/Fluency/new/010c291d4365e7f8c3039827446b1c9191d94beb/apiSpec/new?filename=Fluency_Execution_Functions_BuiltIn_WrapUnary_2__ctor_System_Func__0__1__Fluency_Common_FluencyType_System_String_.md&amp;value=---%0Auid%3A%20Fluency.Execution.Functions.BuiltIn.WrapUnary%602.%23ctor(System.Func%7B%600%2C%601%7D%2CFluency.Common.FluencyType%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Kansattica/Fluency/blob/010c291d4365e7f8c3039827446b1c9191d94beb/Execution/Execution/Functions/BuiltIn/WrapUnary.cs/#L22">View Source</a>
+  </span>
+  <a id="Fluency_Execution_Functions_BuiltIn_WrapUnary_2__ctor_" data-uid="Fluency.Execution.Functions.BuiltIn.WrapUnary`2.#ctor*"></a>
+  <h4 id="Fluency_Execution_Functions_BuiltIn_WrapUnary_2__ctor_System_Func__0__1__Fluency_Common_FluencyType_System_String_" data-uid="Fluency.Execution.Functions.BuiltIn.WrapUnary`2.#ctor(System.Func{`0,`1},Fluency.Common.FluencyType,System.String)">WrapUnary(Func&lt;TRealIn, TRealOut&gt;, FluencyType, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public WrapUnary(Func&lt;TRealIn, TRealOut&gt; function, FluencyType returnType, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Func</span>&lt;TRealIn, TRealOut&gt;</td>
+        <td><span class="parametername">function</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Fluency.Common.FluencyType.html">FluencyType</a></td>
+        <td><span class="parametername">returnType</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Kansattica/Fluency/new/010c291d4365e7f8c3039827446b1c9191d94beb/apiSpec/new?filename=Fluency_Execution_Functions_BuiltIn_WrapUnary_2_Name.md&amp;value=---%0Auid%3A%20Fluency.Execution.Functions.BuiltIn.WrapUnary%602.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Kansattica/Fluency/blob/010c291d4365e7f8c3039827446b1c9191d94beb/Execution/Execution/Functions/BuiltIn/WrapUnary.cs/#L18">View Source</a>
+  </span>
+  <a id="Fluency_Execution_Functions_BuiltIn_WrapUnary_2_Name_" data-uid="Fluency.Execution.Functions.BuiltIn.WrapUnary`2.Name*"></a>
+  <h4 id="Fluency_Execution_Functions_BuiltIn_WrapUnary_2_Name" data-uid="Fluency.Execution.Functions.BuiltIn.WrapUnary`2.Name">Name</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Name { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Kansattica/Fluency/new/010c291d4365e7f8c3039827446b1c9191d94beb/apiSpec/new?filename=Fluency_Execution_Functions_BuiltIn_WrapUnary_2_TopInput.md&amp;value=---%0Auid%3A%20Fluency.Execution.Functions.BuiltIn.WrapUnary%602.TopInput%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Kansattica/Fluency/blob/010c291d4365e7f8c3039827446b1c9191d94beb/Execution/Execution/Functions/BuiltIn/WrapUnary.cs/#L20">View Source</a>
+  </span>
+  <a id="Fluency_Execution_Functions_BuiltIn_WrapUnary_2_TopInput_" data-uid="Fluency.Execution.Functions.BuiltIn.WrapUnary`2.TopInput*"></a>
+  <h4 id="Fluency_Execution_Functions_BuiltIn_WrapUnary_2_TopInput" data-uid="Fluency.Execution.Functions.BuiltIn.WrapUnary`2.TopInput">TopInput</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GetNext TopInput { set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Fluency.Execution.Functions.GetNext.html">GetNext</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Kansattica/Fluency/new/010c291d4365e7f8c3039827446b1c9191d94beb/apiSpec/new?filename=Fluency_Execution_Functions_BuiltIn_WrapUnary_2_Top.md&amp;value=---%0Auid%3A%20Fluency.Execution.Functions.BuiltIn.WrapUnary%602.Top%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Kansattica/Fluency/blob/010c291d4365e7f8c3039827446b1c9191d94beb/Execution/Execution/Functions/BuiltIn/WrapUnary.cs/#L29">View Source</a>
+  </span>
+  <a id="Fluency_Execution_Functions_BuiltIn_WrapUnary_2_Top_" data-uid="Fluency.Execution.Functions.BuiltIn.WrapUnary`2.Top*"></a>
+  <h4 id="Fluency_Execution_Functions_BuiltIn_WrapUnary_2_Top" data-uid="Fluency.Execution.Functions.BuiltIn.WrapUnary`2.Top">Top()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Value Top()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Fluency.Execution.Functions.Value.html">Value</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Fluency.Execution.Functions.ITopIn.html">ITopIn</a>
+  </div>
+  <div>
+      <a class="xref" href="Fluency.Execution.Functions.ITopOut.html">ITopOut</a>
+  </div>
+  <div>
+      <a class="xref" href="Fluency.Execution.Functions.IFunction.html">IFunction</a>
+  </div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="Fluency.Execution.Extensions.ExecutionExtensions.html#Fluency_Execution_Extensions_ExecutionExtensions_Is__1_Fluency_Execution_Functions_IFunction_System_String_">ExecutionExtensions.Is&lt;T&gt;(IFunction, String)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Kansattica/Fluency/new/010c291d4365e7f8c3039827446b1c9191d94beb/apiSpec/new?filename=Fluency_Execution_Functions_BuiltIn_WrapUnary_2.md&amp;value=---%0Auid%3A%20Fluency.Execution.Functions.BuiltIn.WrapUnary%602%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/Kansattica/Fluency/blob/010c291d4365e7f8c3039827446b1c9191d94beb/Execution/Execution/Functions/BuiltIn/WrapUnary.cs/#L13" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

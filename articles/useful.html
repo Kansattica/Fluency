@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Welcome! To a more useful world. </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Welcome! To a more useful world. ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="welcome-to-a-more-useful-world">Welcome! To a more useful world.</h1>
+
+<p>Alright, we've gotten the simple example out of the way. Now let's do something real: add two numbers together.</p>
+<pre><code class="lang-cs">Def(Main).ParseInt().Dup().Com().Add()
+                        \.Com(&quot;n&quot;)./
+</code></pre>
+<p>I copied this out of <code>doubler.fl</code> in the Examples folder. There's a little more going on this time, but it's not too bad. Try and see if you can figure out what this one does before running it or reading on.</p>
+<hr>
+<p>If you guessed &quot;It reads a number and doubles it&quot;, you would be correct! Here's a sample run I did:</p>
+<pre><code class="lang-text">...\Fluency\Console&gt; dotnet run --print-graph ..\Examples\doubler.fl
+Def(Main) -&gt; ParseInt() -&gt; Dup() -&gt; Com() -&gt; Add() -&gt; Return (top)
+                               \ Com(&quot;n&quot;)    /
+
+Ready!
+
+100
+200
+200
+400
+500
+1000
+700
+1400
+888
+1776
+-2
+-4
+0
+0
+</code></pre>
+<p>You've seen <code>Def(Main)</code> before- here it simply marks where our program starts and that it outputs to the console when done.</p>
+<p><code>ParseInt()</code> is a new one. See, everything that comes in from the console is a string- simple text. <code>ParseInt()</code> says &quot;Turn this into a number, please. I promise it'll look like one.&quot; If you give it not a number, you'll get something like this:</p>
+<pre><code class="lang-text">...\Fluency\Console&gt; dotnet run  ..\Examples\doubler.fl
+Ready!
+
+&quot;fool's number&quot;
+
+Unhandled Exception: System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(ReadOnlySpan`1 str, NumberStyles options, NumberBuffer&amp; number, NumberFormatInfo info, Boolean parseDecimal)
+   (... more stuff , who cares)
+</code></pre>
+<p>So make sure you give your program the right input. In the future, I'll have an integer parsing function that doesn't blow up if you give it the wrong thing, but this is what we have for now.</p>
+<p>The next useful thing is <code>Dup()</code>. <code>Dup()</code> takes something from the top pipeline and puts it on both the top and the bottom pipelines. Notice how we handle the bottom pipeline- there's a function on the next line with this <code>\.</code> sequence that says &quot;connect before and above me&quot;, and so both <code>Com()</code> and <code>Com(&quot;n&quot;)</code> will get a copy of the value. Notice that lining your functions up is important! If you try to run this program, for instance:</p>
+<pre><code class="lang-cs">Def(Main).ParseInt().Dup().Com().Add()
+                \.Com(&quot;oops&quot;)./
+</code></pre>
+<p>You'll get an error message that looks like this:</p>
+<pre><code class="lang-text">Unhandled Exception: Fluency.Execution.Exceptions.ExecutionException: Tried to use function Com as a IBottomIn, which it isn't. ---&gt; System.InvalidCastException: Unable to cast object of type 'Fluency.Execution.Functions.BuiltIn.Com' to type 'Fluency.Execution.Functions.IBottomIn'.
+(... other stuff)
+</code></pre>
+<p>Which is just telling you that &quot;Com doesn't read input from its bottom pipeline, and so you shouldn't be connecting to it.&quot; If you want to know which pipelines a built in function reads from, click its name on the list of <a class="xref" href="../api/Fluency.Execution.Functions.BuiltIn.html">builtin functions</a>. For example, <a class="xref" href="../api/Fluency.Execution.Functions.BuiltIn.Dup.html">Dup()</a> is an ITopIn, ITopOut, and IBottomOut, which means it reads from the top input and writes to both the top output and bottom output. Don't worry too much about the rest, though you will see that <code>Dup()</code> has an alias, <code>Duplicate()</code>, that does the same thing.</p>
+<p>You'll see <code>Dup()</code> a lot, because a common pattern in Fluency is:</p>
+<ul>
+<li>Copy the number</li>
+<li>Decide if you want it on the top</li>
+<li>Compute it on the bottom</li>
+</ul>
+<p>We'll see later that this isn't wasteful and values are only computed when you ask for them!</p>
+<p>You've seen <code>Com()</code> before as well, though we called it <code>I()</code> last time. <code>Com()</code> is short for <code>Comment()</code>, and it simply passes things from its input to its output without changing them. Comments are often used to denote what's in the pipeline at a given time (though you can also use regular old lines that start with <code>//</code>), and when you need to line things up. For example, here, <code>Com(&quot;n&quot;)</code> is simply passing <code>Dup()</code>'s lower output to <code>Add()</code>'s lower input, and the <code>Com()</code> on top is making sure the spacing works out. You might wonder what the <code>&quot;n&quot;</code> is doing in there. It's called an argument, and it's a way of making sure things get put on the function's pipeline. <code>Comment()</code> simply ignores its arguments so you can put whatever you want in there- but I suggest putting it in double quotes so the interpreter can still make sense of it!</p>
+<p>The last new function is <code>Add()</code>. As you might guess, <code>Add()</code> reads something from the top and bottom pipelines, adds them together, and puts the results out on the top. <code>Add()</code> can also take an argument, like <code>Add(|1)</code>. In this case, it reads a number from the top pipeline, adds one to it, and puts it on the top pipeline without touching the bottom at all. Notice the pipe character- I'll talk more about this later, but for now, you can simply read it as &quot;instead of reading from the bottom pipeline, use a 1.&quot;.</p>
+<p>&quot;Hey, wait.&quot; I hear you cry. &quot;Can't I get rid of all those comments? It seems like they're just taking up space.&quot;
+And you would be correct! A more succinct way to write this program would be:</p>
+<pre><code class="lang-cs">Def(Main).Dup().Add()
+            \.I()./
+</code></pre>
+<p>Notice that you still need something along the bottom to connect <code>Dup()</code> to <code>Add()</code>. Otherwise, with no argument, <code>Add()</code> will try to read from its lower pipeline and not be happy.</p>
+<p>Can we do even better?</p>
+<p>You probably know that when someone teaching you something asks that, they mean yes.</p>
+<p>If you've seen the list of <a class="xref" href="../api/Fluency.Execution.Functions.BuiltIn.html">builtin functions</a>, you might know that there's also a <code>Mult()</code> function that does multiplication, and this program could also be written as:</p>
+<pre><code class="lang-cs">Def(Main).ParseInt().Mult(|2)
+</code></pre>
+<p>Which works just as well (and is even a touch faster), but I wrote this program before adding <code>.Mult()</code> to the language, and you had to learn about the bottom pipeline one way or another. Notice the pipe character because we want to get a 2 every time instead of trying to read from a bottom pipeline that doesn't exist!</p>
+<p>Next time, we'll talk about function arguments, how to do things conditionally, and why the whole &quot;things are only computed when you need them&quot; trick is useful.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Kansattica/Fluency/blob/010c291d4365e7f8c3039827446b1c9191d94beb/Documentation/articles/useful.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

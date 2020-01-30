@@ -1,0 +1,1034 @@
+{
+  "homepages": [],
+  "source_base_path": "/home/travis/build/Kansattica/Fluency/Documentation",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Common.FluencyType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Common.FluencyType.html",
+          "hash": "iebZhhqnoVyYZQIyvrFB5g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Common.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Common.html",
+          "hash": "xSQRZgoR7HGfA3T2Ufe9eQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Exceptions.ExecutionException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Exceptions.ExecutionException.html",
+          "hash": "SZkor43o3fs33G8vr9SMwg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Exceptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Exceptions.html",
+          "hash": "mwGi/LqWEjIaVtWV9wQIlw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Extensions.ExecutionExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Extensions.ExecutionExtensions.html",
+          "hash": "1UvSqX8QGB03lAe+Ven5pw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Extensions.html",
+          "hash": "kQKG7Pqpgo3e+5K1X7UBPA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.FunctionMaker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.FunctionMaker.html",
+          "hash": "efI5gyMlFpmnyaNyeUuWhg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.Com.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.Com.html",
+          "hash": "GEwoVj2wkmzAXEDhjppH1Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.Comment.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.Comment.html",
+          "hash": "JQSLtsxPIgRzM0C2HAWeGA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.Const.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.Const.html",
+          "hash": "bWaBylV0oQxuYmPxeeQh7g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.Drain.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.Drain.html",
+          "hash": "VVi78sTzWuvM0D2ogx3G9w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.Dup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.Dup.html",
+          "hash": "YynzjGmNpQY2/N6FUuecww=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.Duplicate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.Duplicate.html",
+          "hash": "Fb4RKgorTtzjMmFw0eOD6w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.Expand.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.Expand.html",
+          "hash": "Rob7ThUN3X0s8l4ImXl10Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.Factory.BuiltInFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.Factory.BuiltInFactory.html",
+          "hash": "/CKWiBk1L6RdcGJZQYqH9Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.Factory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.Factory.html",
+          "hash": "VL1vngEpazS3EfoaPvMoBQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.First.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.First.html",
+          "hash": "EH5uTX1HtcaVL6LkQXbZ8w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.FirstN.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.FirstN.html",
+          "hash": "XBt8iwT3duIy32QLAMD+kw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.I.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.I.html",
+          "hash": "BeayztaTYeeVSBMbZYobNA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.MergeBottom.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.MergeBottom.html",
+          "hash": "s/10SmcMmpglN8cgITpZEQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.MergeIf.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.MergeIf.html",
+          "hash": "jldiB7Mop5K8KLYXIMKmJA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.MergeTop.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.MergeTop.html",
+          "hash": "Ro9FvL093iQSQXa2BiSyKA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.SwitchIn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.SwitchIn.html",
+          "hash": "N6HwYChBnD7OBdr2xrR/pw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.SwitchOut.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.SwitchOut.html",
+          "hash": "MFr85XRV072GIMCjrD5rlQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.Unzip.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.Unzip.html",
+          "hash": "aQaT/I0FxGMJkFOcrcTVwQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.WrapBinary-3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.WrapBinary-3.html",
+          "hash": "iBTM/QryJWbOX4T7tw5ceQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.WrapBinaryFold-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.WrapBinaryFold-1.html",
+          "hash": "67xGaHHssbSCDYji7gec5Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.WrapBinaryStreamOutput-3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.WrapBinaryStreamOutput-3.html",
+          "hash": "eK8mH6qj+6ova+emwyYVdA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.WrapBinaryTwoOutputs-4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.WrapBinaryTwoOutputs-4.html",
+          "hash": "yDMvDzOJOENESK5gbncZgw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.WrapUnary-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.WrapUnary-2.html",
+          "hash": "vnCBnIJJqSOkyS6tBH3SNA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.Zip.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.Zip.html",
+          "hash": "KIP8EB92e3t+9FNJ2+RNkw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.BuiltIn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.BuiltIn.html",
+          "hash": "6RHqN958kL6bYCN/sk4K4w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.ExecutableNode-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.ExecutableNode-1.html",
+          "hash": "5sfPpICpbqGl1FYb97Zxnw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.ExecutableNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.ExecutableNode.html",
+          "hash": "060nxl+ff8kye5mNT0aFxQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.GetNext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.GetNext.html",
+          "hash": "WL2eaIsPKNUUeTZSJQBXzg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.IBottomIn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.IBottomIn.html",
+          "hash": "wIPMrOrraSlq0xwwY0G44w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.IBottomOut.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.IBottomOut.html",
+          "hash": "XHw/tZKtKl8v/P88nvm89w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.ICanTieBreak.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.ICanTieBreak.html",
+          "hash": "uHsC0Wobl5V9cFV5+6Ze2Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.IFunction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.IFunction.html",
+          "hash": "5XByF25RmgrCMbMOMjXS5A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.ITopIn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.ITopIn.html",
+          "hash": "Zr20+42R6/lWKaBGIg+Ang=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.ITopOut.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.ITopOut.html",
+          "hash": "yWRarhbN1GYVf96OPSa9Kw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.UserDefinedFunction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.UserDefinedFunction.html",
+          "hash": "nxe6CtWmT1Tv841h3QlzTQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.UserFunctionStub.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.UserFunctionStub.html",
+          "hash": "Lo7jAestX/7/kydo/8Bx4w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.Value.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.Value.html",
+          "hash": "LB/w5Iu8ZLTpIEe10yKGSA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Functions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Functions.html",
+          "hash": "Ud/ai3lPM4PVkX2XKRC9Xw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.IFunctionResolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.IFunctionResolver.html",
+          "hash": "sS+kaqwPK2k01t+oaB7aEQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Interpreter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Interpreter.html",
+          "hash": "u0Ot1+kSDtjYa0c+G5l6Kw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Entities.Argument.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Entities.Argument.html",
+          "hash": "MkJr8Evbna/aJOovkU9Oug=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Entities.ArgumentTypes.BoolArg.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Entities.ArgumentTypes.BoolArg.html",
+          "hash": "L/XMOWQKz1LQoQhdkHDjrw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Entities.ArgumentTypes.DoubleArg.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Entities.ArgumentTypes.DoubleArg.html",
+          "hash": "X/DEUVDHn2sNmgZyWc/kqg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Entities.ArgumentTypes.FunctionArg.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Entities.ArgumentTypes.FunctionArg.html",
+          "hash": "z97k1eqZvqVop09IXacb9g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Entities.ArgumentTypes.IntArg.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Entities.ArgumentTypes.IntArg.html",
+          "hash": "A4BsjlPLcmwiyYBDz10pYw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Entities.ArgumentTypes.StringArg.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Entities.ArgumentTypes.StringArg.html",
+          "hash": "fXq2eoysFerLCnog7SEHMQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Entities.ArgumentTypes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Entities.ArgumentTypes.html",
+          "hash": "TxTv4eiYxUtr1W1aj2TtQQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Entities.FunctionGraph.FunctionGraph.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Entities.FunctionGraph.FunctionGraph.html",
+          "hash": "jCpDhJtZPoqBQb2UkTGygQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Entities.FunctionGraph.FunctionNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Entities.FunctionGraph.FunctionNode.html",
+          "hash": "aJi18DFpbdIPzVnSAggPDw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Entities.FunctionGraph.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Entities.FunctionGraph.html",
+          "hash": "wTD98SDSw+RUW6dJSD/J2A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Entities.FunctionToken.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Entities.FunctionToken.html",
+          "hash": "1/go/jmJR/bB7e8b+TC9hA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Entities.Line.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Entities.Line.html",
+          "hash": "JhIChMISBwvn++9EdBB3BA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Entities.SourceRange.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Entities.SourceRange.html",
+          "hash": "xENYIVtGGWIumwO+ZAiEZg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Entities.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Entities.html",
+          "hash": "MCPkcc5sGBQ0YBZL6ctpDg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Exceptions.ParseException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Exceptions.ParseException.html",
+          "hash": "2RvQUQ44mbdW/cJCZIZ9ZQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Exceptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Exceptions.html",
+          "hash": "4dimLNWCmAS1RtqmrzKT3g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.GroupWhileAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.GroupWhileAction.html",
+          "hash": "2AzZ157LtPZcS2wSl99ImQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Grouped-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Grouped-1.html",
+          "hash": "sWAGTOXhZyuOrcSk0JWQoQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.ParseExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.ParseExtensions.html",
+          "hash": "dn5H146p+oUEiN28mFGkmA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.ParsedCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.ParsedCallback.html",
+          "hash": "xPlDeG2v5AkSZAgRHcde4Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.Parser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.Parser.html",
+          "hash": "YW3qGqxeODPA8xu5WUm8/g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.Parsing.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.Parsing.html",
+          "hash": "vUxR17XFKJydUDCwV4PvtA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Fluency.Execution.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Fluency.Execution.html",
+          "hash": "Pw+KQk5arS63rkh9ZNCl9A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "+tZ52ioLTBjpqw0EN6PYzQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "egqJHnDicx5yFhIHNSoDJw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/dissect.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/dissect.html",
+          "hash": "QXuAx5Jg1CbJc8QTbWTEEw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/first.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/first.html",
+          "hash": "QgLgTnJzp6VIPnvWBY3lsw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "BnlOXOxs40I1QQsfhjblPQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/setup.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/setup.html",
+          "hash": "tLlfeYIzW9PHBZ6c/yO3OQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "Icu+g7Rxf9OgjtHOCL0Zjg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/useful.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/useful.html",
+          "hash": "4+oni0jy4TJ3U+mDjGp44A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/netcoresdk.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/netcoresdk.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "FEESxS/EE8tCQNFE8vLQPA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "5jedqOuBEs9NSP7DW3P8zg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
+      },
+      "processors": {
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 70,
+          "skipped_file_count": 0
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 7,
+          "skipped_file_count": 0
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
