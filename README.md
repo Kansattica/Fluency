@@ -8,7 +8,7 @@ Note that Fluency Online is still in beta. If something doesn't work, please let
 
 ### Building and running
 
-If you simply want to downloaod and run Fluency, you can do it from the [Releases page](https://github.com/Kansattica/Fluency/releases)!
+If you simply want to download and run Fluency, you can do it from the [Releases page](https://github.com/Kansattica/Fluency/releases)!
 
 Simply download the correct binary for your system and run it from the command line.
 
